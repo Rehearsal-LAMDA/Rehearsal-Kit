@@ -1,0 +1,1434 @@
+\documentclass{article}
+
+\PassOptionsToPackage{numbers, compress}{natbib}
+\usepackage[final]{neurips_2024}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc}    
+\usepackage{hyperref}       
+\usepackage{url}            
+\usepackage{booktabs}       
+\usepackage{amsfonts}       
+\usepackage{nicefrac}       
+\usepackage{microtype}      
+\usepackage{enumitem,kantlipsum}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{subfigure}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{bm}
+
+
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+
+\usepackage{algorithm}
+
+\usepackage[noend]{algpseudocode}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{siunitx}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{theorem*}{Theorem 3.3}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem*{proposition32}{Proposition 3.2}
+\newtheorem*{proposition34}{Proposition 3.4}
+\newtheorem*{proposition35}{Theorem 3.5}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\usepackage[textsize=tiny]{todonotes}
+
+\def \eg {\textit{e.g.}}
+\def \ie {\textit{i.e.}}
+\def \Def {Def.}
+\def \Fig {Fig.}
+\def \Eq {Eq.}
+\def \Sec {Sec.}
+\def \prop {Prop.}
+\def \thm {Thm.}
+\def \Ass {Ass.}
+\def \Reg {\operatorname{\textbf{Reg}}}
+\def \exp {\operatorname{exp}}
+\def \Cov {\operatorname{Cov}}
+\def \prox {prox}
+\def \x {\mathbf{x}}
+\def \sC {\mathcal{C}}
+\def \sP {\mathcal{P}}
+\def \sB {\mathcal{B}}
+\def \sH {\mathcal{H}}
+\def \Z {\mathbf{Z}}
+\def \E {\mathbf{E}}
+\def \V {\mathbf{V}}
+\def \sS {\mathcal{S}}
+\def \X {\mathbf{X}}
+\def \Q {\mathbf{Q}}
+\def \P {\mathbf{P}}
+\def \h {\mathbf{h}}
+\def \Y {\mathbf{Y}}
+\def \g {\mathbf{g}}
+\def \I {\mathbf{I}}
+\def \M {\mathbf{M}}
+\def \H {\mathbf{H}}
+\def \A {\mathbf{A}}
+\def \PA {\operatorname{PA}}
+\def \V {\mathbf{V}}
+\def \B {\mathbf{B}}
+\def \P {\mathbf{P}}
+\def \C {\mathbf{C}}
+\def \e {\mathbf{e}}
+\def \W {\mathbf{W}}
+\def \v {\mathbf{v}}
+\def \y {\mathbf{y}}
+\def \f {\mathbf{f}}
+\def \z {\mathbf{z}}
+\def \a {\mathbf{a}}
+\def \b {\mathbf{b}}
+\def \w {\mathbf{w}}
+\def \d {\mathbf{d}}
+\def \m {\mathbf{m}}
+\def \u {\mathbf{u}}
+\def \ma {\mathbf{m_A}}
+\def \mb {\mathbf{mb}}
+\def \mc {\mathbf{mc}}
+\def \w {\bm{\omega}}
+\def \det {\text{det}}
+\def \prox {\text{prox}}
+
+
+\definecolor{DSgray}{cmyk}{0,1,0,0}
+\newcommand{\Authornote}[2]{{\small\textcolor{DSgray}{\sf$<<<${  #1: #2
+}$>>>$}}}
+\newcommand{\duwb}[1]{{\Authornote{Wen-Bo}{#1}}}
+
+\title{Avoiding Undesired Future with Minimal Cost\\
+in Non-Stationary Environments}
+
+
+
+\author{%
+  Wen-Bo Du,~ Tian Qin,~ Tian-Zuo Wang,~ Zhi-Hua Zhou\\
+National Key Laboratory for Novel Software Technology, Nanjing University, China\\
+School of Artificial Intelligence, Nanjing University, China\\
+  \texttt{\{duwb, qint, wangtz, zhouzh\}@lamda.nju.edu.cn} \\
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  \vskip -0.01in
+  Machine learning (ML) has achieved remarkable success in prediction tasks. In many real-world scenarios, rather than solely predicting an outcome using an ML model, the crucial concern is how to make decisions to prevent the occurrence of undesired outcomes, known as the \emph{avoiding undesired future (AUF)} problem. To this end, a new framework called \emph{rehearsal learning} has been proposed recently, which works effectively in stationary environments by leveraging the influence relations among variables. In real tasks, however, the environments are usually non-stationary, 
+  where the influence relations may be \emph{dynamic}, leading to the failure of AUF by the existing method.
+  In this paper, we introduce a novel sequential methodology that effectively updates the estimates of dynamic influence relations, which are crucial for rehearsal learning to prevent undesired outcomes in non-stationary environments.
+  Meanwhile, we take the cost of decision actions into account and provide the formulation of AUF problem with minimal action cost under non-stationarity. 
+  We prove that in linear Gaussian cases, the problem can be transformed into the well-studied convex quadratically constrained quadratic program (QCQP). In this way, we establish the first polynomial-time rehearsal-based approach for addressing the AUF problem. 
+  Theoretical and experimental results validate the effectiveness and efficiency of our method under certain circumstances.
+\end{abstract}
+
+
+\section{Introduction}
+\label{sec:intro}
+Machine learning (ML) models have found extensive application in prediction tasks~\citep{lecun2015deep}. 
+However, in contrast to a sole emphasis on prediction, it is preferred in many real-world scenarios to further explore effective decisions if the predicted outcomes are undesired.
+For instance, imagine that a factory manager has trained an ML model on features $\X$ (\eg, economic indicators) to predict the outcome $\Y$ (\eg, monthly sales). 
+Suppose at the beginning of a month, $\Y$ is predicted to be undesired, \ie, the predicted sales of the month are lower than expected. 
+In this case, the manager usually wants to take action by altering some intermediate variables $\Z$ during the month to avoid this undesired outcome happening, 
+\eg, modifying the discount to attract more customers.  The problem of how to find effective actions in such situations is known as avoiding undesired future (AUF)~\citep{zhouzh2022rehearsal}.
+
+It is worth noting that AUF tasks often involve limited opportunities for interaction with the decision environment~\citep{zhouzh2022rehearsal}.
+For instance, in the aforementioned example, the factory manager can only adjust the selling strategy once per month. 
+Therefore, decision-making algorithms that depend on numerous interactions, such as conventional reinforcement learning (RL) methods~\citep{arulkumaran2017deepRL}, are not well-suited for the AUF problem~\citep{qint2023srm}. 
+Additionally, fundamentally vital decisions need to be made with human judgment, and therefore, it is desired to enable human decision-makers to understand why and how some actions can change the outcome. Due to these challenges, the structural relations among variables, which contain fine-grained information and are usually interpretable, are worth being considered to make decisions~\citep{pearl2009causality,qint2023srm}.
+
+\setlength{\intextsep}{1pt}
+\begin{wrapfigure}[9]{r}{0.42\textwidth}
+  \centering
+  \includegraphics[width=0.42\textwidth]{./figures/influence.pdf}
+  \caption{Relationship among correlation, influence, and causation~\citep{zhouzh2022rehearsal}.}
+  \label{fig:influence}
+\end{wrapfigure}
+Causation is such a type of structural relation~\citep{pearl2009causality}, 
+which has been leveraged for some decision-making problems~\citep{bareinboim2015bandits, latt2016causalbandit, ruan2022learning, ruan2022causal}.
+Although causal relations can assist to some extent, identifying them is challenging and generally relies on some untestable assumptions~\citep{spirtes2000causation, scholkopf2021toward, li2024iv}. 
+Besides, causation should not be viewed as a prerequisite for decision-making problems, as humans can usually make good decisions without a thorough causal understanding~\citep{zhouzh2022rehearsal}.
+Recognizing that \textit{correlation} used in prediction is inadequate for decision-making whereas \textit{causation} is too luxurious to be relied on, 
+\citet{zhouzh2022rehearsal} emphasized the necessity of an intermediate relation that is stronger than correlation but less demanding than causation; 
+this relation was subsequently called \textit{influence relation}~\citep{zhouzh2023influence}.
+The relationship among \textit{correlation}, \textit{influence}, and \textit{causation} is illustrated in \Fig~\ref{fig:influence}. 
+
+Based on the influence relations, \citet{qint2023srm} developed the first \textit{rehearsal learning} framework, 
+which can effectively suggest good decision actions for the AUF problem in stationary environments. 
+In practice, however, the method by \citet{qint2023srm} may lose its power 
+when different decision actions are associated with different costs 
+or when the decision environment is non-stationary where quantitative influence relations can vary. 
+For example, modifying the discount into different levels results in different expenses, and the quantitative influence relation between pricing and sales can change seasonally for products such as the coat. 
+Besides, it is worth mentioning that exact solutions are intractable with any polynomial-time algorithm when considering decisions on multiple variables in the previous work~\citep{qint2023srm}, thus exploring more efficient approaches is necessary for the decision-suggestion problem in the AUF problem. 
+
+To tackle these issues, in this paper, we propose the \textit{AUF-MICNS} approach for the \textbf{AUF} problem with \textbf{mi}nimal \textbf{c}ost in \textbf{n}on-\textbf{s}tationary environments. 
+AUF-MICNS considers a multi-round decision-making process where it suggests decisions and collects feedback data during and after each decision round. 
+Note that although multiple decision rounds are allowed, the limited number of rounds may still render RL methods ineffective~\citep{qint2023srm}. 
+In contrast to~\citet{qint2023srm}, we consider the non-stationary fact that influence relations may vary over decision rounds, and therefore, treating the round-wise collected data as i.i.d. samples for determining the influence relations is inappropriate. 
+To this end, we present a sequential approach to maintain dynamic influence relations in non-stationary environments, and further propose an online-ensemble-based~\citep{zhao2024adaptivity} sequential algorithm to deal with the unknown degree of non-stationarity. 
+In addition, we design a cost function to quantify the costs of different decision actions. 
+The cost function takes into account not only (a) different unit costs associated with different variables, but also (b) the distinct costs involved in altering a single variable to varying extents. 
+Further, we expect that the suggested decisions can efficiently avoid undesired outcomes with a relatively high probability. 
+Rather than using the sampling-based method that cannot be solved with any polynomial-time algorithm~\citep{qint2023srm}, we reveal that finding decision suggestions for AUF with minimal action cost can be modeled as a convex quadratically constrained quadratic program (QCQP), which is solvable in polynomial time $\mathcal{O}(|\V|^3)$ with respect to the number of variables $|\V|$. 
+Combining the parts above, we prove that our proposed approach can 
+(a) accurately capture the dynamic influence relations with errors bounded by an exponentially decreasing term, and 
+(b) efficiently suggest effective decision actions with minimal cost for the AUF problem.
+
+
+Our main contributions are summarized as follows.
+\vspace{-0.7\baselineskip}
+\begin{enumerate}[leftmargin=12pt, itemsep=-0.02in]
+  \item 
+  We try to tackle the AUF problem with minimal cost in non-stationary environments. 
+  Our modeling approach considers, for the first time, the decision action cost and the non-stationary fact that influence relations can vary over time in the AUF problem.
+  \item 
+  We present a novel sequential methodology to maintain dynamic influence relations. 
+  Theoretical results guarantee that the estimate error can be bounded by an exponentially decreasing term, as well as a fixed small value related to the problem difficulty. 
+  \item 
+  We develop the AUF-MICNS algorithm, which is the first polynomial time rehearsal-based approach that can suggest effective decision actions for the formulated AUF problem. 
+  Our experimental results validate the effectiveness and efﬁciency of the method.
+\end{enumerate}
+\vskip -0.1in
+\textbf{Organization.} In \Sec~\ref{sec:pre}, we review basic concepts and introduce our notation. In \Sec~\ref{sec:approach}, we provide the formulation of AUF problem and provide the AUF-MICNS algorithm for solving the problem, together with theoretical guarantees. 
+In \Sec~\ref{sec:related_work}, we introduce some related studies. 
+In \Sec~\ref{sec:exper}, we show the experimental results. At last, we discuss the limitations and conclude our work in \Sec~\ref{sec:conclusion}. 
+
+
+
+
+
+
+
+
+\section{Preliminaries}
+\label{sec:pre}
+
+A novel probabilistic graphical model called structural rehearsal model (SRM) is proposed by~\citet{qint2023srm} to characterize influence relations among variables in the AUF problem. 
+The SRM consists of a set of rehearsal graphs and corresponding structural equations $\{\langle G_t, \bm{\theta}_t\rangle\}_t$ ($t$ denotes the decision round). The detailed definition of SRM is listed in Appendix~\ref{app:SRM}. 
+
+
+A rehearsal graph, denoted by $G = (\V, \E)$, models the qualitative influence relations among variables.
+Specifically, the vertices $\V$ denote the variable set of the AUF problem and the edges $\E$ denote the influence relation among vertices.
+There are two types of edges in the rehearsal graph, the directional edge $X\rightarrow Y$ means that $X$ influences $Y$, 
+and the bi-directional edge $X\leftrightarrow Y$ means that $X$ and $Y$ are mutually influenced. 
+Additionally, the corresponding structural equations of variable $V_j$s can be parameterized by $\left\{\beta_{j, t}, \sigma^2_{j, t}\right\}_{j=1}^{|\V|} \subseteq\bm{\theta}_t$ that:
+
+\vskip -0.15in
+\begin{equation}
+  \label{eq:structural_equations}
+  V_{j, t} := f_{j}\left(\PA_j^{G_t}; \beta_{j, t}\right) + \varepsilon_{j, t},
+\end{equation}
+\vskip -0.1in
+
+where $V_{j}\in \V$ denotes the $j$-th vertex in $G_t$, $\PA_j^{G_t} \triangleq \left\{ u \mid u \rightarrow V_j \text{ in } G_t \right\}$ represents the parents of $V_j$ in $G_t$, and the noise $\varepsilon_{j, t}$ follows the distribution $\mathcal{N}(0, {\sigma_j}^2)$ for all $t$. 
+Note that on one hand, causal relations are not always necessary in real world decision-making problems~\citep{zhouzh2022rehearsal}; 
+on the other hand, causal models are sometimes insufficient for capturing the full scope of relationships between variables. 
+For instance, the pressure and the temperature within a fixed volume of ideal gas are mutually influenced, as changes in either one of them affect the other. Such bi-directional influence relations are not well-represented by causal models, but can be naturally expressed by SRM~\citep{qint2023srm}.
+
+\begin{figure}[t]
+  \centering
+  \subfigure[rehearsal graph $G$]{
+    \includegraphics[width=0.21\linewidth]{./figures/Rh_1.pdf}
+    \label{fig:rh_graph_1}
+  }
+  \hskip 0.11in
+  \subfigure[$G^{Rh(\text{Z}_2=z_2)}$]{
+    \includegraphics[width=0.21\linewidth]{./figures/Rh_2.pdf}
+    \label{fig:rh_graph_2}
+  }
+  \hskip 0.11in
+  \subfigure[$G^{Rh(\text{Z}_3=z_3)}$]{
+    \includegraphics[width=0.21\linewidth]{./figures/Rh_3.pdf}
+    \label{fig:rh_graph_3}
+  }
+  \hskip 0.11in
+  \subfigure[$G^{Rh(\text{Z}_2=z_2,\  \text{Z}_3 = z_3 )}$]{
+    \includegraphics[width=0.21\linewidth]{./figures/Rh_4.pdf}
+    \label{fig:rh_graph_4}
+  }
+  \vskip -0.05in
+  \caption{\Fig~\ref{fig:rh_graph_1} is a rehearsal graph, and \Fig~\ref{fig:rh_graph_2}$\sim$ \Fig~\ref{fig:rh_graph_4} illustrate the corresponding alteration graphs with different alterations. 
+  Note that when an alteration occurs to certain variables, all incoming arrows to those variables are removed while other graph structures are maintained.
+  }
+  \label{fig:rh_graph}
+  \vskip -0.15in
+\end{figure}
+
+Besides, finding suitable \textit{alterations} is involved in addressing the AUF problem.
+An alteration $\xi$ means a decision action that is specified by human decision-makers, denoting by a set of vertex-value pairs, \eg, $\xi=\{Z_2=z_2\}$ in \Fig~\ref{fig:rh_graph_2}. 
+Meanwhile, rehearsal operation, denoted as $Rh(\cdot)$, represents executing a certain alteration, 
+which changes the original graph structure as illustrated in \Fig~\ref{fig:rh_graph_2}-\Fig~\ref{fig:rh_graph_4}. 
+Specifically, rehearsal operation breaks original influence links that point into any vertices contained in $\xi$, and fixes the values in $\xi$ to their associated vertices;
+while this operation maintains influence relations among other vertices in the associated alteration graph $G$. 
+Since alteration and rehearsal operations are always considered together in the AUF problem, for simplicity, we will use the term \emph{alteration} exclusively throughout the paper, unless otherwise specified.
+
+
+
+\section{The proposed approach}
+\label{sec:approach}
+This section is dedicated to addressing the aforementioned AUF problem. 
+In \Sec~\ref{sec:CoM}, we provide the probelm formulation. 
+In \Sec~\ref{sec:micns}, we propose the AUF-MICNS method for AUF. 
+Later in \Sec~\ref{sec:theo}, theoretical results are provided to ensure the effectiveness of our approach. 
+
+
+\subsection{Formulation}
+\label{sec:CoM}
+This paper focuses on suggesting decisions to avoid undesired futures when an undesired outcome is predicted by an ML model. 
+Since effective prediction models are widely applied in various domains~\citep{lecun2015deep} and work well even in non-stationary environments~\citep{zhou2022open}, we consider the case that the predictive ML model is always available and are not concerned about how to train it. 
+
+We formulate the AUF problem with minimal cost in non-stationary environments as a multi-round online decision-making process, 
+where the decision-maker should perform round-wise alterations to avoid undesired outcomes. 
+In each decision round, there are two essential time points, the time that the ML prediction is made, and the time just before the generation of the concerned outcome $\Y$. 
+As separated by the two time points, the variables fall into three consecutive time segments: $\X$, $\Z$, and $\Y$ as illustrated in \Fig~\ref{fig:rh_graph_1}.
+In $t$-th round, a decision-maker first observes variables $\X_t=\x_t$, and an ML model provides a prediction $\hat{\Y}_t$ as the outcome subsequently. 
+Denote the desired region of $\Y_t$ as $\sS$, if $\hat{\Y}_t\not\in\sS$, 
+the decision-maker would perform alterations on $\Z_t$ (only once) based on the whole historical data, 
+and the true $\Y_t$ will occur after the alteration. 
+
+It is worth mentioning that in decision round $t$, two crucial concerns for making decisions are 
+(a) how to perform effective alterations that make $\Y_t\in \sS$ with high probability; and 
+(b) how to minimize the alteration cost as much as possible.
+For the former, we seek to ensure that $\mathbb{P}\left(\Y_t\in\sS \mid \bm{\theta}_t, \x_t, Rh(\xi_t)\right) \geq \tau$; 
+where $\xi_t$ is the selected alteration, and $\tau$ is the expected probability that the alteration can successfully avoid the undesired outcome.
+For the latter, we generalize a continuous cost function from the discrete cost measure~\citep{zhouzh2011cost} to quantify the cost for different alterations.  
+The cost function is defined as the sum of the respective costs associated with each altered variable, 
+and follows the increasing marginal cost property (see Appendix~\ref{app:imc} for details) in economics~\citep{mankiw2020economics}, 
+properly measuring the alteration cost.
+Given the expectation that the future outcome will likely fall into $\sS$ after performing the alteration, the decision maker consistently prefers the alteration with the least alteration cost.
+Thus, the AUF problem can be ideally formulated as follows in practice:
+
+\vskip -0.1in
+\begin{equation}
+  \label{eq:auf_optimism}
+  \begin{aligned}
+    \mathop{\min}_{\xi_t}&\quad \sum_{Z_i\in \xi_t} w_i \left(Z_i^{\xi_t} - Z_i^0\right)^2\\
+    \text{s.t.}&\quad \mathbb{P}\left(\Y_t\in\sS \mid \bm{\vartheta}_t^\star, \x_t, Rh(\xi_t)\right)\geq \tau, 
+  \end{aligned}
+\end{equation}
+\vskip -0.04in
+
+where $w_i>0$ represents the cost coefficient for each intermediate variable $Z_i\in\Z$, 
+$Z_i^{\xi_t}$ represents the values of $Z_i$ after alteration $\xi_t$ while $Z_i^0$ is the datum point that associates with the minimum alteration cost relatively. 
+Besides, $\bm{\vartheta}_t^\star = \mathop{\arg\min}_{\bm{\vartheta}}\mathbb{E}_{\bm{\varepsilon}}\|\bm{\vartheta}-\bm{\theta}_t\|$ is the ideal estimation of $\bm{\theta}_t$ since $\bm{\theta}_t$ is not available in practice. 
+Note that $w_i$s and $Z_i^0$s are user-specified because the cost of the same decision alteration can vary for different decision-makers.
+
+In the following, we focus on a basic but essential class of the AUF problem, 
+where the structural equations $f_{t}$ in \Eq~(\ref{eq:structural_equations}) are linear but dynamic, the desired set $\sS$ in \Eq~(\ref{eq:auf_optimism}) is a convex polytope, and the rehearsal graph $G$ is known and fixed (\ie, $G_t\triangleq G$) for a convenient illustration. 
+Let $\mathbf{d} \in \mathbb{R}^s, \mathbf{M} \in$ $\mathbb{R}^{s \times|\mathbf{Y}|}$, $\beta_j \in \mathbb{R}^{\left|\PA_j^G\right| \times 1}$, dynamic structural equations and the desired region can be formulated as:
+
+\vskip -0.1in
+\begin{equation}
+  \label{eq:linear_case}
+  V_{j, t} := \beta_{j, t}^T \PA_{j, t}+\varepsilon_{j, t},\ \mathcal{S}=\left\{\mathbf{y} \in \mathbb{R}^{|\mathbf{Y}|} \mid \mathbf{M y} \leq \mathbf{d}\right\}.
+\end{equation}
+
+
+Note that $\bm{\vartheta}_t^\star$ in \Eq~(\ref{eq:auf_optimism}) is usually not available as discussed later in \Sec~\ref{sec:online}, 
+thus finding surrogate estimations $\hat{\bm{\theta}}_t$ with bounded error $\mathbb{E}_{\bm{\varepsilon}}\|\hat{\bm{\theta}}_t-\bm{\theta}_t\|$ is necessary. 
+Noticing that the noise distributions for $\varepsilon_{j,t}$s in \Eq~(\ref{eq:linear_case}) do not change over time, the variances of  $\varepsilon_{j,t}$s can be estimated by various Bayesian learning methods~\citep{bishop2006pmlr}. 
+Thus, we mainly focus on estimating influence parameters $\beta_{j,t}$s in what follows, and we use $\bm{\theta}_t$ to represent $\{\beta_{j,t}\}$s only unless otherwise specified. 
+Another challenge lies in how to efficiently solve the optimization \Eq~(\ref{eq:auf_optimism}) under the probabilistic constraint, 
+since the sampling method used in the previous work has been proven to be time-consuming~\citep{qint2023srm}. 
+In \Sec~\ref{sec:micns}, we propose the AUF-MICNS algorithm to tackle the aforementioned two challenges. 
+AUF-MICNS can maintain the dynamic influence relations accurately and suggest alterations to avoid undesired outcomes effectively, 
+and the performance can be guaranteed by theoretical results in \Sec~\ref{sec:theo}. 
+
+\vskip -0.1in
+
+
+\subsection{Our proposed AUF-MICNS algorithm}
+\label{sec:micns}
+
+
+In this subsection, we propose the AUF-MICNS algorithm to address the AUF problem as formulated in \Eq~(\ref{eq:auf_optimism}). 
+AUF-MICNS consists of two components, influence maintenance and alteration suggestion.
+We first introduce the components respectively, then we discuss how to combine them together.
+
+\subsubsection{Dynamic influence maintenance}
+\label{sec:online}
+As illustrated in \Eq~(\ref{eq:auf_optimism}), the precondition for making effective decisions in the AUF problem lies in the accurately estimated $\bm{\theta}_t$s. 
+Specifically, to accurately estimate the parameter vector $\beta_{j, t}\in \bm{\theta}_t$ in $t$-th decision round, we would like to minimize the expected squared loss $ \mathbb{E}_{\varepsilon_j}\left[V_{j} - \beta^\top_{j, t} \PA_j\right]^2$,  
+where $V_{j}$ is the $j$-th vertex in rehearsal graph, and $\PA_j$ denotes the parents of $V_{j}$.
+Ideally, according to the law of large numbers (LLN), if we could obtain sufficient i.i.d. samples in time $t$, we can estimate $\beta_{j, t}$ by minimizing the empirical error $\ell_{j, t}(\beta_{j, t})$ as a substitute: 
+
+\vskip -0.1in
+\begin{equation}
+  \label{eq:mse_loss}
+  \mathop{\arg\min}_{\beta_{j, t}}\ \frac{1}{2n}\sum_{k=1}^{n}\left(V^k_{j, t} - {\beta^\top_{j, t}} \PA^{k}_{j, t}\right)^2,
+\end{equation}
+\vskip -0.05in
+
+where $n$ is the number of samples that we can obtain in round $t$, and the superscript $k$ means that it is the $k$-th sample.
+It can be guaranteed in lemma~\ref{lemma:lse_convergence} that this estimation converges to the true value as $n$ increases. 
+However, in real-world cases, we can only obtain a single sample after each decision round, 
+so it is inappropriate to calculate the parameters as above, 
+since the solution to \Eq~(\ref{eq:mse_loss}) is far from accurate in this data-limited situation, 
+where the surrogate loss is:
+
+\vskip -0.1in
+\begin{equation}
+  \label{eq:surr_loss}
+  \hat{\ell}_{j, t}\left(\beta_{j, t}\right) = \frac{1}{2}\left(V_{j, t} - {\beta_{j, t}}^\top \PA_{j, t}\right)^2.
+\end{equation}
+\vskip -0.02in
+
+
+
+Besides, mixing the round-wise selected $\{V_{j, t}, \PA_{j, t}\}_{t=1}^T$ to estimate parameter $\beta_{j, t}$ as the classic empirical risk minimization (ERM)~\citep{mohri2018foundations} methods do is inappropriate as well, 
+because data selected in different rounds possibly obeys different distributions in non-stationary environments. 
+Fortunately, in the field of online learning~\citep{vovk1990aggregating,yoav1997boosting, hazan2016oco}, 
+there exist many types of algorithms to estimate parameters sequentially with limited samples. 
+Online gradient descent (OGD)~\citep{zinkevich2003OGD, shwartzSS2007OGD} is a typical class of online learning algorithms, 
+which takes advantage of the gradient descent idea to handle the round-wise selected data. 
+Once the selection of the step size (learning rate) in OGD is tailored to the varying speed of the environment,
+\ie, employing a larger step size for rapid changes and a smaller one for gradual changes,  parameters can be effectively updated with limited data after each round. 
+We customize OGD for estimating quantitative influence relations $\hat{\beta}_{j, t}\in\bm{\theta}_t$ sequentially in Algorithm \ref{alg:ogd}.
+
+
+
+\setlength{\intextsep}{1pt}
+\begin{wrapfigure}[12]{r}{0.6\textwidth}
+  \begin{minipage}{\linewidth}
+  \begin{algorithm}[H]
+    \caption{OGD-based estimator for $\hat{\beta}_j$}
+    \label{alg:ogd}
+    \textbf{Input:} The step size $\eta$
+  \begin{algorithmic}[1]
+    \State Initialize $\hat{\beta}^\eta_{j, 0}$ with any point in domain $\sB$
+    \For{$t=1$ {\bfseries to} $T$}
+      \State Receive $\left(\PA_{j,t}, V_{j, t}\right)$; \textbf{Continue} if $V_{j, t}\in \xi_t$
+      \State Estimate gradient $\hat{g}_{j, t} = \left(\PA^\top_{j, t} \hat{\beta}^\eta_{j, t} - V_{j, t}\right) \PA_{j, t}$
+      \State Update $\hat{\beta}^\eta_{j, t+1} = \Pi_{\sB}\left[\hat{\beta}^\eta_{j, t} - \eta \hat{g}_{j, t}\right]$
+    \EndFor
+  \end{algorithmic}
+  \textbf{Output:} estimated $\{\hat{\beta}^\eta_{j, t}\}_{t=1}^T$
+  \end{algorithm}
+  \end{minipage}
+  \end{wrapfigure}
+
+By using the OGD-based approach in Algorithm~\ref{alg:ogd}, we can obtain a sequence of estimates $\{\hat{\beta}_{j, 1}, \ldots, \hat{\beta}_{j, T}\}$ for $j\in[|\V|]$. 
+% The performance of Algorithm~\ref{alg:ogd} can be guaranteed by Theorem \ref{theo:identi}. 
+Roughly speaking, the quality of the estimates heavily depends on the choice of step size $\eta$. 
+If we have full prior knowledge of the non-stationarity degree, such as the changing speed of the influence relations, 
+we can pre-determine an optimal step size $\eta^\star$ to achieve favorable estimates. 
+% \setlength{\intextsep}{1pt} % 将环绕图片的间距设置为零
+% \begin{wrapfigure}[12]{r}{0.6\textwidth}
+%   \begin{minipage}{\linewidth}
+%   \begin{algorithm}[H]
+%     \caption{OGD-based estimator for $\hat{\beta}_j$}
+%     \label{alg:ogd}
+%     \textbf{Input:} The step size $\eta$
+%   \begin{algorithmic}[1]
+%     \State Initialize $\hat{\beta}^\eta_{j, 0}$ with any point in domain $\sB$
+%     \For{$t=1$ {\bfseries to} $T$}
+%       \State Receive $\left(\PA_{j,t}, V_{j, t}\right)$
+%       \State Estimate gradient $\hat{g}_{j, t} = \left(\PA^\top_{j, t} \hat{\beta}^\eta_{j, t} - V_{j, t}\right) \PA_{j, t}$
+%       \State Update $\hat{\beta}^\eta_{j, t+1} = \Pi_{\sB}\left[\hat{\beta}^\eta_{j, t} - \eta \hat{g}_{j, t}\right]$
+%     \EndFor
+%   \end{algorithmic}
+%   \textbf{Output:} estimated $\{\hat{\beta}^\eta_{j, t}\}_{t=1}^T$
+%   \end{algorithm}
+%   \end{minipage}
+%   \end{wrapfigure}
+% estimations. 
+However, in practical scenarios, $\eta^\star$ is not available, and the random choice of the step size leads to unstable estimators. 
+Since bad estimators of the influence relations will affect the accuracy of the estimated distribution $\mathbb{P}(\Y_t\in\sS \mid \hat{\bm{\theta}}_t, \x_t, Rh(\xi_t))$, 
+which will further affect the effectiveness of the suggested decisions for the AUF problem, thus the choice of the step size needs to be carefully considered.
+
+
+\setlength{\intextsep}{1pt} 
+\begin{wrapfigure}[16]{r}{0.6\textwidth}
+  \begin{minipage}{\linewidth}
+  \begin{algorithm}[H]
+    \caption{Online-ensemble-based estimator for $\hat{\beta}_{j}$}
+    \label{alg:online_ensemble}
+    \textbf{Input:} base estimators' number $N_j$, weight parameter $\alpha$
+  \begin{algorithmic}[1]
+    \State Set a set of learning rates $\sH_j = \left\{\eta^i \mid i = 1,\ldots, N_j\right\}$
+    \State Initialize weight vector $w_t^\eta = \frac{1}{N_j}$ for each $\eta\in\sH_j$ 
+    \State Activate estimators $E^\eta$s for all $\eta\in\sH_j$ by OGD with $\eta$
+    \For{$t=1$ {\bfseries to} $T$}
+      \State Receive $\beta_{j, t}^\eta$ from each $E^\eta$
+      \State Output $\hat{\beta}_{j, t}$ as $ \sum_{\mu\in\sH_j} w_t^\mu \beta_{j, t}^\mu$
+      \State Update weights as
+      \State $\quad w^\eta_{t+1} = \frac{w^\eta_{t} \exp\left(-\alpha \hat{\ell}_{j, t}(\beta_{j,t}^\eta)\right)}{\sum_{\mu\in\sH_j} w_{t}^\mu \exp\left(-\alpha \hat{\ell}_{j, t}(\beta_{j, t}^\mu)\right)}$
+      \State Receive $\left(\PA_{j, t}, V_{j, t}\right)$ and send to each $E^\eta$
+    \EndFor
+  \end{algorithmic}
+  \textbf{Output:}  estimated $\{\hat{\beta}_{j, t}\}_{t=1}^T$
+  \end{algorithm}
+  \end{minipage}
+  \end{wrapfigure}
+To avoid this risk, we turn to use online-ensemble~\citep{zhao2024adaptivity} based methods. 
+Online ensemble is a type of algorithm that combines the idea of ensemble and sequential updating, 
+maintaining multiple base learners and ensembling them together.  
+Specifically, as illustrated in Algorithm~\ref{alg:online_ensemble}, we maintain $N_j$ base estimators with a weight vector $w$. 
+After each round, all experts update their estimates by the collected data, and the weight vector $w$ will be updated as well by different losses related to different experts.
+By ensembling all experts with the weight $w$, we can obtain the final estimator. 
+
+\subsubsection{Efficient alteration suggestion}
+\label{sec:efficient}
+In $t$-th decision round, since we can obtain the estimation $\hat{\bm{\theta}}_t$ for true $\bm{\theta}_t$ by Algorithm~\ref{alg:online_ensemble}, then we substitute $\bm{\vartheta}^\star$ with $\hat{\bm{\theta}}_t$ in \Eq~(\ref{eq:auf_optimism}). 
+To suggest alterations efficiently and effectively, another crucial aspect is finding ways to delineate the feasible domain of the probabilistic constraint in \Eq~(\ref{eq:auf_optimism}). 
+We first present a supporting result in Lemma~\ref{lemma:identi} as follows, which is needed in our method to find the alteration that can make $\Y_t\in\sS$ with an expected probability $\tau$. 
+
+\begin{lemma}[\citeauthor{qint2023srm}, \citeyear{qint2023srm}]
+  \label{lemma:identi}
+  Given $\x_t$, $\bm{\theta}_t$, it holds that: 
+\[
+\mathbf{Y}_t = \mathbf{A}\x_t+\mathbf{B}\z_t^{\xi}+\mathbf{C}\bm{\varepsilon}_t,
+\]
+ where $\mathbf{A},\mathbf{B},\mathbf{C}$ are constant matrices of appropriate shapes based on $\bm{\theta}_t$, 
+ $\bm{\varepsilon}_t = [\varepsilon_{1, t}, \ldots, \varepsilon_{|\V|, t}]\sim \mathcal{N}\left(\bm{0}, \bm{\Sigma}\right)$, 
+ and $\z_t^\xi$ are intermediate variables with alteration $\xi$.
+\end{lemma}
+
+Recall from \Eq~(\ref{eq:auf_optimism}) that we want to find alterations that satisfy $\mathbb{P}(\Y_t \in \sP\mid \bm{\theta}_t, \x_t, Rh(\xi_t)) \geq \tau$. 
+Recognizing that solving optimization with probabilistic constraint is generally intractable and the previous sampling method is time-consuming, 
+we attempt to construct a surrogate deterministic constraint that can be handled efficiently to replace the probabilistic constraint.
+Fortunately, this idea is feasible because Lemma~\ref{lemma:identi} shows that once the alteration is selected, 
+the randomness of $\Y_t$ only arises from $\bm{\varepsilon}_t$, since $\x_t$ has been observed and $\mathbf{A},\mathbf{B},\mathbf{C}$ are constant matrices given $\bm{\theta}_t$. 
+Thus, the probability density function (PDF) of $\Y_t$ is available and we can directly analyze the PDF to find probability regions as in \prop~\ref{prop:prob_region}, 
+which aids in constructing the surrogate deterministic constraint.
+
+\begin{proposition}
+  \label{prop:prob_region}
+  The following probability region $\sP$ satisfies $\mathbb{P}(\Y_t \in \sP\mid \bm{\theta}_t, \x_t, Rh(\xi_t)) = \tau$: 
+  \[
+    \sP = \left\{\bm{\mu}_{\y_t} + \left(\chi^{-1}(\tau)\C\bm{\Sigma}\C^\top\right)^\frac{1}{2}\u\ \ \big|\ \ \|\u\|_2\leq 1\right\},
+  \]
+  where $\bm{\mu}_{\y_t} = \mathbf{A}\x_t+\mathbf{B}\z_t^{\xi}$, 
+  $\u$ is an arbitrary point in the unit sphere in $\mathbb{R}^{|\Y_t|}$, 
+  and $\chi^{-1}(\cdot)$ denotes the quantile function of the $\chi^2$ distribution with degrees of freedom $\lambda = \left|\Y_t\right|$.
+\end{proposition}
+
+
+The proof of \prop~\ref{prop:prob_region} is provided in Appendix \ref{app:constraint_construction}. 
+We raise the power of $1/2$ to the matrix because it is always positive semi-definite since $\chi^{-1}(\cdot) \geq 0$ and $\C\bm{\Sigma}\C^\top\succeq 0$ ($\bm{\Sigma}$ is the covariance 
+\setlength{\intextsep}{0pt}
+\begin{wrapfigure}[9]{r}{0.54\textwidth}
+  \centering
+  \begin{minipage}{\linewidth}
+  \centering
+  \subfigure[Samples from $F_{\y_t}$]{\includegraphics[width=0.46\linewidth]{./figures/1.pdf}}$\quad$
+  \subfigure[Probability region $\hat{\sP}$]{\includegraphics[width=0.46\linewidth]{./figures/2.pdf}}
+  \vskip -0.1in
+  \caption{An example of estimated $\hat{\sP}$ with $\tau=0.9$}
+  \vskip -0.1in
+  \label{fig:prop_ball}
+  \end{minipage}
+  \end{wrapfigure}
+matrix). 
+In practical scenarios where $\bm{\Sigma}$ is not available, the estimation $\hat{\bm{\Sigma}}$ can be used as replacements. 
+Let $F_{\y_t}$ denote the cumulative distribution function (CDF) of $\Y_t$, \Fig~\ref{fig:prop_ball} illustrates a 2-dimensional example of samples from $F_{\y_t}$, together with the estimation of the associated region $\hat{\sP}$. 
+It illustrates that $\hat{\sP}$ can properly draw the probabilistic region of $F_{\y_t}$ with expected probability $\tau$.
+
+
+Moreover, recognizing that the desired region $\sS$ defined in \Eq~(\ref{eq:linear_case}) is a convex polytope, \ie, $\mathcal{S}=\left\{\mathbf{y} \in \mathbb{R}^{|\mathbf{Y}|} \mid \mathbf{M y} \leq \mathbf{d}\right\}$, 
+we utilize the defined probability region $\sP$ in \prop~\ref{prop:prob_region}, 
+and use a deterministic constraint to replace the original probabilistic constraint in~\Eq~(\ref{eq:auf_optimism}). 
+In this case, the alteration-suggestion method can be formulated as follows: 
+
+\vskip -0.1in
+\begin{equation}
+  \label{eq:QCQP}
+  \begin{aligned}
+    \mathop{\min}_{\z^{\xi_t}_t}&\quad \left(\z^{\xi_t}_t - \z^0_t\right)^\top \W \left(\z^{\xi_t}_t - \z^0_t\right)\\
+    \text{s.t.}&\quad \M\A\x_t + \M\B\z^{\xi_t}_t + \left\|\M\P\right\|_{2,\text{row}} \leq \d, 
+  \end{aligned}
+\end{equation}
+\vskip -0.05in
+
+where $\P = \left(\chi^{-1}(\tau)\C\bm{\Sigma}\C^\top\right)^\frac{1}{2}$, $\left\|\ \cdot\ \right\|_{2,\text{row}}$ means an operator that takes 2-norm for each row of the matrix thus outputs a row-dimensional vector. 
+The objective to be minimized is the vector representation of the cost function as explained in \Eq~(\ref{eq:auf_optimism}), where $\W=\operatorname*{diag}(w_1,\ldots,w_{\left|\z_t^{\xi_t}\right|})$ is positive definite since the cost is non-negative, \ie,  $w_i>0$ for $\forall i$.
+
+Note that $\W$ is positive definite and the constraint is linearly associated with $\z^{\xi_t}_t$, 
+thus \Eq~(\ref{eq:QCQP}) is a convex QCQP, 
+which can be cast as a second-order cone program~\citep{nesterov1994interior, lobo1998socp}.
+Specifically, it can be solved in polynomial time $\mathcal{O}(|\Z_t^{\xi_t}|^3\cdot L)$ by interior-point method~\citep{AndersenRT03SOCP}, where $L$ is the iteration rounds for solving the QCQP and is not associated with $|\Z_t^{\xi_t}|$. 
+Meanwhile, constructing matrices $\A,\B,\C$ needs an element-wise traverse thus $\mathcal{O}(|\V|^2)$ time and constructing the probability region $\P$ as in \prop~\ref{prop:prob_region} runs under $\mathcal{O}(|\V||\Y|^2)$ because of the matrix multiplication, so the whole running time of alteration suggestion is $\mathcal{O}(|\V|^3)$ as $|\Z_t^{\xi_t}|= \Theta(|\V|), |\Y| = \Theta(|\V|)$ and $L$ is a constant. 
+
+
+
+
+
+
+
+
+\subsubsection{AUF-MICNS}
+\setlength{\intextsep}{1pt} 
+\begin{wrapfigure}{r}{0.6\textwidth}
+  \begin{minipage}{\linewidth}
+  \begin{algorithm}[H]
+    \caption{AUF-MICNS}
+    \label{alg:com_auf}
+    \textbf{Input:} sequential coming data $\{\x_t, \z_t, \y_t\}_{t=1}^T$
+  \begin{algorithmic}[1]
+    \State Initialize $\{\hat{\beta}_{j,0}\}_{j=1}^{|\mathbf{V}|}$ for Algorithm~\ref{alg:online_ensemble}
+    \For{$t=1$ {\bfseries to} $T$}
+    \State Select alteration $\xi_t$ by solving \Eq~(\ref{eq:QCQP})
+    \State Receive $\y_t$ and sent $\{\x_t, \z^{\xi_t}_t, \y_t\}$ to Algorithm~\ref{alg:online_ensemble}
+    \State Update $\{\hat{\beta}_{j, t}\}_{j=1}^{|\mathbf{V}|}$ by Algorithm~\ref{alg:online_ensemble} 
+    \EndFor
+  \end{algorithmic}
+  \textbf{Output:} suggested alterations $\{\xi_t\}_{t=1}^T$
+  \end{algorithm}
+  \end{minipage}
+  \end{wrapfigure}
+
+By combining the influence maintenance step and the alteration suggestion step, our proposed approach for addressing the AUF problem with minimal cost in non-stationary environments is formulated in Algorithm~\ref{alg:com_auf}, which attempts to avoid undesired outcomes in each decision round. 
+Specifically, in $t$-th round, the algorithm first receive $\X_t = \x_t$, 
+then if the predicted outcome $\hat{\Y}_t\not\in \sS$, 
+the algorithm performs the suggested alteration $\xi_t$ on $\Z_t$ by solving \Eq~(\ref{eq:QCQP}). 
+Subsequently, true $\Y_t = \y_t$ occurs, and the algorithm collects $\{\x_t, \z^{\xi_t}_t, \y_t\}$ to update influence relations by Algorithm~\ref{alg:online_ensemble}. 
+By using this algorithm, one can tackle the formulated AUF problem with the suggested alterations. 
+
+
+\subsection{Theoretical results}
+\label{sec:theo}
+In this subsection, we present the theoretical analysis of our proposed method. 
+All proofs are given in Appendix~\ref{sec:proofs}. 
+First, we can determine the dynamic influence relations in non-stationary environments with theoretical guarantees. 
+Specifically, by using Algorithm~\ref{alg:ogd} to estimate $\beta_{j, t}\in\bm{\theta}_t$, 
+the error gap between the estimate and the true parameter value ($\mathbb{E}_{\varepsilon_j}\|\hat{\beta}_{j, t} - \beta_{j, t}\|^2$) is proved to be bounded by an exponentially decreasing term, 
+as well as a fixed value related to the choice of step size and the inherent problem difficulty. 
+It reveals that the performance of Algorithm~\ref{alg:ogd} depends on the choice of step size $\eta$ heavily, 
+and is detailed in \thm~\ref{theo:identi}, where $\{\ell_{j, t}(\cdot)\}_{t=1}^T$s are defined in \Eq~(\ref{eq:mse_loss}). 
+
+\begin{theorem}
+  \label{theo:identi}
+  Let $\beta_{j, t}$ ($j\in[|\V|]$) denote the true parameter value of $\beta_j$ in time $t$, and choose $\eta_j\in(0, 1/2L_j]$ as the step size used in Algorithm \ref{alg:ogd}, 
+  then it can be bounded that: 
+  \vskip -0.1in
+  \begin{equation*}
+      \mathbb{E}\left\|\hat{\beta}_{j, t} - \beta_{j, t}\right\|^2 \lesssim (1-\mu_j \eta_j)^{\frac{t}{m}} \left\|\hat{\beta}_{j, 0} - \beta_{j, 0}\right\|^2 + \delta_j\ \ 
+      \text{with}\ \ \delta_j = \left(\frac{m\Delta_j }{\mu_j \eta_j}\right)^2 + \frac{\eta_j\sigma^2}{\mu_j}, 
+  \end{equation*}
+  where $\mu_j$ and $L_j$ are the minimal and maximal eigenvalues of $\{\ell_{j, t}(\cdot)\}_{t=1}^T$'s Hessian matrices,
+  $\sigma^2$ upper-bounds the variance of $\hat{g}_{j, t}$, 
+  $\Delta_j \geq \max_t \|\beta_{j,t+1} - \beta_{j, t}\|$ upper-bounds the varying speed of the environment, 
+  and $m$ is the longest continuously altered rounds of $V_j$, for most of the $V_j$s, $m = 1$.
+\end{theorem}
+
+
+In \thm~\ref{theo:identi}, it holds that $\mu_j \eta_j\in\left(0, 1/2\right]$, which derives that $(1-\mu_j \eta_j)\in\left[1/2, 1\right)$. 
+This shows that as time progresses, the OGD estimator $\hat{\beta}_{j, t}$ will gradually converge towards the true value $\beta_{j, t}$ in the expected sense. 
+Specifically, (a) the convergence speed depends on the choice of the initial point $\hat{\beta}_{j, 0}$, 
+and is limited by the inherent difficulty of the problem implied in $\mu_j/L_j$; and
+(b) the convergence result will suffer a $\delta_j$ gap from the true value, depending on the varying speed of the environment ($\Delta_j$) and the choice of step size $\eta_j$. 
+If $\eta_j$ is appropriately chosen, the gap $\delta_j$ will be small, \eg, if all hyperparameters are available and $\Delta_j\neq 0$, 
+choosing $\eta^\star_j = \min\{1/2L_j, \sqrt[3]{2}(\frac{m\Delta_j}{\sqrt{\mu_j}\sigma})^\frac23\}$ can achieve the smallest $\delta_j$.
+Meanwhile, the hyperparameter $m$ appears in the bound according to the properties of alterations shown in \Fig~\ref{fig:rh_graph}.
+If $V_j$ is continuously altered in $m$ rounds, all incoming arrows of $V_j$ will be removed and the parameters associated with the arrows will not be updated in those rounds.
+Because only a part of vertices in $\Z_t$ might be altered in any rounds, $m = 1$ holds for most of the $V_j$s. 
+
+In practice, we do not know exact parameters such as $\Delta_j$, thus $\eta^\star$ is not pre-available. 
+Recognizing that the random choice of $\eta$ leads to unstable estimations, we turn to use Algorithm~\ref{alg:online_ensemble} to estimate $\hat{\beta}_{j, t}$s. 
+Though we do not know $\eta^\star$ as well, by using the online-ensemble-based Algorithm~\ref{alg:online_ensemble}, we can get more stable estimations as guaranteed by the following regret bound in \prop~\ref{prop:online_ensemble}.
+
+\begin{proposition}
+  \label{prop:online_ensemble}
+  Assume $\{\hat{\ell}_{j, t}(\cdot)\}_{t=1}^T$s are bounded for $\forall \beta_i\in\sB$ and $t\in [T]$;
+  then for any $\eta \in \sH_j$, estimations $\hat{\beta}_{j, t}$s from Algorithm~\ref{alg:online_ensemble} satisfies that
+  \vskip -0.15in
+  \begin{equation*}
+    \sum_{t=1}^T \hat{\ell}_t\left(\hat{\beta}_{j, t}\right)-\sum_{t=1}^T \hat{\ell}_t\left(\beta^\eta_{j, t}\right) \leq \mathcal{O}\left(\sqrt{T\ln N_j}\right);
+  \end{equation*}
+  \vskip -0.1in
+  by choosing $\alpha=\sqrt{\ln N_j/T}$ in Algorithm~\ref{alg:online_ensemble}, where $N_j$ is the number of base-learners, $\beta^\eta_{j, t}$ is the estimation from any expert $\eta$ in expert set $\sH_j$ in Algorithm~\ref{alg:online_ensemble}.
+\end{proposition}
+\vskip -0.05in
+
+\prop~\ref{prop:online_ensemble} shows that the cumulative loss of the estimation obtained by Algorithm~\ref{alg:online_ensemble} is comparable with the best expert in $\sH_j$, 
+thus by \thm~\ref{theo:identi}, though $\hat{\bm{\theta}}_t$ may be far from $\bm{\theta}_t$ at the first few rounds, it will converge towards $\bm{\theta}_t$.
+Meanwhile, in some certain cases, the best step size $\eta^\star_j$ in \thm~\ref{theo:identi} can be included in $\sH_j$ with $N_j=\mathcal{O}(\log T)$~\citep{zhao2024adaptivity}. 
+Due to these, Algorithm~\ref{alg:online_ensemble} provides more stable estimates for the influence relations, 
+which can further aid in making decisions to address the formulated AUF problem. 
+As to the decision-making processes, AUF-MICNS can suggest alterations with theoretical guarantees.
+Specifically, the suggested alterations are guaranteed by \thm~\ref{prop:auf_y_hat}.  
+
+\begin{theorem}
+  \label{prop:auf_y_hat}
+  By using the suggested alterations $\xi_t$ from \Eq~(\ref{eq:QCQP}),
+  it can be guaranteed that: 
+  \vskip -0.15in
+  \[
+    \mathbb{P}\left(\Y_t\in\sS \mid \hat{\bm{\theta}}_t, \x_t, Rh(\xi_t)\right) \geq \tau. 
+  \]
+\end{theorem}
+\vskip -0.05in
+
+\thm~\ref{prop:auf_y_hat} illustrates that the suggested alterations $\xi_t$ by the AUF-MICNS algorithm can effectively avoid the undesired outcomes as the formulated AUF problem expects, 
+under the distribution conditioned on estimation $\hat{\bm{\theta}}_t$ rather than true $\bm{\theta}_t$. 
+Note that it is guaranteed in \thm~\ref{theo:identi} and \prop~\ref{prop:online_ensemble} that $\hat{\bm{\theta}}_t$ is not far from $\bm{\theta}_t$. 
+Meanwhile, we provide the experimental analysis in \Sec~\ref{sec:exper} to show that $\mathbb{P}\left(\Y_t\in\sS \mid \bm{\theta}_t, \x_t, Rh(\xi_t)\right)\geq \tau$ holds practically. Besides, this method achieves a super-exponential improvement over the time complexity of the previous method~\cite{qint2023srm} as discussed in \Sec~\ref{sec:efficient}.
+
+
+
+
+\section{Related work}
+\label{sec:related_work}
+
+
+\textbf{RL Methods.} RL approaches have demonstrated success in numerous domains~\citep{sutton2018reinforcement}, particularly in game-playing~\citep{mnih2013playing} and autonomous control~\citep{KiumarsiVML18TNN}. However, the Markov Decision Process (MDP) formalism in RL abstracts decision-making processes into states, actions, and rewards, potentially overlooking useful fine-grained structural information. While hybrid online and offline RL methods have been introduced~\citep{song2022hybrid, pong2022offline}, they overlook fine-grained structural information as well and require large offline datasets in practice. Moreover, it is worth noting that a fundamental limitation of applying RL to the AUF problem is that RL methods require a substantial number of interactions, which may be too luxurious or simply not tolerated in many real-world applications.
+
+
+\textbf{Causality.} Identifying causal systems from observational and interventional data has been extensively studied~\citep{scholkopf2021toward, squires2023linear, buchholz2024learning, zhang2023identifiability, chen2024identification}, but these methods typically do not actively select interventions. Furthermore, significant research has focused on identifying causal structures or effects in interactive environments~\citep{he2008active, KocaogluDV17, wang2020cost,wang2023sound,qint2021ate, wang2023estimating, zhang2023active, qin2024tracking}, which predominantly aim to identify causal structures or effects. 
+To incorporate additional utilities for decision-making, causal bandits and causal RL methods have been proposed to determine where to intervene~\citep{bareinboim2015bandits, latt2016causalbandit, sen2017identifying, LeeB20, zhang2019RL, arnound2020Corr, LuMT21}. 
+The aforementioned methods generally rely on causal modeling, which may be luxurious or restrictive in some real-world decision-making cases~\citep{zhouzh2022rehearsal, qint2023srm}. As identifying causations rely on some strong restrictions or assumptions, it is possible that we cannot find a feasible alteration. 
+Conversely, correlation, which underpins most ML models, falls short of providing a solid foundation for making decisions. 
+As a middle ground between causation and correlation, the influence relations form a more practical basis for decision-making~\citep{zhouzh2022rehearsal}.
+Building on this concept, we employ the SRM developed by~\citet{qint2023srm}, which can adapt to dynamically evolving decision systems. 
+In particular, our approach incorporates the context $\x_t$ into decision-making, and can sugggest decision alterations effectively even when the parameters of the system are non-stationary and the actions come with varying associated costs.
+
+
+\textbf{Other related topics.} Our approach builds upon several classic ML techniques. The action cost measure employed in our method generalizes principles from cost-sensitive learning~\citep{elkan2001foundations, zhouzh2011cost}. Additionally, we adapt the online ensemble methodology~\citep{zhao2024adaptivity} to update the SRM parameters.
+Online emsemble framework has been used in several areas, such as online convex optimization~\citep{NeurIPS'23:universal}, online label shift~\citep{ICDM'23:NOLS}, and reinforcement learning~\citep{NeurIPS'23:linearMDP}. Further exploration and advancements in these techniques hold the potential to enhance our approach as well.
+
+\section{Experiments}
+\label{sec:exper}
+
+We evaluate the proposed AUF-MICNS algorithm on two datasets and focus on four aspects including 
+(a) success frequency for $\Y_t\in \sS$; 
+(b) average alteration cost; 
+(c) average executing time; and
+(d) mean square error of the estimated parameters $\hat{\bm{\theta}}_t$. 
+For each dataset, we repeat experiments with 100 rounds 20 times. 
+The observational dataset size is set to 10. 
+We compare our proposed method with previous rehearsal learning approach (QWZ23~\citep{qint2023srm}), 
+and we also compare with several classic RL methods including 
+DDPG~\citep{Lillicrap2016ddpg}, 
+PPO~\citep{John2017PPO}, 
+and SAC~\citep{haarnoja2018SAC}.
+Experimental details and additional experiments are listed in Appendix~\ref{app:exp}.
+
+\textbf{Market-Managing Data.} 
+We abstract a dynamic SRM from a market-managing scenario, where a manager of the market needs to make decisions to promote the total profit (TPF) and the number of customers (NCT). 
+We consider variables that may affect TPF and NCT, the pricing for the product (P), the pricing of the competitor market (E), the cost of raw materials (C), etc. 
+We assume the manager can alter two variables, P and C.
+There exist mutually influenced variables in the scenario: If P is set to be small, then E will also be small to stay competitive on price; and vice versa.
+The sizes of $\X_t$, $\Z_t$, and $\Y_t$ are 2, 4, and 2 respectively. 
+The parameters of the dynamic structural equations are manually set according to the domain knowledge. 
+For example, parameters associated with variable C vary over time with a periodic term, \ie, $\beta_{C,t} = \bar{\beta}_C(1 + a\sin(wt))$. 
+The feasible alteration values are $[-3, 3]$ for centralized P and C, associated with cost coefficients $1.0$ and $2.0$ respectively since altering P is easier than C. 
+We want to maintain high TPF and high NCT at the same time, so the desired region $\sS$ is set to be $\sS = \{\text{TPF}\geq s_1$, $\text{NCT}\geq s_2$, $\text{TPF}+\text{NCT}\geq s_3\}$, and more than 80\% of the original data falls outside this range, as shown in \Fig~\ref{fig:market_S}.
+
+\textbf{Bermuda Data.} 
+This is an ecology dataset that records environment variables in Bermuda~\citep{courtney2017environmental}, and the generation order of variables is available~\citep{bermuda_dataset}.
+The sizes of $\X_t$, $\Z_t$, and $\Y_t$ are 3, 7, and 1. 
+The structural equations are obtained by fitting linear models on normalized data~\citep{qint2023srm}, and we manually add the varying trend, 
+\eg, considering the annual increase in $\text{CO}_2$ emissions, we posit that there is an increasing trend in the influence relation between temperature and $\text{CO}_2$ concentration, \ie,  $\beta_{\text{CO}_2,t} = \bar{\beta}_{\text{CO}_2,t}\cdot(1 - a\operatorname*{e}^{-wt})$. 
+We assume that 5 variables in $\Z_t$ are actionable~\citep{aglietti2020causal} and the feasible alteration values are $[-1, 1]$ for each of them with different cost coefficients. 
+The concerned outcome $\Y_t$ represents the net coral ecosystem calcification (NEC) in Bermuda. 
+To make the coral reef ecosystem healthy, a relatively large NEC is preferred,  
+so the desired region $\sS$ is set to be $\sS = \{0.5\leq \text{NEC}\leq 2\}$, and more than 75\% of the original data falls outside it, as shown in \Fig~\ref{fig:bermuda_S}.
+
+\begin{figure*}[!t]
+    \subfigure{
+    \includegraphics[width=0.315\linewidth]{./figures/market_performance.pdf}
+    }
+  \subfigure{
+    \includegraphics[width=0.315\linewidth]{./figures/online_ensemble_test.pdf}
+    }
+  \subfigure{
+    \includegraphics[width=0.315\linewidth]{./figures/company_estimation.pdf}
+    }
+    \\
+    \subfigure{
+    \includegraphics[width=0.315\linewidth]{./figures/bermuda_performance.pdf}
+    }
+  \subfigure{
+    \includegraphics[width=0.315\linewidth]{./figures/online_ensemble_test_bermuda.pdf}
+  }
+  \subfigure{
+    \includegraphics[width=0.315\linewidth]{./figures/bermuda_estimation.pdf}
+    }
+  \vskip -0.12in
+  \caption{Results of Market-managing data (row 1) and Bermuda data (row 2) respectively. Bars and bands depict the standard deviations.}
+  \label{fig:experiments}
+  \vskip -0.25in
+\end{figure*}
+
+
+\Fig~\ref{fig:experiments} shows the full experimental results. 
+The desired probability is set to $\tau=0.7$. 
+Two rows of figures denote the results of the Market data and the Bermuda data respectively.
+Specifically, the first column of \Fig~\ref{fig:experiments} shows that 
+(a) the success frequency of making the concerned outcome $\Y_t$ falls into the desired region $\sS$; and 
+(b) relative alteration cost among methods, \ie, the normalized cost among different methods. 
+The proposed AUF-MICNS algorithm outperforms other competitors in both aspects. 
+If we increase the interaction rounds $T$, RL methods can achieve satisfying performance, 
+\eg, DDPG achieves 0.6955 average success frequency when $T$ = 4000 on the Market data. 
+
+
+The second column of \Fig~\ref{fig:experiments} shows the mean-square error of estimates for $\beta_{\text{NCT}}$ in Market data and estimates for $\beta_{\text{CO}_2}$ in Bermuda data respectively. 
+The exponential convergence speed and the convergence error ($\delta_j$) in \thm~\ref{theo:identi} are illustrated in these two figures. 
+Specifically, for Market-managing data, the online-ensemble-based sequential method can achieve a similar convergence speed like OGD with $\eta=0.025$ does when $T\leq 20$, 
+and it results in a smaller $\delta_j$ as illustrated by the enlarged part ($T\geq 40$). 
+For Bermuda data, OGD with $\eta = 2.5$ outperforms other step sizes, since $\eta = 1.0$ converge slowly, and $\eta = 5.0$ suffers a notably bigger gap $\delta_j$. 
+By using the online-ensemble-based sequential method, we can obtain a comparable performance with the best step size $\eta = 2.5$. 
+These results illustrate that our proposed method mitigates the risk substantially, 
+as the inappropriate choice of $\eta$ will affect the practicality of the estimation and $\eta^\star$ is not available practically. 
+Meanwhile, 
+the third column of \Fig~\ref{fig:experiments} shows true parameter values and the estimates by the online-ensemble-based method. 
+The superscript $(1)$/$(2)$ means the first/second dimension of the associated parameter vector. 
+It shows that the error gap between $\hat{\beta}_{j, t}$ and $\beta_{j, t}$ converges to a small value rapidly, 
+which guarantees accurate estimates of the quantitative influence relations in possibly non-stationary environments. 
+\setlength{\intextsep}{6pt}
+\begin{wraptable}[7]{r}{0.56\textwidth}
+\caption{Average running time (s).}
+\vskip -0.15in
+\label{tab:time}
+\begin{center}
+\begin{small}
+  \begin{tabular}{crrrrr}
+    \toprule
+    Dataset & DDPG & PPO & SAC & QWZ23 & MICNS\\
+    \midrule
+    Market &7.89 & 0.05  & 0.03  & 63.14 & 2.81 \\
+    Bermuda & 9.63 & 0.06  & 0.04 &  386.44 & 1.71 \\
+    \bottomrule
+\end{tabular}
+\vskip -0.15in
+\end{small}
+\end{center}
+\end{wraptable}
+
+\vskip -0.15in
+At last, the average whole-executing time of the 20-times experiments is recorded in Table~\ref{tab:time}. 
+We mainly focus on the comparison between AUF-MICNS and QWZ23 since both of them maintain influence relations other than purely suggesting decisions. 
+It shows that our proposed method is more time-efficient than QWZ23.
+
+
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+Practically, different decision actions might correspond to different costs, and the influence relations might vary over time in non-stationary environments. 
+In this paper, we try to tackle the AUF problem considering the aforementioned aspects. 
+Specifically, we propose the AUF-MICNS algorithm that can capture the dynamic influence relations in non-stationary environments and suggest actions based on the influence relations. 
+This method can suggest decision actions under polynomial time. 
+Meanwhile, theoretical results show that the suggested actions can effectively avoid the undesired outcomes with probability larger than $\tau$, 
+and the suggested actions get more accurate as time progresses. 
+Experimental results validate the effectiveness and efficiency of our proposed method.
+
+
+Our approach primarily focuses on scenarios where the influence relations among variables are linear and is currently not applicable to non-linear cases. 
+Additionally, selecting the hyperparameter \(\tau\) in existing frameworks remains a significant challenge, as an inappropriate \(\tau\) may lead to the failure of solving \Eq~(\ref{eq:QCQP}). To address these limitations, we plan to develop methods that handle non-linear cases and reduce sensitivity to the hyperparameter \(\tau\) in future work.
+
+\section*{Acknowledgements}
+This research was supported by Jiangsu Science Foundation Leading-edge Technology Program (BK20232003), and National Postdoctoral Program for Innovative Talent (BX20240162). 
+The authors thank the anonymous reviewers for their helpful comments. 
+We are also grateful to Long-Fei Li and Lue Tao for discussions.
+\small
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\newpage
+\appendix
+\onecolumn
+\section{Discussion}
+\label{sec:discuss}
+\subsection{Discussion on the AUF-MICNS algorithm}
+Two crucial points should be discussed in this approach, 
+\ie, (a) dynamic influence modeling; and (b) the defined cost function for alterations. 
+For the former, we consider a linear case with additive noise, and for more complicated scenarios than linear ones, 
+one can modify the structural equations in \Eq~(\ref{eq:linear_case}) by using methods such as the kernel method~\citep{hofmann2008kernel}.
+Note that Theorem~\ref{theo:identi} always holds as long as the new loss functions $\ell_{j, t}(\cdot)$s are still $\mu$-strongly convex and $L$-smooth in those cases, similar to \Eq~(\ref{eq:mse_loss}).
+For the latter, we use a quadratic cost function in this paper.
+Since the alteration cost is user-specified, in certain problems, if the quadratic cost is not appropriate, one can replace it with any other convex functions under the increasing marginal cost (IMC) property~\citep{mankiw2020economics}.  
+In those cases, the alteration selection method is a convex optimization as well, similar to \Eq~(\ref{eq:QCQP}). 
+It is worth noting that our work mainly focuses on cases where samples are rare, thus only user-specified hyperparameters  $\{w_j, z^0_j\}_{j\in[|\V|]}$ can be relied upon. If we can obtain a sufficient number of $\langle\text{alteration, cost}\rangle$ pairs, hyperparameters $\{w_j, z^0_j\}_{j\in[|\V|]}$ can be accurately estimated using quadratic fitting techniques~\citep{hastie2009esl}. 
+
+Additionally, for the probabilistic constraint in \Eq~(\ref{eq:auf_optimism}), if the noise is not assumed to be normal anymore, 
+one can analyze the CDF of the noise distribution to find a new probability region with a similar approach. 
+This can further assist in constructing a substitute constraint. 
+Moreover, there are instances where the feasible domain of the constraint in \Eq~(\ref{eq:QCQP}) may not exist due to its stringent nature, 
+\eg, one aims to completely avoid undesired futures with 100\% probability, or the desired region $\sS$ is not practically achievable.
+In such cases, the decision-maker should consider verifying specified region $\sS$ or reducing hyperparameter $\tau$ to some extent. 
+
+Last but not least, though we mainly focus on the scenario where the graph structure is fixed and known, \ie, $G_t=G$, however, our approach can be straightforwardly adapted to the case where $G_t=G$ but unknown as assumed in \citet{qint2023srm} as detailed in Appendix \ref{app:struc_G}. We also provide a simple comparable experiment on Bermuda data in the setting of~\citet{qint2023srm}, as illustrated in Appendix \ref{app:compara}.
+
+\subsection{Comparation with causality}
+
+The SRM and $Rh(\cdot)$ operations are similar to their counterparts in causal inference but have different applicating scenarios. The differences between rehearsal learning and causal learning are listed as follows:
+\begin{enumerate}
+  \item[1] Most of the causal learning problems focus on structure or effect identification, while the decision-making process is not directly involved in the modeling. In contrast, rehearsal learning mainly focuses on a class of decision-making problems that specializes in the goal of avoiding undesired future using SRM-based modeling.
+  \item[2] Causal learning utilizes the SCM. In contrast, rehearsal learning uses the SRM (a new probabilistic graphical model~\citep{qint2023srm}) to model the influence relations between the variables toward addressing the AUF problem. The modeling granularity of SRM is more flexible, as the influence relationship can be evolved, and mutually influenced. Specifically, 
+  \begin{itemize}
+    \item Possible dynamic influence relationships. For instance, the influence relationship between pricing and sales of coats can vary cyclically and trend-wise over time. Thus, a given price may result in fewer sales during summer compared to winter. In addition, the coat's style may gradually become outdated, leading to reduced sales at the same price a year later compared to the present.
+    \item Possible mutually influenced relationships. For instance, the ideal gas law states that the pressure $p$, volume $V$, amount of substance $n$, and absolute temperature $T$ obey the equation $pV = nRT$ ($R$ is the ideal gas constant). When a fixed volume $V$ of an ideal gas is considered, with $n$ and $R$ held constant, the pressure $p$ and volume $V$ can be represented as a pair of mutually influenced variables within an SRM modeling. 
+  \end{itemize}
+\end{enumerate}
+
+
+\subsection{Possible types of graph structures}
+\label{app:struc_G}
+
+  There are four possible cases of the graph structure, specifically:
+  \begin{enumerate}
+    \item[1] $G_t$ fixed, known. It's the setting in our paper.
+    \item[2] $G_t$ fixed, unknown. It's the setting in~\citet{qint2023srm}. Our method can be straightforwardly adapted to this case.
+    Technically, since the distribution $\mathbb{P}(G)$ is discrete, we can initialize and update the probability mass function (PMF) $\mathbb{P}(G)$ in the same manner as~\citet{qint2023srm}. Thus, when we want to select decision alterations, the maintained PMF $\mathbb{P}(G)$ can be utilized to marginalize $G$ from $\mathbb{P}(\Y\in \sS\mid G, \cdots)$. thereby the expectation of matrices $\A, \B, \C$ in Eq.~(\ref{eq:QCQP}) can be obtained and used. 
+    \item[3] $G_t$ not fixed, known. Our method can be directly used because once the graph structure is known, $G$ is not a stochastic component. Thus, matrices $\A, \B, \C$ in Eq.~(\ref{eq:QCQP}) can be obtained in the same manner. It is worth noting that the changing graph structure will lead to the birth of new parameters at each round. Therefore, though the method can be directly used in such case, establishing theoretical guarantees is difficult.
+    \item[4]  $G_t$ not fixed, unknown. In this case, neither $\theta$ nor $P_G$ can be accurately estimated as there is only one sample per round. Thus, dealing with such a case may need to additional assumptions. For example, consider there are a sufficient number of samples per round. In this case, our method can model $\bm{\theta}$ and $P_G$ accurately, thereby suggesting good decisions.
+  \end{enumerate}
+
+
+
+\section{Definitions}
+\subsection{Details about Structural Rehearsal Models}
+\label{app:SRM}
+In this section, we present full definitions and discussions for the Structural Rehearsal Model (SRM), 
+which is a probabilistic graphical model proposed by~\cite{qint2023srm} to characterize the influence relations among variables.
+
+\subsection*{$\bullet$ Definition of the Rehearsal Graph}
+\begin{definition}[Mixed graph,~\cite{qint2023srm}]
+  \label{def:mixed_graph} Let $G=(\V, \E)$ be a graph, where $\V$ denotes the vertices and $\E$ the edges. $G$ is a mixed graph if for any distinct vertices $u, v \in \V$, there is at most one edge connecting them, and the edge is either directional ( $u \rightarrow v$ or $u \leftarrow v$ ) or bi-directional $(u \leftrightarrow v)$.
+\end{definition}
+
+\begin{definition}[Bi-directional clique,~\cite{qint2023srm}]
+  \label{def:bi_clique}
+  A bi-directional clique $C=\left(\V^c, \E^c\right)$ of a mixed graph $G=$ $(\V, \E)$ is a complete subgraph induced by $\V^c \subseteq \V$ such that any edge $e \in \E^c$ is bi-directional. $C$ is maximal if adding any other vertex does not induce a bi-directional clique.
+\end{definition}
+
+\begin{definition}[Rehearsal graph,~\cite{qint2023srm}]
+  \label{def:rh_graph}
+  Let $G=(\V, \E)$ be a mixed graph. Let $\left\{C_i\right\}_{i=1}^l$ denote all maximal bi-directional cliques of $G$, where $C_i=\left(\V_i^c, \E_i^c\right)$. $G$ is a rehearsal graph if and only if:
+  \vspace{-0.3\baselineskip}
+  \begin{enumerate}
+    \item $\V_i^c \cap \V_j^c=\emptyset$ for any $i \neq j$.
+    \vspace{0.2\baselineskip}
+    \item $\forall i \in[l]$, if there is any edge pointing from some $u \in \V \backslash \V_i^c$ to some $v \in \V_i^c$, then $\forall v \in \V_i^c$, $u \rightarrow v$.
+    \vspace{0.2\baselineskip}
+    \item There exists a topological ordering for $\left\{C_i\right\}_{i=1}^l$ following the directions of directional edges between $C_i$s.
+  \end{enumerate}
+\end{definition}
+
+It can be found that the topological ordering for bi-directional cliques $\left\{C_i\right\}_{i=1}^l$ in the rehearsal graph reflects the time order of the generation process of variables. 
+
+
+
+\subsection*{$\bullet$ Discussion of the Structural Equations}
+
+In this paper, we present the definition of dynamic structural equations in \Eq~(\ref{eq:structural_equations}), which provides a quantitative computational formulation for the influence relations in non-stationary environments.
+
+In fact, the structural equations are defined among the bi-directional cliques $\left\{C_i\right\}_{i=1}^l$ as detailed in~\citet{qint2023srm}.
+Specifically, the dynamic structural equations can be denoted as $\bm{\theta}_t$, which consists of the set of parameter matrices $\left\{\bm{\beta}_{i,t}\right\}_{t=1}^T$ and the covariance matrix $\bm{\Sigma}_i$ of each clique $C_i$ in the rehearsal graph $G$. It is noteworthy that the quantitative influence relationship of a directional edge $A\rightarrow B$ for $A\in C_a, B\in C_b$ at time $t$ is modeled in the parameter matrix $\bm{\beta}_{b, t}$ since the topological ordering for bi-directional cliques reflects the time order of the generation process; while the quantitative influence relationship of a bi-directional edge $D_1\leftrightarrow D_2$ for $D_1, D_2\in C_d$ at time $t$ is modeled in the covariance matrix $\bm{\Sigma}_d$ since they are in the same bi-directional clique which is viewed as happening in the same time. 
+
+We present a simplified version of the definition of dynamic structural equations in \Eq~(\ref{eq:structural_equations}) for a convenient presentation, which defines the dynamic structural equations on the variable level rather than the clique level. 
+Note that for each variable $V_j\in C_i$, the associated parameter vectors $\left\{\beta_{j,t}\right\}_{t=1}^T$ can be directly found in the corresponding parameter matrices $\left\{\bm{\beta}_{i,t}\right\}_{t=1}^T$; while the variance $\sigma_j^2$ of each variable $V_j\in C_i$ can be derived from the corresponding covariance matrix $\bm{\Sigma}_i$ by marginalizing the desired dimension out, since the marginalization operator for multi-normal distribution is available.
+
+
+
+
+\subsection{Increasing Marginal Cost with an Example}
+\label{app:imc}
+In this section, we introduce the increasing marginal cost (IMC) property. 
+Increasing marginal cost (IMC), or rising marginal cost, is an important property in microeconomics~\citep{LANCKER2019104, mankiw2020economics}. 
+We first present a famous example in the field of microeconomics, called Thirsty Thelma's Lemonade Stand.
+
+Lemonade Stand is a business simulation game devised in 1973 by Bob Jamison under the Minnesota Educational Computing Consortium. 
+It offers players the experience of managing a lemonade stand across multiple rounds. 
+At the commencement of each round, players make decisions regarding their stock, pricing, and advertising based on their current financial standing. 
+The outcomes in each round are determined by the player's choices; and are further influenced by random events like thunderstorms and street closures. 
+After each round, a summary of the current status of the player is provided, and the game concludes after 12 rounds. 
+In this game, an essential quantity is the total cost of lemonade per glass, which will increase in a quadratic way, as it has a linearly increasing derivative (named the marginal cost) as shown in \Fig~\ref{fig:imc}.
+
+\label{info:Thirsty}
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.5\linewidth]{./figures/costs.pdf}
+  \caption{Thirsty Thelma's Total-Cost and Marginal-Cost Curves}
+  \label{fig:imc}
+\end{figure}
+
+
+This phenomenon is commonly observed in real-world scenarios, and the upward slope of the total cost curve reflects the property of the law of diminishing marginal product~\citep{mankiw2020economics}. 
+When Thirsty Thelma produces a small quantity of lemonade, her workforce is limited, and much of her equipment remains idle. The ease of utilizing these unused resources results in a substantial marginal product for an additional worker and a corresponding small marginal cost for producing an extra glass of lemonade. In contrast, as she increases lemonade production, her shop becomes crowded with workers, and most of her equipment is fully utilized. While additional workers can contribute to increased production, they must operate in crowded conditions and may face delays in equipment usage. Consequently, when the quantity of lemonade produced is already high, the marginal product of an extra worker diminishes, leading to a significant increase in the marginal cost of producing an extra glass of lemonade.
+It is a famous and widely used example in the field of microeconomics, and it has many similarities with the AUF scenario. 
+In our proposed cost-minimal AUF problem, when the decision-maker decides to alter some variables in $\Z_t$, 
+the cost associated with different alterations vary. 
+For the same variable, the cost of altering it from a datum point should have a similar shape to the total cost curve in \Fig~\ref{fig:imc}, varying with an increasing derivative.
+That is how we define the cost function in this paper. 
+The cost function could be replaced by any other convex function in different situations.
+
+
+
+
+
+\section{Proofs}
+\label{sec:proofs}
+In this section, we provide proof for claims in the main text. 
+\subsection{Proof for Proposition \ref{prop:prob_region}}
+\begin{lemma}
+  \label{lemma:two_ellipse_formula}
+  If $\bm{\Sigma}$ is a symmetric positive definite matrix, the following two sets are equivalent:
+  \[
+    \left\{\x : \x^\top \bm{\Sigma}^{-1} \x \leq 1\right\} \Leftrightarrow \left\{\x : \x=\bm{\Sigma}^{\frac12}\u\mid \|\u\|_2\leq 1\right\},
+  \]
+  where $\x$ and $\u$ are vectors with a center at the origin of the coordinate system $O$.
+\end{lemma}
+\begin{proof}
+  Assume $\sP_1 = \left\{\x : \x^\top \bm{\Sigma}^{-1} \x \leq 1\right\}$ and $\sP_2 = \left\{\x : \x=\bm{\Sigma}^{\frac12}\u\mid \|\u\|_2\leq 1\right\}$. Then what we need to prove is equivalent to:
+  \begin{enumerate}
+    \item[(1)] Points contained in $\sP_1$ have to be contained in $\sP_2$.
+    \item[(2)] Points contained in $\sP_2$ have to be contained in $\sP_1$.
+  \end{enumerate}
+
+  For (1), it holds that $\x^\top \bm{\Sigma}^{-1} \x \leq 1$, which is equivalent to $(\bm{\Sigma}^{-\frac12}\x)^\top (\bm{\Sigma}^{-\frac12}\x)\leq 1$. 
+  Thus, let $\u = \bm{\Sigma}^{-\frac12}\x$, it can be derived that $\x = \bm{\Sigma}^{\frac12}\u$ where $\|\u\|_2\leq 1$, and (1) is proved.
+
+  For (2), we replace $\x^\top \bm{\Sigma}^{-1} \x$ with $\x=\bm{\Sigma}^{\frac12}\u$, then it can be derived that:
+  \begin{equation*}
+    \x^\top \bm{\Sigma}^{-1} \x = \u^\top\bm{\Sigma}^{\frac12}\bm{\Sigma}^{-1}\bm{\Sigma}^{\frac12}\u = \u^\top \u \leq 1,
+  \end{equation*}
+  which shows that points contained in $\sP_2$ are also contained in $\sP_1$, so (2) is proved. In conclusion, the lemma is proved.
+\end{proof}
+
+\begin{proposition32}
+  The following set $\sP$ is a probability region that satisfies $\mathbb{P}(\Y_t \in \sP\mid \bm{\theta}_t, \x_t, Rh(\xi_t)) = \tau$: 
+  \[
+    \sP = \left\{\bm{\mu}_{\y_t} + \left(\chi^{-1}(\tau)\C\bm{\Sigma}\C^\top\right)^\frac{1}{2}\u\ \ \bigg|\ \ \|\u\|_2\leq 1\right\},
+  \]
+  where $\bm{\mu}_{\y_t} = \mathbf{A}\x_t+\mathbf{B}\z_t^{\xi}$, 
+  $\u$ is an arbitrary point in the unit sphere in $\mathbb{R}^{|\Y_t|}$, 
+  and $\chi^{-1}(\cdot)$ denotes the quantile function of the $\chi^2$ distribution with degrees of freedom $\lambda = \left|\Y_t\right|$.
+\end{proposition32}
+
+\begin{proof}
+  Recall from Lemma~\ref{lemma:identi} that:
+\begin{equation*}
+  \bm{\varepsilon}_t\sim \mathcal{N}\left(\bm{0}, \bm{\Sigma}\right),\quad \mathbf{Y}_t = \mathbf{A}\x_t+\mathbf{B}\z_t^{\xi}+\mathbf{C}\bm{\varepsilon}_t. 
+\end{equation*}
+
+From the property of multi-normal distributions, it holds that: 
+\begin{equation*}
+  \mathbf{Y}_t \sim \mathcal{N}\left(\mathbf{A}\x_t+\mathbf{B}\z_t^{\xi}, \C \bm{\Sigma} \C^\top \right).
+\end{equation*}
+
+
+
+Let $\bm{\mu}_{\y_t} = \mathbf{A}\x_t+\mathbf{B}\z_t^{\xi}$, then we normalize the distribution above, it can be derived that: 
+\begin{equation*}
+  \left(\C \bm{\Sigma} \C^\top\right)^{-\frac12}\left(\Y_t-\bm{\mu}_{\y_t}\right)\sim \mathcal{N}\left(\bm{0}, \bm{\I}\right).
+\end{equation*}
+
+So it can be derived that:
+\begin{equation*}
+  \left(\Y_t-\bm{\mu}_{\y_t}\right)^\top \left(\C \bm{\Sigma} \C^\top\right)^{-1} \left(\Y_t-\bm{\mu}_{\y_t}\right) \sim \chi^2_\lambda,
+\end{equation*}
+where the $\chi^2$ distribution has the degrees of freedom $\lambda = \left|\Y_t\right|$. 
+
+Let $\chi^{-1}(\cdot)$ denote the quantile function of the distribution $\chi^2_\lambda$ above, then $\sP$ can be given as:
+\begin{equation*}
+  \sP=\left\{\bm{\gamma}: \left(\bm{\gamma}-\bm{\mu}_{\y_t}\right)^\top \left(\C \bm{\Sigma} \C^\top\right)^{-1} \left(\bm{\gamma}-\bm{\mu}_{\y_t}\right)\leq \chi^{-1}(\tau)\right\},
+\end{equation*}
+which is equivalent to:
+\begin{equation*}
+  \sP=\left\{\bm{\gamma}: \left(\bm{\gamma}-\bm{\mu}_{\y_t}\right)^\top \left(\chi^{-1}(\tau) \C \bm{\Sigma} \C^\top\right)^{-1} \left(\bm{\gamma}-\bm{\mu}_{\y_t}\right)\leq 1\right\},
+\end{equation*}
+
+By lemma \ref{lemma:two_ellipse_formula}, it is equivalent to:
+\begin{equation*}
+  \sP=\left\{\bm{\gamma}:\bm{\gamma} = \bm{\mu}_{\y_t} + \left(\chi^{-1}(\tau)\C\bm{\Sigma}\C^\top\right)^\frac{1}{2}\u\ \ \bigg|\ \ \|\u\|_2\leq 1\right\},
+\end{equation*}
+where $\bm{\mu}_{\y_t} = \mathbf{A}\x_t+\mathbf{B}\z_t^{\xi}$, and $\u$ is an arbitrary point in the unit sphere in $\mathbb{R}^{|\Y_t|}$. 
+\end{proof}
+
+
+
+
+
+
+\subsection{Proof for Theorem \ref{theo:identi}}
+\label{prof:identi}
+
+\begin{lemma}[Theorem 3 of~\citet{cutler2023stochastic}]
+  \label{lemma:opt-bound}
+  Consider a sequence of stochastic optimization problems $\min_\beta f_t(\beta)$ indexed by time $t\in\mathbb{N}$. 
+  Let $\hat{g}_{t}$ denote the estimation for the gradient of $f_t$, and $\beta^\star_{t}$ denote the minimizer of the $L$-smooth and $\mu$-strongly convex function $f_t$.
+  Suppose it holds that $\max_{t}\hat{g}_{t}\leq \sigma^2 < \infty$ and 
+  $\max_t \mathbb{E}\|\beta^\star_{t+1} - \beta^\star_{t}\|\leq \Delta < \infty$.  
+  Then the produced $\{\beta_t\}_{t=0}^T$ with iterates $\beta_{t+1} = \Pi_{\sB}(\beta_{t} - \eta \hat{g}_{t})\ (\sB=\mathbb{R}^{|\beta|})$ and constant learning rate $\eta \leq 1 / 2 L$ satisfies:
+  \[
+  \mathbb{E}\left\|\beta_t-\beta^\star_{t}\right\|^2 \lesssim \underbrace{(1-\mu \eta)^t\left\|\beta_0-\beta^\star_{0}\right\|^2}_{\text {optimization }}+\underbrace{\frac{\eta \sigma^2}{\mu}}_{\text {noise }}+\underbrace{\left(\frac{\Delta}{\mu \eta}\right)^2}_{\text {drift }} .
+  \]
+\end{lemma}
+
+
+\begin{lemma}[Convergence of LSE]
+  \label{lemma:lse_convergence}
+  Let $\beta_{j, t}$ denote the true parameter value of $\beta_j$ in time $t$, and $\hat{\beta}^{lse}_{j, t}$ denote the estimation according to \Eq~(\ref{eq:mse_loss}). 
+  For $\forall \psi > 0$, $\exists n > 0$ that holds: 
+  \[
+  \mathbb{E}\left\|\hat{\beta}^{lse}_{j, t} - \beta_{j, t}\right\|^2_2 \leq \psi
+  \]
+\end{lemma}
+
+\begin{proof}
+  Let $\P_{j,t} = \begin{bmatrix}\PA^{1}_{j, t} & \ldots& \PA^{n}_{j, t} \end{bmatrix}^\top$ and $\v_{j,t} = \left[V^{1}_{j, t}, \ldots, V^{n}_{j, t}\right]^\top$. 
+  Then the optimization in \Eq~(\ref{eq:mse_loss}) is equivalent to:
+  \[
+    \mathop{\arg\min}_{\beta_{j,t}}  \left\|\v_{j,t}-\P_{j,t}\beta_{j,t}\right\|_2^2.
+  \]
+  Since $\PA_{j}$ represents the true parents of the generation process for variable $V_j$, $\P_{j,t}$ is guaranteed to have full column rank. 
+  For $\forall n\geq \left|\PA_{j}\right|$, the solution to the optimization above is:
+  \[
+    \hat{\beta}^{lse}_{j, t} = \left(\P^\top_{j,t}\P_{j,t}\right)^{-1}\P^\top_{j,t}\v_{j,t}.
+  \]
+  Because $\v_{j,t} = \P_{j,t}\beta_{j, t} + \bm{\varepsilon}_j$ where $\bm{\varepsilon}_j\sim\mathcal{N}\left(\bm{0}, \sigma^2_j\I_{n}\right)$ according to \Eq~(\ref{eq:linear_case}), 
+  we have:
+  \[
+    \hat{\beta}^{lse}_{j, t} = \beta_{j, t} + \left(\P^\top_{j,t}\P_{j,t}\right)^{-1}\P^\top_{j,t}\bm{\varepsilon}_j.
+  \]
+  Due to the linear combination property of the Gaussian distribution, it holds that:
+  \[
+    \hat{\beta}^{lse}_{j, t} - \beta_{j, t} \sim  \mathcal{N}\left(\bm{0}, \sigma^2_j\left(\P^\top_{j,t}\P_{j,t}\right)^{-1}\right)
+  \]
+  Thus, it can be derived that:
+  \[
+    \begin{aligned}
+      \mathbb{E}\left\|\hat{\beta}^{lse}_{j, t} - \beta_{j, t}\right\|^2_2 
+      &= \operatorname*{tr}\left(\sigma^2_j\left(\P^\top_{j,t}\P_{j,t}\right)^{-1}\right)\\
+      &= \sigma^2_j \sum_{i=1}^{|\PA_j|}\lambda_i  \left(\text{$\lambda_i$s are eigenvalues of }\left(\P^\top_{j,t}\P_{j,t}\right)^{-1}\right)\\
+      &\leq \lambda_{max}\cdot\sigma^2_j|\PA_j| = \left\|\left(\P^\top_{j,t}\P_{j,t}\right)^{-1}\right\|_2\cdot\sigma^2_j|\PA_j|
+    \end{aligned}
+  \]
+  Because $\left\|\left(\P^\top_{j,t}\P_{j,t}\right)^{-1}\right\|_2\cdot \left\|\P^\top_{j,t}\P_{j,t}\right\|_2 \leq \left\|\left(\P^\top_{j,t}\P_{j,t}\right)^{-1}\P^\top_{j,t}\P_{j,t}\right\|_2 = 1$, we have:
+  \[
+    \begin{aligned}
+      \mathbb{E}\left\|\hat{\beta}^{lse}_{j, t} - \beta_{j, t}\right\|^2_2 
+      &\leq \frac{\sigma^2_j|\PA_j|}{\left\|\P^\top_{j,t}\P_{j,t}\right\|_2}\\
+      &\leq \frac{\sigma^2_j|\PA_j|^2}{\sum_{i=1}^{|\PA_j|}\gamma_i} \left(\text{$\gamma_i$s are eigenvalues of }    \left\|\P^\top_{j,t}\P_{j,t}\right\|_2\right)\\
+      &= \frac{\sigma^2_j|\PA_j|^2}{\operatorname*{tr}\left(\P^\top_{j,t}\P_{j,t}\right)}
+      = \frac{\sigma^2_j|\PA_j|^2}{\sum_{i=1}^{|\PA_j|}\sum_{k=1}^{n}p_{ik}^2 }\leq \frac{\sigma^2_j|\PA_j|^2}{n \min_k \sum_{i=1}^{|\PA_j|}p_{ik}^2 }
+    \end{aligned}
+  \]
+  So for $\forall \psi > 0$, $\exists n = \sigma^2_j|\PA_j|^2\left(\psi \min_k \sum_{i=1}^{|\PA_j|}p_{ik}^2 \right)^{-1}$ that holds $\mathbb{E}\left\|\hat{\beta}^{lse}_{j, t} - \beta_{j, t}\right\|^2_2 \leq \psi$. 
+\end{proof}
+
+
+
+
+
+
+
+
+\begin{lemma}[Positive-definite Property]
+  \label{lemma:basis}
+  Consider a set of $m$-dimensional vectors $\left\{\v_i\right\}_{i=1}^n$, $n\geq m$. 
+  If it contains at least one set of basis vectors in space $\mathbb{R}^{m}$, then the following matrix is positive-definite:
+  \[
+   \M =\sum_{i=1}^n  \v_i\v_i^\top
+  \]
+\end{lemma}
+\begin{proof}
+Let $\left\{\u_k\right\}_{k=1}^m \subseteq \left\{\v_i\right\}_{i=1}^n$ denote a set of basis vectors, and let $\x\in\mathbb{R}^{m}$ denote an arbitrary $m$-dimensional points in the same space as $\v_i$s. Then it can be derived that:
+\[
+  \begin{aligned}
+    \x^\top \M\x 
+    &= \sum_{i=1}^n  \left(\x^\top\v_i\right)^2\\
+    &\geq \sum_{k=1}^m  \left(\x^\top\u_k\right)^2 > 0,
+  \end{aligned}
+\]
+because there at least exists one basis vector $\u_h$ that holds $\x^\top\u_h\neq 0$. So $\M$ is positive-definite (thus $\M$ is full-rank).
+\end{proof}
+
+
+\begin{theorem*}
+  Denote the true parameter of $\beta_j$ in time $t$ as $\beta_{j, t}$ ($j\in[|\V|]$) and choose $\eta_j\in(0, 1/2L_j]$ as the step size used in Algorithm \ref{alg:ogd}, 
+  it can be bounded in $G$ that:
+  \begin{equation*}
+    \begin{aligned}
+      &\mathbb{E}\left\|\hat{\beta}_{j, t} - \beta_{j, t}\right\|^2 \lesssim (1-\mu_j \eta_j)^{\frac{t}{m}} \left\|\hat{\beta}_{j, 0} - \beta_{j, 0}\right\|^2 + \delta_j\quad
+      \text{with}\quad \delta_j = \left(\frac{m\Delta_j }{\mu_j \eta_j}\right)^2 + \frac{\eta_j\sigma^2}{\mu_j},
+    \end{aligned}
+  \end{equation*}
+  where $\mu_j$ and $L_j$ are the minimal and maximal eigenvalues of $\{\ell_{j, t}(\cdot)\}_{t=1}^T$'s Hessian matrices respectively,
+  $\sigma^2$ upper-bounds the variance of $\hat{g}_{j, t}$ used in Algorithm \ref{alg:ogd}, 
+  $\Delta_j \geq \max_t \|\beta_{j,t+1} - \beta_{j, t}\|$ upper-bounds the varying speed of the environment, 
+  and $m$ is the longest continuously altered rounds of $V_j$, for most of the $V_j$s, $m = 1$.
+\end{theorem*}
+
+\begin{proof}
+For \Eq~(\ref{eq:mse_loss}), the Hessain matrix of $\ell_{j,t}(\cdot)$ can be derived that:
+\[
+  \H_{j, t} = \reflectbox{$\nabla$}^2\ell_{j,t} = \frac{1}{n}\sum_{k=1}^{n} \PA^k_{j, t} {\PA^k_{j, t}}^\top
+\]
+Since $n\gg \left|\PA_{j}\right|$ and $\PA^k_{j, t}$s are $n$ discrete samples from a continuous distribution, so $\left\{\PA^k_{j, t}\right\}_{k=1}^{n}$ contains a set of basis vectors in space $\mathbb{R}^{\left|\PA_{j}\right|}$ with probability 1. By Lemma~\ref{lemma:basis}, $\left\{\H_{j, t}\right\}_{t=1}^T$ are positive-definite. 
+
+Let $\mu_j$ denote $\min_t \lambda\left(\H_{j, t}\right)$ and $L_j$ denote $\max_t \lambda\left(\H_{j, t}\right)$ respectively, then $\{\ell_{j, t}(\cdot)\}_{t=1}^T$ are all $L_j$-smooth and $\mu_j$-strongly convex. By Lemma~\ref{lemma:opt-bound} and consider alterations on $V_j$, estimations $\left\{\hat{\beta}_{j, t}\right\}_{t=1}^T$ obtained from Algorithm~\ref{alg:ogd} hold that:
+\[
+  \begin{aligned}
+  \mathbb{E}\left\|\hat{\beta}_{j, t}-\beta^\star_{j, t}\right\|^2 
+  &\lesssim (1-\mu_j \eta_j)^{t/m}\left\|\hat{\beta}_{j, 0}-\beta^\star_{j, 0}\right\|^2+\left(\frac{m\hat{\Delta}_j}{\mu_j \eta_j}\right)^2+\frac{\eta_j \sigma^2}{\mu_j};
+  \end{aligned}
+\]
+where $\sigma^2$ upper-bounds the variance of $\hat{g}_{j, t}$ used in Algorithm \ref{alg:ogd}, $\hat{\Delta}_j \geq \max_t \|\beta^\star_{j,t+1} - \beta^\star_{j, t}\|$ upper-bounds the varying speed of the minimizer of $\ell_{j,t}$, and $m$ is the longest continuously altered rounds of $V_j$, for most of the $V_j$s, $m = 1$. 
+This holds because $m\hat{\Delta}_j\geq m\max_t \|\beta^\star_{j,t+1} - \beta^\star_{j, t}\|\geq\max_t\sum_{k=1}^{m} \|\beta^\star_{j,t+k} - \beta^\star_{j, t+k-1}\|\geq\max_t \|\beta^\star_{j,t+m} - \beta^\star_{j, t}\|$. 
+Note that if $V_j$ is continuously altered $\leq m$ rounds, it can be viewed as its corresponding parameters are updated per $m$ rounds.
+
+Besides, since $\hat{\beta}^{lse}_{j, t}\triangleq\beta^\star_{j,t+1}$ in such case, let $\Delta_j \geq \max_t \|\beta^\star_{j,t+1} - \beta^\star_{j, t}\|$, by Lemma~\ref{lemma:lse_convergence}, it holds that $\hat{\Delta}_j\lesssim\Delta_j$, $\left\|\hat{\beta}_{j, 0}-\beta^\star_{j, 0}\right\|^2\lesssim\left\|\hat{\beta}_{j, 0}-\beta_{j, 0}\right\|^2$,  $\mathbb{E}\left\|\beta^\star_{j, t}-\beta_{j, t}\right\|^2\leq \psi$; and we have:
+\[
+  \begin{aligned}
+    \mathbb{E}\left\|\hat{\beta}_{j, t} - \beta_{j, t}\right\|^2
+    &\lesssim \mathbb{E}\left\|\hat{\beta}_{j, t} - \beta^\star_{j, t}\right\|^2 + \mathbb{E}\left\|\beta^\star_{j, t}-\beta_{j, t}\right\|^2\\
+    &\lesssim (1-\mu_j \eta_j)^{t/m}\left\|\hat{\beta}_{j, 0}-\beta_{j, 0}\right\|^2+\left(\frac{m\Delta_j}{\mu_j \eta_j}\right)^2+\frac{\eta_j \sigma^2}{\mu_j}
+    \end{aligned}
+\]
+\end{proof}
+
+
+
+ 
+
+\subsection{Proof of Proposition \ref{prop:online_ensemble}}
+\label{prof:hedge}
+\begin{lemma}[\citeauthor{hoeffding1994probability}, \citeyear{hoeffding1994probability}]
+  \label{lemma:hoeffding}
+  Let $X$ be a random variable with $a \leq X \leq b$. Then, for any $s \in \mathbb{R}$,
+\[
+\ln \mathrm{E}\left[e^{s X}\right] \leq s \mathrm{E}[X]+\frac{s^2(b-a)^2}{8} .
+\]
+\end{lemma}
+
+\begin{proposition34}
+  Assume $\{\ell_{j, t}(\cdot)\}_{t=1}^T$s are bounded for $\forall \beta_i\in\sB$ and $t\in [T]$;
+  then for any $\eta \in \sH_j$, estimations $\hat{\beta}_{j, t}$s from Algorithm~\ref{alg:online_ensemble} satisfies that
+  \vskip -0.15in
+  \begin{equation*}
+    \sum_{t=1}^T \hat{\ell}_t\left(\hat{\beta}_{j, t}\right)-\sum_{t=1}^T \hat{\ell}_t\left(\beta^\eta_{j, t}\right) \leq \mathcal{O}\left(\sqrt{T\ln N_j}\right);
+  \end{equation*}
+  \vskip -0.1in
+  by choosing $\alpha=\sqrt{\ln N_j/T}$ in Algorithm~\ref{alg:online_ensemble}, where $N_j$ is the number of base-learners, $\beta^\eta_{j, t}$ is the estimation from any expert $\eta$ in expert set $\sH_j$ in Algorithm~\ref{alg:online_ensemble}.
+\end{proposition34}
+
+\begin{proof}
+Following previous studies~\citep{cesa2006prediction} (Theorem 2.2 and Exercise 2.5), we define: 
+
+\[
+  L_t^\eta=\sum_{i=1}^t \hat{\ell}_{j, i} \left(\beta^\eta_{j, i} \right), \text { and } W_t=\sum_{\eta \in \mathcal{H}_j} w_1^\eta e^{-\alpha L_t^\eta}.
+\]
+
+From the updating rule in Algorithm~\ref{alg:online_ensemble}, it is easy to verify that: 
+
+\begin{equation}
+  \label{eq:w}
+  w_t^\eta=\frac{w_1^\eta e^{-\alpha L_{t-1}^\eta}}{\sum_{\mu \in \mathcal{H}} w_1^\mu e^{-\alpha L_{t-1}^\mu}},\  t \geq 2 .
+\end{equation}
+
+First, it can be derived that: 
+\begin{equation}
+  \label{eq:lower}
+\ln W_T=\ln \left(\sum_{\eta \in \mathcal{H}_j} w_1^\eta e^{-\alpha L_T^\eta}\right) \geq \ln \left(\max _{\eta \in \mathcal{H}_j} w_1^\eta e^{-\alpha L_T^\eta}\right)=-\alpha \min _{\eta \in \mathcal{H}_j}\left(L_T^\eta+\frac{1}{\alpha} \ln \frac{1}{w_1^\eta}\right) .
+\end{equation}
+
+Next, the related quantity $\ln \left(W_t / W_{t-1}\right)$ can be bounded as follows when $t \geq 2$: 
+\[
+\begin{aligned}
+\ln \left(\frac{W_t}{W_{t-1}}\right) 
+= & \ln \left(\frac{\sum_{\eta \in \mathcal{H}} w_1^\eta e^{-\alpha L_t^\eta}}{\sum_{\mu \in \mathcal{H}_j} w_1^\mu e^{-\alpha L_{t-1}^\mu}}\right) \\
+= & \ln \left(\sum_{\eta \in \mathcal{H}_j}\left(\frac{ w_1^\eta e^{-\alpha L_{t-1}^\eta }}{\sum_{\mu \in \mathcal{H}_j} w_1^\mu e^{-\alpha L_{t-1}^\mu}}e^{-\alpha \hat{\ell}_{j, t} \left(\beta_{j, t}^\eta\right)}\right)\right)  \\
+\stackrel{(\ref{eq:w})}{=} &  \ln \left(\sum_{\eta \in \mathcal{H}_j} w_t^\eta e^{-\alpha \hat{\ell}_{j, t} \left(\beta_{j, t}^\eta\right)}\right) .
+\end{aligned}
+\]
+
+When $t=1$, it holds that $\ln W_1=\ln \left(\sum_{\eta \in \mathcal{H}} w_1^\eta e^{-\alpha \hat{\ell}_{j, 1} \left(\beta_{j, 1}^\eta\right)}\right)$, thus it can be derived that: 
+\begin{equation}
+  \label{eq:upper}
+\begin{aligned}
+  \ln W_T=\ln W_1+\sum_{t=2}^T \ln \left(\frac{W_t}{W_{t-1}}\right) 
+  & = \sum_{t=1}^T \ln \left(\sum_{\eta \in \mathcal{H}_j} w_t^\eta e^{-\alpha \hat{\ell}_{j, t} \left(\beta_{j, t}^\eta\right)}\right) \\
+  & \leq-\alpha \sum_{\eta \in \mathcal{H}_j} w_t^\eta \hat{\ell}_{j, t} \left(\beta_{j, t}^\eta\right) + \frac{\alpha^2 c^2}{8} \quad \text{($c$ is a constant as $\hat{\ell}_{j, t}(\cdot)$ is bounded)}\\
+  & \leq-\alpha \hat{\ell}_{j, t}\left(\sum_{\eta \in \mathcal{H}_j} w_t^\eta \beta_{j, t}^\eta\right)+\frac{\alpha^2 c^2}{8}
+  =-\alpha \hat{\ell}_{j, t}\left(\hat{\beta}_{j, t}\right)+\frac{\alpha^2 c^2}{8}, 
+\end{aligned}
+\end{equation}
+
+where the inequality in the second line is due to Lemma~\ref{lemma:hoeffding}, and the inequality in the second line is due to Jensen's inequality. 
+By combining \Eq~(\ref{eq:lower}) and \Eq~(\ref{eq:upper}), it can be derived that: 
+\[
+  \sum_{t=1}^T \hat{\ell}_{j, t}\left(\hat{\beta}_{j, t}\right)-\min _{\eta \in \mathcal{H}_j}\left(\sum_{t=1}^T \hat{\ell}_{j, t}\left(\beta^\eta_{j, t}\right)+\frac{1}{\alpha} \ln \frac{1}{w_1^\eta}\right) \leq \frac{\alpha T c^2}{8}
+\]
+
+Since we choose $w_1^\eta = \frac{1}{N_j}$ in Algorithm~\ref{alg:online_ensemble}, thus for $\eta\in \sH_j$, by choosing $\alpha=\sqrt{\ln N_j/T}$, it holds that: 
+\[
+  \sum_{t=1}^T \hat{\ell}_{j, t}\left(\hat{\beta}_{j, t}\right)- \sum_{t=1}^T \hat{\ell}_{j, t}\left(\beta^\eta_{j, t}\right) \lesssim \alpha T + \frac{1}{\alpha} \ln N_j = \mathcal{O}\left(\sqrt{T\ln N_j}\right)
+\]
+
+
+\end{proof}
+
+
+
+\subsection{Proof for Theorem \ref{prop:auf_y_hat}}
+\label{app:constraint_construction}
+
+\begin{proposition35}
+  By using the suggested alterations from \Eq~(\ref{eq:QCQP}),
+  it can be guaranteed that: 
+  \vskip -0.15in
+  \[
+    \mathbb{P}\left(\Y_t\in\sS \mid \hat{\bm{\theta}}_t, \x_t, Rh(\xi_t)\right) \geq \tau. 
+  \]
+\end{proposition35}
+
+\begin{proof}
+Recall that \Eq~(\ref{eq:QCQP}) suggests alterations as follows:
+\vskip -0.15in
+\begin{equation*}
+  \begin{aligned}
+    \mathop{\min}_{\z^{\xi_t}_t}&\quad \left(\z^{\xi_t}_t - \z^0_t\right)^\top \W \left(\z^{\xi_t}_t - \z^0_t\right)\\
+    \text{s.t.}&\quad \M\A\x_t + \M\B\z^{\xi_t}_t + \left\|\M\P\right\|_{2,\text{row}} \leq \d, 
+  \end{aligned}
+\end{equation*}
+\vskip -0.15in
+
+where $\P = \left(\chi^{-1}(\tau)\C\bm{\Sigma}\C^\top\right)^\frac{1}{2}$, and $\left\|\ \cdot\ \right\|_{2,\text{row}}$ means an operator that takes 2-norm for each row of the matrix thus outputs a row-dimensional vector. We omit the subscript $2$ of the norm in the following discussions. 
+
+Let $\bm{\gamma}_i$ denote the $i$-th row-vector of matrix $\M\P$ and $r$ denote the row-dimension of $\M\P$, then it can be derived that: 
+\[
+\begin{aligned}
+  \d&\geq\M\A\x_t + \M\B\z^{\xi_t}_t + \left\|\M\P\right\|_{2,\text{row}} \\
+  &= \M\A\x_t + \M\B\z^{\xi_t}_t + \begin{pmatrix}
+    1 \cdot\left\|\bm{\gamma}_1\right\|, & \cdots, & 1 \cdot\left\|\bm{\gamma}_r\right\|
+  \end{pmatrix}^\top
+  \\
+  &\geq \M\A\x_t + \M\B\z^{\xi_t}_t +   \begin{pmatrix}
+    \mathop{\sup}\limits_{\|\u\| \leq 1}  \left\|\bm{\gamma}_1\right\|\left\|\u\right\| \cos\langle\bm{\gamma}_1, \u\rangle , & \cdots, &  \mathop{\sup}\limits_{\|\u\| \leq 1}\left\|\bm{\gamma}_r\right\|\left\|\u\right\|\cos\langle\bm{\gamma}_r, \u\rangle
+  \end{pmatrix}^\top
+  \\
+  &= \M\A\x_t + \M\B\z^{\xi_t}_t +   \begin{pmatrix}
+    \mathop{\sup}\limits_{\|\u\| \leq 1}  \langle\bm{\gamma}_1, \u\rangle , & \cdots, & \mathop{\sup}\limits_{\|\u\| \leq 1} \langle\bm{\gamma}_r, \u\rangle
+  \end{pmatrix}^\top
+  \\
+  &= \mathop{\sup}\limits_{\|\u\| \leq 1} \M\A\x_t + \M\B\z^{\xi_t}_t + \M\P\u\\
+  &= \mathop{\sup}\limits_{\|\u\| \leq 1} \M\left(\bm{\mu}_{\y_t} + \left(\chi^{-1}(\tau)\C\bm{\Sigma}\C^\top\right)^\frac{1}{2}\u\right)\\
+\end{aligned}
+\]
+
+where $\bm{\mu}_{\y_t} = \A\x_t + \B\z^{\xi_t}_t$. Recall from \prop~\ref{prop:prob_region} that $\sP = \left\{\bm{\mu}_{\y_t} + \left(\chi^{-1}(\tau)\C\bm{\Sigma}\C^\top\right)^\frac{1}{2}\u\right\}$ is the probability region that satisfies $\mathbb{P}\left(\Y_t\in\sS \mid \hat{\bm{\theta}}_t, \x_t, Rh(\xi_t)\right) = \tau$ (since $\A,\B,\C$ are generated from $\hat{\bm{\theta}}_t$ rather than $\bm{\theta}_t$ in this case). 
+Thus, \prop~\ref{prop:prob_region} has been proved because (a) it has been derived that for $\forall \y_t\in\sP$ it holds that $\d\geq \M\y_t$; and 
+(b) the desired region $\sS$ defined in \Eq~(\ref{eq:linear_case}) is $\mathcal{S}=\left\{\mathbf{y} \in \mathbb{R}^{|\mathbf{Y}|} \mid \mathbf{M y} \leq \mathbf{d}\right\}$. 
+\end{proof}
+
+
+
+\section{Experimental details}
+The experiments are done by using macOS Monterey, Apple M1 Pro. All algorithms are running under the same environment. 
+\label{app:exp}
+
+\subsection{Comparison experiment in the setting of \citet{qint2023srm}}
+\label{app:compara}
+  We provide a comparison experiment in the setting of \citet{qint2023srm}, where $G\sim \mathbb{P}(G)$ and $\mathbb{P}(G)$ are unknown. Results on Bermuda data provided in the following table show that our approach exhibits a comparable performance with the result under the scenario where $G_t=G$. 
+  \begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    & Success Frequency & Cost & Time (s) \\
+    \hline
+    $G_t=G$ & $0.711\pm0.018$ & $1.46\pm0.05$ & $1.71\pm0.34$ \\
+    \hline
+    $G_t\sim \mathbb{P}_G$ & $0.698\pm0.021$ & $1.43\pm0.07$ & $1.99\pm0.46$ \\
+    \hline
+    \end{tabular}
+  \end{table}
+
+
+
+\subsection{Market-Manage Data}
+In this section, we provide details about the Market-Manage data. 
+The variables included in the generation process are: 
+
+
+\begin{itemize}
+  \item Feature$_{\text{our}}$: The feature used to predict the raw cost of our market; 
+  \item Feature$_{\text{cpt}}$: The feature used to predict the raw cost of the competitor market; 
+  \item C$_{\text{our}}$: The raw cost of our market; 
+  \item C$_{\text{cpt}}$: The raw cost of the competitor market; 
+  \item P$_{\text{our}}$: The product price of our market; 
+  \item P$_{\text{cpt}}$: The product price of the competitor market; 
+  \item NCT: Customer numbers of our market; 
+  \item TPF: Total profit of our market.
+\end{itemize}
+% \vskip -0.1in
+
+The rehearsal graph for the variables is illustrated in \Fig~\ref{fig:market}. 
+The presumed actionable variables that can be altered by the manager are C$_{\text{our}}$ and P$_{\text{our}}$. 
+The hyperparameters associated with the cost function are set as $\text{Z}^0_{\text{C}_\text{our}} = 0.75$, $w_{\text{C}_\text{our}} = 2.0$; 
+and $\text{Z}^0_{\text{P}_\text{our}} = 0.0$, $w_{\text{P}_\text{our}} = 1.0$. 
+The desired region $\sS$ is shown in \Fig~\ref{fig:market_S}. 
+We shade dynamic edges with red color. 
+
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=0.8\linewidth]{./figures/Graph_market.pdf}
+  \caption{The rehearsal graph for market-manage data.}
+  \label{fig:market}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+    \subfigure[$\Y$ in nature and region $\sS$ for Market data]{\includegraphics[width=0.43\linewidth]{./figures/Y_Manage.pdf}
+    \label{fig:market_S}}
+    \hskip 0.5in
+    \subfigure[$\Y$ in nature and region $\sS$ for Bermuda data]{\includegraphics[width=0.43\linewidth]{./figures/Y_Bermuda.pdf}
+    \label{fig:bermuda_S}}
+    \vskip -0.1in
+  \caption{The desired regions $\sS$s of two datasets.}
+  \label{fig:desired_regions}
+\end{figure}
+
+\subsection{Bermuda Data}
+In this section, we provide details about the Bermuda data. 
+The Bermuda data is an environment dataset that involves some environmental variables in Bermuda~\citep{courtney2017environmental}.
+The variables included in the generation process are: 
+\begin{itemize}
+  \item Light: Light levels at the bottom; 
+  \item Temp: Temperature at the bottom; 
+  \item Sal: Sea surface salinity; 
+  \item DIC: Dissolved inorganic carbon of seawater; 
+  \item TA: Total alkalinity of seawater; 
+  \item $\Omega_A$: Saturation with respect to aragonite in seawater; 
+  \item Chla: Chlorophyll-a at sea surface; 
+  \item Nut: PC1 of NH$_4$, NiO$_2$ + NiO$_3$, SiO$_4$;
+  \item pHsw: pH of seawater; 
+  \item CO$_2$: P$_{\text{CO}_2}$ of seawater; 
+  \item NEC: Net ecosystem calcification.
+\end{itemize}
+
+The rehearsal graph for the variables is illustrated in \Fig~\ref{fig:bermuda}. 
+The presumed actionable variables that can be altered by the decision-maker are DIC, TA, $\Omega_A$, Chla, and Nut according to~\citet{aglietti2020causal, qint2023srm}. 
+The hyperparameters associated with the cost function are set as 
+$\text{Z}^0_{\text{DIC}} = \text{Z}^0_{\text{TA}} = \text{Z}^0_{\Omega_A} = \text{Z}^0_{\text{Chla}} = \text{Z}^0_{\text{Nut}} = 0.0$; 
+and $w_{\text{DIC}} = 10.0$, $w_{\text{TA}} = 8.0$, $w_{\Omega_A} = 3.0$, $w_{\text{Chla}} = 5.0$, $w_{\text{Nut}} = 10.0$. 
+The desired region $\sS$ is shown in \Fig~\ref{fig:bermuda_S}. 
+We shade dynamic edges with red color. 
+
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=0.8\linewidth]{./figures/Graph_bermuda.pdf}
+    \caption{The rehearsal graph for Bermuda data.}
+    \label{fig:bermuda}
+\end{figure}
+
+\end{document}

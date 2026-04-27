@@ -1,0 +1,1823 @@
+%%%%%%%% ICML 2025 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{subfigure}
+\usepackage{caption}
+\usepackage{paralist}
+\usepackage{booktabs}
+\usepackage{multirow} 
+\usepackage{makecell}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{enumitem,kantlipsum}
+
+
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+\usepackage[accepted]{icml2025}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{siunitx}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{theorem35}{Theorem 3.6}
+\newtheorem*{theorem41}{Theorem 4.1}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem*{proposition39}{Proposition 3.10}
+\newtheorem*{proposition310}{Proposition 3.11}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{remark}[theorem]{Remark}
+\usepackage[textsize=tiny]{todonotes}
+\hypersetup{
+    colorlinks=true,
+    citecolor=blue!60!black, % 深蓝色
+    linkcolor=blue  % 深蓝色
+}
+\def \x {\mathbf{x}}
+\def \X {\mathbf{X}}
+\def \I {\mathbf{I}}
+\def \H {\mathbf{H}}
+\def \M {\mathbf{M}}
+\def \A {\mathbf{A}}
+\def \K {\mathbf{K}}
+\def \W {\mathbf{W}}
+\def \J {\mathbf{J}}
+\def \L {\mathbf{L}}
+\def \La {\bm{\Lambda}}
+\def \e {\mathbf{e}}
+\def \o {\mathbf{o}}
+\def \p {\mathbf{p}}
+\def \v {\mathbf{v}}
+\def \V {\mathbf{V}}
+\def \y {\mathbf{y}}
+\def \Y{\mathbf{Y}}
+\def \w {\bm{\omega}}
+\def \eg {\textit{e.g.}}
+\def \wrt {\textit{w.r.t.}$\ $}
+\def \ie {\textit{i.e.}}
+\def \Def {Def.}
+\def \Fig {Fig.}
+\def \Eq {Eq.}
+\def \Sec {Sec.}
+\def \prop {Prop.}
+\def \thm {Thm.}
+\def \Ass {Ass.}
+\def \Reg {\operatorname{\textbf{Reg}}}
+\def \exp {\operatorname{exp}}
+\def \Cov {\operatorname{Cov}}
+\def \prox {prox}
+\def \x {\mathbf{x}}
+\def \sC {\mathcal{C}}
+\def \sP {\mathcal{P}}
+\def \sB {\mathcal{B}}
+\def \sH {\mathcal{H}}
+\def \sI {\mathcal{I}}
+\def \Z {\mathbf{Z}}
+\def \E {\mathbf{E}}
+\def \V {\mathbf{V}}
+\def \c {\mathbf{c}}
+\def \s {\mathbf{s}}
+\def \sS {\mathcal{S}}
+\def \X {\mathbf{X}}
+\def \Q {\mathbf{Q}}
+\def \P {\mathbf{P}}
+\def \h {\mathbf{h}}
+\def \Y {\mathbf{Y}}
+\def \g {\mathbf{g}}
+\def \I {\mathbf{I}}
+\def \L {\mathbf{L}}
+\def \k {\mathbf{k}}
+\def \M {\mathbf{M}}
+\def \H {\mathbf{H}}
+\def \A {\mathbf{A}}
+\def \PA {\mathbf{\operatorname{PA}}}
+\def \V {\mathbf{V}}
+\def \B {\mathbf{B}}
+\def \P {\mathbf{P}}
+\def \C {\mathbf{C}}
+\def \e {\mathbf{e}}
+\def \W {\mathbf{W}}
+\def \v {\mathbf{v}}
+\def \y {\mathbf{y}}
+\def \g {\mathbf{g}}
+\def \H {\mathbf{H}}
+\def \G {\mathbf{G}}
+\def \D {\mathbf{D}}
+\def \f {\mathbf{f}}
+\def \z {\mathbf{z}}
+\def \a {\mathbf{a}}
+\def \b {b}
+\def \w {\mathbf{w}}
+\def \d {\mathbf{d}}
+\def \m {\mathbf{m}}
+\def \u {\mathbf{u}}
+\def \ma {\mathbf{m_A}}
+\def \mb {\mathbf{mb}}
+\def \mc {\mathbf{mc}}
+\def \w {\bm{\omega}}
+\def \det {\text{det}}
+\def \prox {\text{prox}}
+
+\icmltitlerunning{Enabling Optimal Decisions in Rehearsal Learning under CARE Condition}
+
+\begin{document}
+
+\twocolumn[
+\icmltitle{Enabling Optimal Decisions in Rehearsal Learning under CARE Condition}
+
+\icmlsetsymbol{equal}{*}
+
+\begin{icmlauthorlist}
+\icmlauthor{Wen-Bo Du}{yyy,sch}
+\icmlauthor{Hao-Yi Lei}{yyy,sch}
+\icmlauthor{Lue Tao}{yyy,sch}
+\icmlauthor{Tian-Zuo Wang}{yyy,sch}
+\icmlauthor{Zhi-Hua Zhou}{yyy,sch}
+\end{icmlauthorlist}
+
+\icmlaffiliation{yyy}{National Key Laboratory for Novel Software Technology, Nanjing University, China}
+\icmlaffiliation{sch}{School of Artificial Intelligence, Nanjing University, China}
+
+\icmlcorrespondingauthor{Zhi-Hua Zhou}{zhouzh@lamda.nju.edu.cn}
+
+\icmlkeywords{Machine Learning, ICML}
+
+\vskip 0.3in
+]
+
+
+\printAffiliationsAndNotice{} 
+
+
+\begin{abstract}
+    In the field of machine learning (ML), an essential type of decision-related problem is known as AUF (Avoiding Undesired Future): if an ML model predicts an undesired outcome, how can decisions be made to prevent it? Recently, a novel framework called \emph{rehearsal learning} has been proposed to address the AUF problem. Despite its utility in modeling uncertainty for decision-making, it remains unclear \textit{under what conditions} and \textit{how} optimal actions that maximize the \emph{AUF probability} can be identified.  
+    In this paper, we propose \emph{CARE} (CAnonical REctangle), a condition under which the maximum AUF probability can be achieved. 
+    Under the CARE condition, we present a projection-Newton algorithm to select actions and prove that the algorithm achieves superlinear convergence to the optimal one. 
+    Besides, we provide a generalization method for adopting the algorithm to AUF scenarios beyond the CARE condition. 
+    Finally, we demonstrate that a closed-form solution exists when the outcome is a singleton variable, substantially reducing the time complexity of decision-making. 
+    Experiments validate the effectiveness and efficiency of our method.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+Machine Learning (ML) models have achieved great success in various real-world prediction tasks~\citep{lecun2015deep}. 
+Instead of solely focusing on the prediction, \citet*{zhouzh2022rehearsal} emphasizes another important issue, \ie, if the prediction of an ML model is undesired, how to find effective actions to prevent it from happening. 
+This problem is known as the \emph{AUF (avoiding undesired future)} problem~\citep{zhouzh2022rehearsal}.
+%
+Consider an autonomous drone delivery system scenario as an example. Imagine that the system has trained an ML model that takes real-time environmental data (denoted as $\X$) as input and predicts the risk of package loss (denoted as $\Y$). For a particular delivery, if the prediction indicates a high risk of loss, the system will consider altering values of some intermediate control variables (denoted as $\Z$), such as altitude, speed, or route, to mitigate the risk. Since experimenting with real deliveries to explore better actions is costly and potentially results in lost packages, different alterations on $\Z$ must be carefully considered. Let $\sS$ denote the desired region of $\Y$ where the risk of package loss is sufficiently low; the AUF problem can be interpreted as finding the optimal alteration $\z^{\xi}$ that maximizes the probability of $\Y\in\sS$, which is called the \emph{AUF probability} ($\mathbb
+{P}_{\operatorname*{AUF}}$).
+
+
+
+\begin{figure}[t]
+  \begin{center}
+  \includegraphics[width=0.75\linewidth]{./figures/influence.pdf}
+  \vskip -0.05in
+  \caption{Relations between correlation, influence, and causation (reproduced from~\citet{zhouzh2022rehearsal}).}
+  \captionsetup{belowskip=-1em, aboveskip=-1em}
+  \label{fig:influence}
+  \end{center}
+  \vskip -0.2in
+\end{figure}
+
+
+Generally, decision-makers lack access to an explicit formula for $\mathbb{P}_{\operatorname*{AUF}}$ \wrt alterations, which complicates the selection of effective alterations. To model $\mathbb{P}_{\operatorname*{AUF}}$, we need to understand the relations among variables $\{\X, \Z, \Y\}$. 
+While correlation is often sufficient for prediction in ML models, effective decision-making demands a more nuanced understanding of variable relations.
+In certain decision-making contexts, causal relations are helpful to model these relations~\citep{bareinboim2015bandits, latt2016causalbandit}. 
+In practice, identifying causal relations is essentially challenging, as it typically relies on untestable assumptions~\citep{spirtes2000causation, scholkopf2021toward}. However, a complete causal understanding is not a prerequisite for effective decision-making, as evidenced by human decision-makers who could successfully make decisions without such comprehensive knowledge~\citep{zhouzh2022rehearsal}. Furthermore, even when causal factors are identified, they may not be actionable for decision-making purposes. Additionally, variables that influence outcomes are not necessarily causal factors.
+Recognizing that \emph{correlation} is insufficient and \emph{causation} is somewhat luxurious for decision-making, \citet{zhouzh2023influence} propose the \emph{influence relation} as an intermediate concept between correlation and causation, as depicted in Fig.~\ref{fig:influence}.
+
+Building on this, \citet{qint2023srm} develop the \emph{rehearsal learning} framework to learn influence relations and provide a corresponding decision-making algorithm based on the relations, and \citet{du2024micns} consider the decision cost and enhance the computational efficiency. 
+While the learned relations aid in selecting effective alterations, directly optimizing $\mathbb{P}_{\operatorname*{AUF}}$ remains challenging due to the lack of an analyzable functional form in most scenarios. 
+Consequently, existing rehearsal learning methods typically identify plausible alterations by ensuring $\mathbb{P}_{\operatorname*{AUF}}$ exceeds a predetermined threshold $\tau$, formulated as $\mathbb{P}_{\operatorname*{AUF}} \geq \tau$.
+
+The existing rehearsal learning approaches suffer from two critical shortcomings.
+First, the threshold-based strategy for maximizing the AUF probability is unsuitable. Let $\operatorname*{C_\tau}$ represent the constraint $\mathbb{P}_{\operatorname*{AUF}}\geq \tau$ and $\mathbb{P}_{\operatorname*{A}}^\star$ denote the maximum achievable AUF probability through alterations. 
+When $\tau > \mathbb{P}_{\operatorname*{A}}^\star$, the feasible domain of $\operatorname*{C_\tau}$ becomes empty, causing existing rehearsal learning approaches fail to find feasible alterations. 
+Conversely, when $\tau < \mathbb{P}_{\operatorname*{A}}^\star$, solutions satisfying $\operatorname*{C_\tau}$ may be suboptimal, as they are not guaranteed to maximize the AUF probability. 
+Second, the computational burden of constructing the feasible region satisfying $\operatorname*{C_\tau}$ is prohibitive, especially for high-dimensional problems.
+Specifically, when constructing the feasible domain of $\operatorname*{C_\tau}$, the time complexity of existing sampling-based approach cannot be bounded by any polynomial function of $p$, and the method in~\citet{du2024micns} exhibits cubic complexity $\mathcal{O}(p^3)$ (where $p$ represents the dimension of $\V$) 
+in cases where $|\Y|=1$, as illustrated in Tab.~\ref{tab:comparison}.
+
+
+\begin{table}[t]
+  \centering
+  \caption{Time-complexity for decision-making, $|\Y|=1$}
+  \label{tab:comparison}
+  \vskip 0.1in
+  \begin{center}
+    \begin{small}
+      \begin{sc}
+  \begin{tabular}{cccc}
+    \toprule
+    Alg. & \citeauthor{qint2023srm}, \citeyear{qint2023srm} & \citeauthor{du2024micns}, \citeyear{du2024micns}  & Ours \\
+    \midrule
+    Time  & $\not\in\mathcal{O}\left(p^k\right), \forall k\in\mathbb{N}$ & $\mathcal{O}\left(p^3\right)$  & $\mathcal{O}\left(p\right)$\\
+    \bottomrule
+  \end{tabular}
+  \end{sc}
+  \end{small}
+  \end{center}
+  \vskip -0.15in
+\end{table}
+
+
+
+To address the aforementioned shortcomings, we propose a novel approach to directly maximize the AUF probability $\mathbb{P}_{\operatorname*{AUF}}$. 
+Specifically, we establish the \emph{CARE} (CAnonical REctangle) condition for the AUF problem, a condition that is practical in real-world tasks. 
+Under the CARE condition, we show that $\mathbb{P}_{\operatorname*{AUF}}$ can be explicitly formulated as a function of the selected alteration $\z^\xi$ given observed variables $\x$ and influence relations parameterized by $\bm{\theta}$, which eliminates the need to construct the feasible domain satisfying $\operatorname*{C_\tau}$ and facilitates direct optimization. 
+Although this function is not inherently concave, we prove that applying a $\log$ transformation ensures concavity, thereby guaranteeing the existence of a global maximum of $\mathbb{P}_{\operatorname*{AUF}}$.
+While the transformed function remains complex, both the gradient vector and Hessian matrix are always computable. 
+Leveraging these properties, we develop a projection-Newton method to select decision alterations for the AUF problem, which is proven to achieve superlinear convergence to the optimal $\z^\xi$ that maximizes $\mathbb{P}_{\operatorname*{AUF}}$. 
+For cases where the CARE condition does not hold, we introduce an inner embedding technique to construct a concave lower bound of $\log\mathbb{P}_{\operatorname*{AUF}}$, which satisfies the CARE condition and can be used as a surrogate for optimization. 
+Last but not least, we demonstrate that the CARE condition always holds when the desired AUF region is an interval and constructively derive a closed-form solution for the optimal $\z^\xi$ when $|\Y| = 1$, significantly reducing the time complexity, as illustrated in Tab.~\ref{tab:comparison}. 
+Finally, experimental results validate the effectiveness and efficiency of our approach on both synthetic and real-world datasets. 
+
+Our contributions can be summarized as follows:
+
+\vspace{-0.15in}
+\begin{enumerate}[leftmargin=12pt, itemsep=-0.04in]
+  \item 
+  We propose the CARE condition for AUF problem, under which the logged AUF probability can be proven to be a concave function \wrt the selected alteration $\z^\xi$.
+  \item 
+  We present a projection-Newton algorithm to select the optimal alteration, and we prove that the algorithm can achieve a superlinear convergence rate.
+  \item 
+  We provide an inner embedding methodology to handle the AUF problem not satisfying the CARE condition. Experiments validate the effectiveness of our methods.
+  \item 
+  We prove the existence of a closed-form solution when $|\Y|=1$, in which case the time complexity can be significantly reduced for addressing the AUF problem.
+\end{enumerate}
+
+\section{Preliminaries and problem setup}
+\label{sec:pre}
+
+A probabilistic graphical model called structural rehearsal model (SRM) is proposed by~\citet{qint2023srm} to characterize influence relations among variables in the AUF problem. 
+Influence relations can capture mutual dependencies between variables while accommodating dynamic environments, making it more suitable for decision-making. 
+The SRM comprises a set of rehearsal graphs and associated parameters $\{\langle G_t, \bm{\theta}_t\rangle\}$. 
+Focusing on the optimal action in specific decision rounds, we consider $G_t \triangleq G$ in this work, which can be straightforwardly generalized to multi-round scenarios. 
+Detailed definition of SRM is listed in Appx.~\ref{app:SRM}.
+
+
+The rehearsal graph $G$ models the qualitative influence relations among variables, which is denoted by $G = (\V, \E)$. 
+Specifically, $\V$ represents the variable set of the AUF problem and $\E$ represents the edges characterizing influence relations among variables. 
+There are two types of edges in $G$, a directional edge $X\rightarrow Y$ means that $X$ influences $Y$, and a bi-directional edge $X\leftrightarrow Y$ means that $X$ and $Y$ are mutually influenced. 
+For example, sunlight unilaterally influences the plant growth, whereas rainfall and river flow are mutually influenced, as changes in either one affects the other. 
+Besides, the corresponding structural equations of variable $V_j$s can be parameterized by $\left\{\bm{\beta}_{j}, \sigma^2_{j}\right\}_{j=1}^{|\V|} \subseteq\bm{\theta}$:
+
+
+
+\vskip -0.03in
+\begin{equation}
+  \label{eq:structural_equations}
+  V_{j} := f_{j}\left(\PA_j^G; \bm{\beta}_{j}\right) + \varepsilon_{j},
+\end{equation}
+
+\newpage
+where $V_{j} \in \V$ denotes the $j$-th vertex of the graph $G$, $\PA_j^G \triangleq \{u \mid u \to V_j \text{ in } G\}$ represents parents of $V_j$, and the additive noise $\varepsilon_{j}$ follows $\mathcal{N}(0, {\sigma_j}^2)$. 
+In this work, we focus on a basic yet essential class of the AUF problem, characterized by linear structural equations $f_{j}$s in \Eq~(\ref{eq:structural_equations}), \ie, $V_{j} := \bm{\beta}_{j}^T \PA_j + \varepsilon_j$, where $\bm{\beta}_j \in \mathbb{R}^{|\PA_j^G| \times 1}$, consistent with prior studies~\citep{qint2023srm, du2024micns}.
+
+
+Besides, the decision-making process centers on identifying appropriate \textit{alterations}, which are decision actions specified by human decision-makers as sets of vertex-value pairs. For instance, as shown in Fig.~\ref{fig:rh_graph} (provided in Appx.~\ref{app:SRM}), $\xi\leftarrow\{Z_1=z_1\}$ in \Fig~\ref{fig:rh_graph_2} demonstrates such an alteration. 
+Meanwhile, the execution of an alteration is formalized through a \textit{rehearsal operation}, denoted as $Rh(\cdot)$, which modifies the original graph structure as shown in \Fig~\ref{fig:rh_graph_2}-\Fig~\ref{fig:rh_graph_4}. 
+The rehearsal operation removes all incoming influence links that point into any vertices contained in $\xi$, and fixes the values in $\xi$ to their associated vertices; while this operation maintains the influence relations among all other vertices in the resulting graph $G^{Rh(\xi)}$.
+
+For the AUF problem, the goal is to find an optimal alteration that can maximize the AUF probability after performing it. As the generation of variables is parameterized by $\bm{\theta}$ in an SRM, and the observation of $\x$ happens before making decisions, the AUF probability is conditional on $\bm{\theta}$, $\x$. Also, in practice, the alteration range is limited for the variables $\z$. Thus, the AUF problem can be formulated as the following constrained optimization problem:
+
+\vspace*{-0.1in}
+\begin{equation}
+  \label{eq:auf_target}
+  \begin{aligned}
+    \mathop{\arg\max}_{\z^\xi}\quad & \mathbb{P}\left(\Y\in\sS \mid \x, \bm{\theta}, Rh(\z^\xi)\right)\\[-0.1in]
+    \operatorname*{s.t.}\quad & \z^\xi_{\operatorname*{left}}\leq \z^\xi\leq \z^\xi_{\operatorname*{right}}.
+  \end{aligned}
+\end{equation}
+
+ The constraint in \Eq~(\ref{eq:auf_target}) uses a compact element-wise notation, where \(\z^\xi_{\operatorname*{left}}\leq \z^\xi\leq \z^\xi_{\operatorname*{right}}\) means that each element of \(\z^\xi\) must satisfy its corresponding lower and upper bounds specified in \(\z^\xi_{\operatorname*{left}}\) and \(\z^\xi_{\operatorname*{right}}\) respectively.
+
+
+
+
+\section{Our approach}
+
+In this section, we propose our approach to identify decision actions that maximize $\mathbb{P}_{\operatorname{AUF}}$. 
+The primary challenge lies in the lack of an analyzable functional form and the potential irregularity of $\mathbb{P}_{\operatorname{AUF}}$, making direct optimization intractable. 
+To address this, we propose a special type of desired region $\sS$, under which we prove  that $\mathbb{P}_{\operatorname{AUF}}$ admits an analyzable functional form and exhibits convexity after applying a negative log transformation, enabling efficient decision optimization. 
+For AUF cases with irregular $\sS$, we present a generalization method to optimize an upper bound of the negative log AUF probability as a surrogate, thereby extending our approach to broader application scenarios.
+
+
+In what follows, we establish the key condition, \ie, the CARE condition, and prove that \(\mathbb{P}_{\operatorname{AUF}}\) under this condition can be explicitly formulated and exhibits convexity \wrt the decision alterations after a negative log transformation. 
+
+
+
+\subsection{CARE condition for AUF problem}
+\label{sec:cr-condition}
+In this subsection, we introduce the CAnonical REctangle (CARE) condition for the desired region $\sS$. 
+The motivation of the condition stems from the observation that the functional form of AUF probability $\mathbb{P}\left(\Y\in\sS \mid \x, \bm{\theta}, Rh(\z^\xi)\right)$ depends on the shape of the desired region $\sS$. 
+We start by defining the convex polytope in Def.~\ref{def:convex-polytope}, a superclass of the canonical rectangle in the CARE condition.
+
+\begin{definition}[\textbf{Convex polytope}]
+  \label{def:convex-polytope}
+  The region $\sP$ is a convex polytope in $\mathbb{R}^d$ iff it could be written as $\sP\left(\M, \d\right) \triangleq \left\{\s\in\mathbb{R}^d:\M\s\leq\d\right\}$ with $\M\in\mathbb{R}^{n\times d}$ and  $\d \in \mathbb{R}^{n\times 1}$.
+\end{definition}
+\vspace*{-0.06in}
+
+In general, a convex polytope expresses a convex region that is formed by the intersection of multiple half-spaces divided by hyperplanes. In this sense, the empty set is contained in the definition and the convex polytope could be an open region. Based on this, we define the canonical rectangle in Def.~\ref{def:canonical-rectangle}, which is a subclass of convex polytope.
+
+\begin{definition}[\textbf{Canonical rectangle}]
+  \label{def:canonical-rectangle}
+  Let $\sP\left(\M, \d\right)$ denote a convex polytope in $\mathbb{R}^d$, $\G\succ 0$ denote a positive definite matrix in $\mathbb{R}^{d\times d}$. 
+  $\sP\left(\M, \d\right)$ is called to be a \emph{canonical rectangle} \wrt matrix $\G$ iff the following holds:
+  \vspace*{-0.06in}
+  \begin{compactenum}
+    \item $\sP\left(\M, \d\right)$ expresses a non-empy closed region;
+     \vspace*{0.03in}
+    \item $\M\in\mathbb{R}^{2d\times d}$ with full rank, $\d\in\mathbb{R}^{2d\times 1}$; and
+    \vspace*{0.03in}
+    \item $\exists$ permutation matrix $\P_\sigma\in \mathbb{R}^{2d\times 2d}$ and diagonal matrix $\bm{\Lambda}\in \mathbb{R}^{2d\times 2d}$ such that $\M=\bm{\Lambda}\P_\sigma\left(\I, -\I\right)^\mathsf{T} \Q$, where $\G=\Q^\mathsf{T} \D \Q$ is the eigen-decomposition of $\G$.
+  \end{compactenum}
+\end{definition}
+
+\begin{remark}
+\label{remark:canonical_rectangle}
+Note that if a convex polytope $\sP\left(\M, \d\right)$ is canonical \wrt $\G\in\mathbb{R}^{d\times d}$, then the polytope $\sP\left(\M, \d\right) = \left\{\s \in \mathbb{R}^d : \M\s \leq \d\right\}$ expresses a (hyper-)rectangle region in $\mathbb{R}^d$. 
+We provide two geometric intuitions of the canonical rectangle. First, edges of the rectangle are parallel to axes of the coordinate system induced by $\Q$, as shown in \Fig~\ref{fig:square1}. Second, surfaces of the rectangle are parallel to axial planes of the ellipse $\s^\mathsf{T}\G\s = 1$, as shown in \Fig~\ref{fig:square2}. Without loss of generality, for $\G=\Q^\mathsf{T} \D \Q$, we assign $\P_\sigma=\I$ \ and $\bm{\Lambda}=\operatorname*{diag}(\D^{-\frac{1}{2}} , \D^{-\frac{1}{2}} )$ (thus $\M=\left(\I, -\I\right)^\mathsf{T} \D^{-\frac{1}{2}} \Q$), since $\d$ can fit $\M$ by permutation and rescaling.  
+\end{remark}
+\vspace*{-0.06in}
+
+\begin{figure}[b]
+  \centering
+  \vskip -0.1in
+  \subfigure[axes induced by $\Q_1$]{\includegraphics[width=0.42\linewidth]{./figures/canonical_square1.pdf}\label{fig:square1}}$\quad$
+  \subfigure[ellipse $\s^\mathsf{T}\G_2\s=1$]{\includegraphics[width=0.46\linewidth]{./figures/canonical_square2.pdf}\label{fig:square2}}
+  \vskip -0.1in
+  \caption{Geometric intuitions of the canonical rectangle}
+  \label{fig:canonical_square}
+\end{figure}
+
+
+
+Recall from \Eq~(\ref{eq:auf_target}) that the goal is to find alterations maximizing the AUF probability. 
+Since optimizing a probabilistic target is generally intractable, we seek conditions under which the AUF probability becomes analyzable. 
+Building on the canonical rectangle, we propose the CARE condition in Def.~\ref{def:care} to achieve this goal. 
+Before that, we present Lemma~\ref{lemma:identi}, which links the target variables $\Y$ to the observation $\x$, the alteration $\z^\xi$, and parameters $\bm{\theta}$.   
+
+
+\begin{lemma}[\citeauthor{qint2023srm}, \citeyear{qint2023srm}]
+  \label{lemma:identi}
+  Given observed $\x$ and parameter set $\bm{\theta}(\triangleq \{\{\bm{\beta}_j\}\text{s}, \bm{\Sigma}\})$ of the SRM, it holds that \(
+\mathbf{Y} = \mathbf{A}\x+\mathbf{B}\z^{\xi}+\mathbf{C}\bm{\varepsilon}\), 
+ where $\mathbf{A},\mathbf{B},\mathbf{C}$ are constant matrices of appropriate shapes based on $\bm{\theta}$, 
+ $\z^\xi$ are intermediate variables with alteration $\xi$, 
+ and $\bm{\varepsilon} = [\varepsilon_{1}, \ldots, \varepsilon_{|\V|}]\sim \mathcal{N}\left(\bm{0}, \bm{\Sigma}\right)$.
+\end{lemma}
+
+
+\begin{definition}[\textbf{CARE condition}]
+  \label{def:care}
+  The AUF problem satisfies the CARE (CAnonical REctangle) condition iff the associated desired region $\sS$ is a canonical rectangle $\sS(\M, \d)$ \wrt matrix $\C\bm{\Sigma}\C^\mathsf{T}$ with $\C, \bm{\Sigma}$ defined in Lemma~\ref{lemma:identi}.
+\end{definition}
+
+This condition is prevalent in real-world scenarios, particularly when the dimensions of $\Y$ are mutually independent. 
+Considering a two-dimensional random variable $\Y=\{Y_1, Y_2\}$ as an example, if $Y_1 \perp\!\!\!\perp Y_2$ after alteration and the desired region $\sS=\{a_1 \leq Y_1 \leq b_1, a_2 \leq Y_2 \leq b_2\}$, then the AUF problem satisfies the CARE condition. 
+Under the CARE condition, the AUF probability can be formulated as an analyzable function, and its negative log form exhibits convexity, as shown in the following \thm~\ref{thm:prob}.
+
+\begin{theorem}
+  \label{thm:prob}
+  Under CARE condition that $\sS\triangleq\sS(\M, \d)$, let $\mathbb{P}_{\operatorname*{A}}$ denote AUF probability $\mathbb{P}(\Y \in \sS \mid \bm{\theta}, \x, Rh(\z^\xi))$, $\k_j^\mathsf{T}$ denote the $j$-th row of matrix $\M\B$, and $b_j$ denote the $j$-th component of vector $\M\A\x-\d$ ($\A, \B$ defined in Lemma~\ref{lemma:identi}). Then the following asserts hold:
+  \begin{compactenum}
+    \item Let $|\Y|=d$, the AUF probability can be expressed as:
+    \vspace{-0.1in}
+    \begin{equation*}
+      \label{eq:prob}
+      \mathbb{P}_{\operatorname*{A}} = \prod_{i=1}^{d}\left\{\Phi\left(-\k_i^\mathsf{T} \z^\xi - b_i\right) - \Phi\left(\k^\mathsf{T}_{i+d} \z^\xi + b_{i+d}\right)\right\}.
+    \end{equation*}
+    \vspace{-0.1in}
+    \item For any bounded alteration $\z^\xi$, $\mathbb{P}_{\operatorname*{A}}>0$ and the function $\ell\left(\z^\xi\right) = -\log\left(\mathbb{P}_{\operatorname*{A}}\right)$ is convex \wrt $\z^\xi$ .
+  \end{compactenum}
+\end{theorem}
+
+Thm.~\ref{thm:prob} provides the functional form of the AUF probability under the CARE condition defined in Def.~\ref{def:care}. 
+As a consequence, Cor.~\ref{corol:convex} reveals that the AUF problem can be transformed into a convex optimization.
+
+\begin{corollary}
+  \label{corol:convex}
+  Let $d$ denote $|\Y|$. Under the CARE condition, the AUF problem defined in \Eq~(\ref{eq:auf_target}) can be equivalently transformed into a convex optimization as follows:
+  \vspace*{-0.05in}
+  \begin{equation}
+    \label{eq:target_opt}
+    \begin{aligned}
+      \mathop{\arg\min}\limits_{\z^\xi}\quad &\sum_{i=1}^{d}-\log\left\{\Delta_i(\z^\xi)\right\}\\
+      \operatorname*{s.t.}\quad & \z_{\operatorname*{left}} \leq \z^\xi \leq \z_{\operatorname*{right}},
+    \end{aligned}
+  \end{equation}
+  where $\Delta_i(\z^\xi) = \Phi\left(-\k_i^\mathsf{T} \z^\xi - b_i\right) - \Phi\left(\k_{i+d}^\mathsf{T} \z^\xi + b_{i+d}\right)$, with $\k_j$ and $b_j$ defined as in Thm.~\ref{thm:prob}.
+\end{corollary}
+
+\subsection{Projection-Newton for addressing the AUF problem}
+\label{sec:algorithm}
+In this subsection, we present a projection-Newton method to solve the AUF problem with theoretical guarantees. 
+The proof of the theoretical result is provided in Appx.~\ref{sec:proj_Newton}.
+
+As illustrated in Cor.~\ref{corol:convex}, the AUF problem can be transformed into a convex optimization under the CARE condition. 
+To solve the AUF problem, there remain two challenges:
+(a) although \thm~\ref{thm:prob} can express the AUF probability by known elements, the functional expression of the associated Gaussian CDF $\Phi(\cdot)$ remains complex; 
+and (b) AUF scenarios exist beyond the CARE condition, in which case the transformation in \Eq~(\ref{eq:target_opt}) does not hold anymore. 
+In what follows, we propose an algorithm to accurately solve the transformed problem in \Eq~(\ref{eq:target_opt}) and provide a generalization method of our algorithm for AUF scenarios that do not satisfy the CARE condition in the following subsection. 
+
+
+The formula of the gradient $\g$ and the Hessian $\H$ of the optimization target $\ell(\z^\xi)=\sum_{i=1}^{|\Y|}-\log\left\{\Delta_i(\z^\xi)\right\}$ is presented by \Eq~(\ref{eq:gradient-hessian}) in Appx.~\ref{sec:proj_Newton}, which are associated with Gaussian CDF $\Phi(\cdot)$ and Gaussian PDF $\phi(\cdot)$. 
+Although the functional expression of $\Phi(\cdot)$ is too complex to analyze, its exact value at any specific point can be accurately approximated. 
+Hence,  gradient $\g$ and Hessian $\H$ are always computable. 
+Meanwhile, because \Eq~(\ref{eq:target_opt}) is a convex optimization, the Newton method~\citep{boyd2004convex} could be considered to address the optimization. 
+However, classical Newton (or Quasi-Newton) methods cannot be directly used, because they are designed for unconstrained optimization~\citep{shanno1970conditioning}, which is not the case of \Eq~(\ref{eq:target_opt}).
+
+Due to this, we adapt the projection Newton method~\citep{bertsekas1982projected} to solve the optimization problem defined in \Eq~(\ref{eq:target_opt}). 
+As outlined in Alg.~\ref{alg:proj_newton}, the iteration begins with the initial point $\z^\xi_{(0)}$. In each iteration $t$, we compute the gradient $\g_{(t)}$, Hessian $\H_{(t)}$, step size $\alpha_{(t)}$, and construct $\D_{(t)}$ as a partial diagonal approximation of $\H^{-1}_{(t)}$. After performing a Newton-like step, the point is projected into the feasible domain $\left[\z_{\operatorname*{left}}, \z_{\operatorname*{right}}\right]$.
+The step size $\alpha_{(t)}$ is determined using an Armijo-like rule~\citep{boyd2004convex}. Detailed definitions of $\operatorname*{DiagApprox}(\cdot)$, $\operatorname*{Armijo}(\cdot)$, and $\operatorname*{Project}{\left[\z_{\operatorname*{left}}, \z_{\operatorname*{right}}\right]}(\cdot)$ are provided in Appx.~\ref{sec:proj_Newton}. For learning the structural model (\(\hat{\bm{\theta}}\)) from observational data, we employ the least square estimation (LSE) for parameters ${\hat{\bm{\beta}}_j}$, and estimating $\hat{\bm{\Sigma}}$ based on residuals.
+Note that the time complexity of the decision-making step, specifically lines 5 to 11, can be bounded by $\mathcal{O}(|\z^\xi|^3\cdot L)$ ($L$ is iteration rounds), as the dominant time-consuming operation in each iteration is computing the inverse of the matrix $\H{(t)}\in\mathbb{R}^{|\z^\xi|\times|\z^\xi|}$.
+
+
+
+As a second-order optimization method, the presented projection Newton method in Alg.~\ref{alg:proj_newton} enjoys a superlinear convergence speed by the following \thm~\ref{thm:converge}, similar to the classical Newton method~\citep{boyd2004convex}. 
+
+
+\begin{algorithm}[h]
+  \caption{Projection Newton for selecting optimal action}
+  \label{alg:proj_newton}
+  \hspace*{0.02in} \textbf{Input:} observed $\x$; parameter $\hat{\bm{\theta}}$; $\sS(\M, \d)$ under CARE
+\begin{algorithmic}[1]
+  \State Compute matrices $\A, \B, \C$ by $\{\hat{\bm{\beta}}_j\}_{j=1}^{|\V|}\in\hat{\bm{\theta}}$
+  \vspace*{-0.03in}
+  \State $\ell(\z^\xi)=\sum\limits_{i=1}^{|\Y|}-\log\left\{\Delta_i(\z^\xi)\right\}$ \Comment{$\Delta_i(\z^\xi)$ in Cor.~\ref{corol:convex}}
+  \State Initialize $\z_{(0)}^\xi\in \left[\z_{\operatorname*{left}}, \z_{\operatorname*{right}}\right]$
+  \vspace*{0.02in}
+  \For{$t=0$ {\bfseries to} $L-1$}
+  \vspace*{0.02in}
+    \State Compute $\g_{(t)} = \frac{\partial}{\partial \z^\xi} \ell(\z^\xi)\big\vert_{\z^\xi=\z_{(t)}^\xi}$
+    \vspace*{-0.03in}
+    \State Compute $\H_{(t)} = \frac{\partial^2}{\partial \z^\xi\partial {\z^\xi}^\mathsf{T}} \ell(\z^\xi)\big\vert_{\z^\xi=\z_{(t)}^\xi}$
+    \vspace*{0.01in}
+    \State \Comment{Computation formula in Appx.~\ref{sec:proj_Newton}}
+    \vspace*{0.03in}
+    \State $\D_{(t)} = \operatorname*{DiagAppx}(\H_{(t)}^{-1})$, $\alpha_{(t)} = \operatorname*{Armijo}\left(\D_{(t)}\right)$ 
+    \State $\z_{(t+1)}^\xi = \mathop{\operatorname*{Project}}\limits_{\left[\z_{\operatorname*{left}}, \z_{\operatorname*{right}}\right]}\left(\z_{(t)}^\xi-\alpha_{(t)} \D_{(t)} \g_{(t)}\right)$
+    \If{$\|\z_{(t+1)}^\xi-\z_{(t)}^\xi\|<\delta$}
+    \vspace*{0.02in}
+    \State Set $\z^\xi_{(L)}=\z_{(t+1)}^\xi$ and \textbf{break}
+    \EndIf
+    \vspace*{-0.08in}
+    \State \textbf{end if}
+  \EndFor
+  \State \textbf{end for}
+\end{algorithmic}
+\hspace*{0.02in} \textbf{Output:} the optimal decision alteration $\z^\xi_{(L)}$
+\end{algorithm}
+
+
+\begin{theorem}
+  \vspace*{-0.1in}
+\label{thm:converge}
+    Let \(\mathbb{P}_{\operatorname*{A}}^\star\) denote the maximal AUF probability $\mathbb{P}(\Y \in \sS\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))$ that can be achieved by alteration $\z^\xi\in\left[\z_{\operatorname*{left}}, \z_{\operatorname*{right}}\right]$, 
+    and let \(  \{\z^\xi_{(k)} \}_{k=1}^L\) denote the sequence outputted by Alg.~\ref{alg:proj_newton}. 
+    The probability sequence \(\{\mathbb{P}(\Y \in \sS\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi_{(k)}))\}_{k=1}^L\) converges to \(\mathbb{P}_{\operatorname*{A}}^\star\) with a superlinear convergence rate (at least quadratic).
+\end{theorem}
+
+As guaranteed in Thm.~\ref{thm:converge}, the optimal alteration that maximizes \(\mathbb{P}_{\operatorname{AUF}}\)  can be efficiently selected by Alg.~\ref{alg:proj_newton}. 
+Note that \(\mathbb{P}_{\operatorname{AUF}}\) in Thm.~\ref{thm:converge} conditioned on $\hat{\bm{\theta}}$ rather than $\bm{\theta}$, this is because true parameters of the SRM are practically not available. 
+We can only estimate the parameters from data, and then try to select the optimal decision alteration based on $\hat{\bm{\theta}}$ rather than true $\bm{\theta}$. 
+Hence, the guarantee in Thm.~\ref{thm:converge} designed for Alg.~\ref{alg:proj_newton} is conditioned on $\hat{\bm{\theta}}$ as well, and if the $\hat{\bm{\theta}}$ used in Alg.~\ref{alg:proj_newton} can be changed as true $\bm{\theta}$, \(\mathbb{P}_{\operatorname{AUF}}\) in Thm.~\ref{thm:converge} also turns to condition on $\bm{\theta}$.
+
+\subsection{AUF scenarios beyond the CARE condition}
+
+\label{sec:inner}
+
+Another crucial concern is that AUF scenarios exist beyond the CARE condition, where the transformation in Cor.~\ref{corol:convex} no longer holds. 
+Analyzing the AUF probability in such cases is challenging due to irregular desired regions. 
+To address this, we propose \emph{inner CARE embedding}, which identifies an inner canonical rectangle \(\sI_{cr}\) for the desired region \(\sS\), such that \(\mathbb{P}(\Y \in \sI_{cr}\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\) forms a strict lower bound for \(\mathbb{P}(\Y \in \sS\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\). This ensures the transformation in Cor.~\ref{corol:convex} holds for the lower bound, allowing us to optimize it as a surrogate using Alg.~\ref{alg:proj_newton}. The formal definition of inner CARE embedding is in Def.~\ref{def:inner-embedding}.
+
+
+\begin{definition}[\textbf{Inner CARE embedding}]
+  \label{def:inner-embedding}
+  Let $\sS$ denote a non-empty region in $\mathbb{R}^{d}$, and let $\sI_{cr}\left(\M, \d\right)$ denote a convex polytope as defined in Def.~\ref{def:convex-polytope}.
+  Then $\sI_{cr}\left(\M, \d\right)$ is called the inner CARE embedding of $\sS$ iff the following holds:
+  \vspace*{-0.06in}
+  \begin{compactenum}
+    \item[(1)] $\sI_{cr}\left(\M, \d\right)$ is a canonical rectangle \wrt $\C\bm{\Sigma}\C^\mathsf{T}\in\mathbb{R}^{d\times d}$, where $\C$ and $\bm{\Sigma}$ are defined in Lemma~\ref{lemma:identi}; and
+     \vspace*{0.03in}
+    \item[(2)] $\sI_{cr}$ is the lagest subset of $\sS$ satisfying (1) above.
+  \end{compactenum}
+\end{definition}
+
+\begin{figure}[t]
+  \begin{center}
+  \subfigure[for a non-convex $\sS$ (red)]{\includegraphics[width=0.44\linewidth]{./figures/inner_polygon.pdf}\label{fig:inner1}}$\quad$
+  \subfigure[for a circular $\sS$ (red)]{\includegraphics[width=0.42\linewidth]{./figures/inner_circle.pdf}\label{fig:inner2}}
+  \vskip -0.05in
+  \caption{Examples of inner CARE embedding for different regions $\sS$ with the same covariance matrix $\C^\mathsf{T}\bm{\Sigma}\C$}
+  \label{fig:inner-embedding}
+  \end{center}
+  \vskip -0.15in
+\end{figure}
+
+With Def.~\ref{def:inner-embedding}, we can always define a region \(\sI_{cr}(\M, \d)\) that satisfies the CARE condition for any non-empty desired region \(\sS\). 
+As illustrated in Fig.~\ref{fig:inner-embedding}, we shade the inner CARE embedding in dark red for some irregular desired regions \(\sS\), including a non-convex polytope as in Fig.~\ref{fig:inner1} and a circular region as in Fig.~\ref{fig:inner2}. 
+As the inner CARE embedding \(\sI_{cr}\) always satisfies the CARE condition, leveraging the transformation in Cor.~\ref{corol:convex} could be considered, and the following Prop.~\ref{prop:upper-bound} guarantees its feasibility.
+
+\begin{proposition}
+  \label{prop:upper-bound}
+      Let $\sS$ denote a non-empty region in $\mathbb{R}^{d}$, and let $\sI_{cr}\left(\M, \d\right)$ denote the inner CARE embedding of $\sS$. 
+      Then, it always holds that \(\ell(\z^\xi)\leq\hat{\ell}(\z^\xi)\), where the loss function $\ell(\z^\xi)=-\log\left(\mathbb{P}(\Y \in \sS\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\right)$ and $\hat{\ell}(\z^\xi)=-\log\left(\mathbb{P}(\Y \in \sI_{cr}\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\right)$.
+\end{proposition}
+\vskip -0.02in
+
+
+Prop.~\ref{prop:upper-bound} guarantees that for any irregular desired region \(\sS\) in the AUF problem, the inner CARE embedding method provides a strict upper bound \(\hat{\ell}(\z^\xi)\) on the original loss function \(\ell(\z^\xi)\). This upper bound serves as an effective surrogate optimization target, analogous to classical empirical risk minimization (ERM)~\citep{mohri2018fml}. 
+Since inner CARE embedding always produces a region satisfying the CARE condition and enabling the convex transformation in Cor.~\ref{corol:convex}, we can transform the intractable problem of optimizing \(\mathbb{P}_{\operatorname{AUF}}\) without an analyzable formula into the more manageable task of finding the inner CARE embedding for \(\sS\). 
+It is worth noting that while the inner CARE embedding requires the largest subset of \(\sS\) satisfying the CARE condition, Prop.~\ref{prop:upper-bound} remains valid for any CARE-compliant subset of \(\sS\).
+Finally, given that desired regions can vary substantially across applications, different inner CARE embedding methods need to be specifically designed for each distinct region type.
+Below, we provide a method for finding the inner CARE embedding for a circular region. 
+
+
+
+\begin{proposition}
+\label{prop:inner4circle}
+Let $\sS=\{\x\in\mathbb{R}^d\mid \|\x-\bm{o}\|_2^2 = r^2\}$ denote a circular region on $\mathbb{R}^d$, and let $\C,\bm{\Sigma}$ denote problem-related matrices as defined in Lemma~\ref{lemma:identi}. 
+Then, the inner CARE embedding of $\sS$ can be expressed by $\sI_{cr}\left(\M, \d\right)$ with:
+\begin{equation}
+  \label{eq:circle-inner}
+  \left\{
+    \begin{aligned}
+      &\M = (\I,-\I)^\mathsf{T}\bm{\Lambda}\Q\\
+      &\d = (\I,\I)^\mathsf{T}\bm{\Lambda}\bm{1}\cdot r/\sqrt{d}+\M\o,
+    \end{aligned}
+  \right.
+\end{equation}
+\vskip -0.03in
+where $\Q^\mathsf{T}\bm{\Lambda}\Q$ is the eigen-decomposition of matrix $\C\bm{\Sigma}\C^\mathsf{T}$, $\I\in\mathbb{R}^{d\times d}$ is the identity matrix and $\bm{1}\in\mathbb{R}^{d\times 1}$ is the vector with all components equals 1.
+\end{proposition}
+
+From Prop.~\ref{prop:inner4circle} presented above, for a circular desired region $\sS$, we can directly apply Eq.~(\ref{eq:circle-inner}) to obtain its inner CARE embedding $\sI_{cr}(\M,\d)$.
+Although the original loss function, \ie, $\ell(\z^\xi)=-\log\left(\mathbb{P}(\Y \in \sS\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\right)$, is generally not analyzable in this situation, 
+Prop.~\ref{prop:upper-bound} guarantees that we can optimize its analyzable upper bound, \ie, $-\log\left(\mathbb{P}(\Y \in \sI_{cr}\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\right)$, as a surrogate by using the convex transformation defined in Cor.~\ref{corol:convex}.
+
+\section{A closed-form solution for $|\Y|=1$}
+\label{sec:1d-close}
+In this section, we propose a closed-form solution for the formulated AUF problem in cases where the dimension of the concerned output equals 1 ($|\Y|=1$) and the desired region of $\Y$ is an interval on $\mathbb{R}$. The proposed closed-form solution can greatly reduce the time complexity for selecting optimal alterations that maximize the AUF probability.
+
+Considering situations where the output dimension is singleton, \ie, $|\Y|=1$, it can be verified that any interval region $\sS$ on $\mathbb{R}$ satisfies the CARE condition. 
+In this case, recall from Thm.~\ref{thm:prob} that the AUF probability can always be expressed as 
+\(
+\mathbb{P}_{\operatorname*{AUF}} = \Phi\left(-\k_1^\mathsf{T} \z^\xi - b_1\right) - \Phi\left(\k^\mathsf{T}_{2} \z^\xi + b_{2}\right)
+\), 
+where $\k_i^\mathsf{T}$ is the $i$-th row of matrix $\M\B \in \mathbb{R}^{2 \times |\z^\xi|}$ and $b_i$ is the $i$-th component of vector $\M\A\x - \d \in \mathbb{R}^{2\times 1}$. 
+Here, $\M$, $\A$, $\B$, $\d$, and $\x$ are defined in Lemma~\ref{lemma:identi} and Thm.~\ref{thm:prob}. 
+Furthermore, according to the discussion in Remark~\ref{remark:canonical_rectangle}, we can assume without loss of generality that $\k_i = -\k_{i+|\Y|}$, leading to 
+\(
+\mathbb{P}_{\operatorname*{AUF}} = \Phi\left(\k_2^\mathsf{T} \z^\xi - b_1\right) - \Phi\left(\k_2^\mathsf{T} \z^\xi + b_2\right)
+\). 
+Remark that $-b_1 > b_2$ always holds because $\Phi(\cdot)$ is a monotone increasing function and $\mathbb{P}_{\operatorname*{AUF}} > 0$ as guaranteed in Thm.~\ref{thm:prob}.
+
+
+Using Alg.~\ref{alg:proj_newton} to select the optimal alteration is also available in this case, which has a $\mathcal{O}(|\z^\xi|^3\cdot L)$ time complexity as discussed in Sec.~\ref{sec:algorithm}.
+ To decrease the executing time by leveraging the information of $|\Y|=1$, directly analyzing the gradient is worth considering. 
+ Specifically, the gradient of $\ell(\z^\xi)=-\log\left\{ \Phi\left(\k_2^\mathsf{T} \z^\xi - b_1\right) - \Phi\left(\k_2^\mathsf{T} \z^\xi + b_2\right) \right\}$ in \Eq~(\ref{eq:target_opt}) can be derived as follows:
+
+\vspace{-4mm}
+\begin{equation}
+  \label{eq:1d-target}
+  \frac{\partial}{\partial \z^\xi} \ell(\z^\xi)=\frac{\phi\left(\k_2^\mathsf{T} \z^\xi + b_2\right) - \phi\left(\k_2^\mathsf{T} \z^\xi - b_1\right)}{\Phi\left(\k_2^\mathsf{T} \z^\xi - b_1\right) - \Phi\left(\k_2^\mathsf{T} \z^\xi + b_2\right)} \k_2.
+\end{equation}
+
+\begin{algorithm}[h]
+  \caption{Closed-form solution for cases where $|\Y|=1$}
+  \label{alg:close_form}
+  \hspace*{0.02in} \textbf{Input:} observed $\x$; parameter $\hat{\bm{\theta}}$; $\sS(\M, \d)$ under CARE
+\begin{algorithmic}[1]
+  \State Compute matrices $\A, \B, \C$ by $\{\hat{\bm{\beta}}_j\}_{j=1}^{|\V|}\in\hat{\bm{\theta}}$
+  \State $\K = \M\B\in\mathbb{R}^{2\times |\z^\xi|}$; $\mathbf{b} = \M\A\x-\d\in\mathbb{R}^{2\times 1}$
+  \State $\mathbf{k}^\mathsf{T} \leftarrow \text{the }2\text{nd row vector of matrix } \K$
+  \vspace*{0.02in}
+  \State $b \leftarrow (b_1-b_2)/2$ \Comment{$b_i$ is the $i$-th component of $\mathbf{b}$}
+  \vspace*{0.02in}
+  \State Select $\z^\xi=$ \Call{Closed-Solution}{$\k$, $b$, $\z_{\operatorname{left}}$, $\z_{\operatorname{right}}$}
+  \Function{Closed-Solution}{$\k$, $b$, $\bm{l}$, $\bm{r}$}
+  \State $m=\k^\mathsf{T}\cdot\left(\mathbb{I}(\k\geq\bm{0})\circ\bm{l} + \mathbb{I}(\k<\bm{0})\circ\bm{r}\right)$ 
+  \State $M=\k^\mathsf{T}\cdot\left(\mathbb{I}(\k<\bm{0})\circ\bm{l} + \mathbb{I}(\k\geq\bm{0})\circ\bm{r}\right)$ 
+  \If{$b\leq m$}
+  \State $\z^\star=\mathbb{I}(\k\geq\bm{0})\circ\bm{l} + \mathbb{I}(\k<\bm{0})\circ\bm{r}$ 
+  \ElsIf{$b\geq M$}
+  \State $\z^\star=\mathbb{I}(\k<\bm{0})\circ\bm{l} + \mathbb{I}(\k\geq\bm{0})\circ\bm{r}$ 
+  \Else{$\ \z^\star\leftarrow\bm{0}$, and $\textbf{do}$}
+  \For{$j=0$ {\bfseries to} $|\z^\star|$}
+  \If{$k_j=0$}
+  \State \textbf{continue}
+  \ElsIf{$b/k_j\in [l_j, r_j]$}
+  \State $z^\star_j=b/k_j$ and \textbf{break}
+  \Else 
+  \State $z^\star_j=\mathbb{I}(b/k_j<l_j)l_j + \mathbb{I}(b/k_j\geq r_j)r_j$ 
+  \State $b\leftarrow b-z^\star_j$
+  \vspace*{-0.06in}
+  \EndIf
+  \State \textbf{end if} 
+  \EndFor
+  \State \textbf{end for} 
+  \EndIf
+  \State \textbf{end if} 
+  \EndFunction
+  \State \textbf{return} $\z^\star$
+\end{algorithmic}
+\hspace*{0.02in} \textbf{Output:} the optimal decision alteration $\z^\xi$
+\end{algorithm}
+
+Intuitively, directly analyzing the stationary points of $\ell(\z^\xi)$ can reduce execution time. 
+As shown in Thm.~\ref{thm:prob}, $\ell(\z^\xi)$ is convex \wrt $\z^\xi$, so any stationary point $\z^\star$ of $\ell(\z^\xi)$, \ie, where $\frac{\partial}{\partial \z^\xi} \ell(\z^\xi)\big\vert_{\z^\xi=\z^\star} = \bm{0}$, achieves the global minimum. 
+In cases where $|\Y|=1$, this idea is feasible, as Alg.~\ref{alg:close_form} constructively provides a zero point $\z^\star$  of \Eq~(\ref{eq:1d-target}).
+
+As shown in Alg.~\ref{alg:close_form}, the function \(\operatorname*{CLOSED-SOLUTION}\) primarily utilizes \emph{if-else} statements and iterates over the vector \(\z^\star\). Therefore, this function can be represented in a closed form as a complex equation, which depends on \(\k\), \(b\), \(\bm{l}\), and \(\bm{r}\) using the indicator function \(\mathbb{I}(\cdot)\) and the summation operator \(\sum\). 
+Specifically, Alg.~\ref{alg:close_form} focuses on finding the root for \Eq~(\ref{eq:1d-target}), which suffices to be an optimal alteration that achieves the maximal AUF probability. Recognizing that \(\k_2\) does not necessarily equal \(\bm{0}\), the point \(\z\) is a root of \Eq~(\ref{eq:1d-target}) if and only if \(\phi\left(\k_2^\mathsf{T} \z - b_1\right) = \phi\left(\k_2^\mathsf{T} \z + b_2\right)\). Given the even nature of \(\phi(\cdot)\), which is monotonic on \((- \infty, 0]\), and the fact that \(-b_1 > b_2\) as previously discussed, it follows that \(\k_2^\mathsf{T} \z - b_1 = -\k_2^\mathsf{T} \z - b_2\), which simplifies to \(\k_2^\mathsf{T} \z = \frac{b_1 - b_2}{2}\). Alg.~\ref{alg:close_form} is designed to solve this equation under the constraint \(\z \in [\z_{\operatorname{left}}, \z_{\operatorname{right}}]\), where \(M\) and \(m\) represent the maximum and minimum values achievable by \(\k_2^\mathsf{T} \z\) under this constraint. If there exists a \(\z^\star \in [\z_{\operatorname{left}}, \z_{\operatorname{right}}]\) such that \(\k_2^\mathsf{T} \z^\star = \frac{b_1 - b_2}{2}\), this root is selected as shown in lines 14 to 20; otherwise, the boundary value is chosen as described in lines 10 to 13. Further discussions are provided in Appx.~\ref{app:proof}, along with the proof for the following Thm.~\ref{thm:close}.
+
+\begin{theorem}
+  \label{thm:close}
+      When \(|\Y|=1\), let \(\mathbb{P}_{\operatorname*{A}}^\star\) denote the maximal AUF probability \(\mathbb{P}(Y \in [y_l, y_r]\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\) that can be achieved by alteration \(\z^\xi\in\left[\z_{\operatorname*{left}}, \z_{\operatorname*{right}}\right]\), and let \(\z^\star\) denote the alteration outputted by Alg.~\ref{alg:close_form}. Then the probability \(\mathbb{P}(Y \in [y_l, y_r]\mid \hat{\bm{\theta}}, \x, Rh(\z^\star))\) equals \(\mathbb{P}_{\operatorname*{A}}^\star\).
+  \end{theorem}
+\vskip -0.05in
+
+As guaranteed in Thm.~\ref{thm:close}, the optimal alteration that maximizes \(\mathbb{P}_{\operatorname{AUF}}\) can be effectively determined by Alg.~\ref{alg:close_form}. The issue of conditioning on \(\hat{\bm{\theta}}\) rather than true \(\bm{\theta}\) follows the same discussion as Thm.~\ref{thm:converge}. 
+It is worth noting that the time complexity of the decision-making step in this case, \ie, the time complexity of the function in Alg.~\ref{alg:close_form}, is bounded by \(\mathcal{O}(|\z^\xi|)\), because all operations can be reduced to iterating over elements of vectors with length \(|\z^\xi|\), including \(\k\), \(\bm{l}\), \(\bm{r}\), and \(\z^\star\). Compared with Alg.~\ref{alg:proj_newton}, which has a time complexity of \(\mathcal{O}(|\z^\xi|^3 \cdot L)\), the execution time for selecting the optimal alteration in Alg.~\ref{alg:close_form} is greatly accelerated by leveraging the information that \(|\Y| = 1\). Last but not least, we would like to emphasize that \(|\Y| = 1\) is a crucial case, as most of the experiments in existing rehearsal learning research are established on this scenario~\citep{qint2023srm,du2024micns}. Therefore, developing a theoretically efficient approach for this case is essential for practical applications.
+
+
+
+
+\section{Discussion}
+\label{sec:discuss}
+Our approach aims to select the optimal alterations \(\z^\xi\) that maximize the AUF probability \(\mathbb{P}_{\operatorname{AUF}}\). 
+Under the CARE condition, it precisely determines the optimal alteration. The condition offers practical advantages, as decision-makers can strategically design the desired region \(\sS\) to satisfy the CARE condition after estimating system parameters. For scenarios beyond CARE, our approach constructs inner CARE embeddings. While this construction remains challenging for arbitrary regions, we demonstrate its feasibility for specific geometries such as circular regions in Prop.~\ref{prop:inner4circle}. For other region types, established techniques like maximum rectangle algorithms for polygons~\citep{CHOI2021101710} provide powerful tools, and future advances in these methods will further expand our approach's applicability.
+
+Meanwhile, while our theoretical analysis is established with the Gaussian noise assumption that is widely adopted across various domains~\citep{shumway2000time, cohen2018online}, our methodology remains effective in general cases through appropriate Gaussian approximations. For instance, Laplace's approximation~\citep{bishop2006pmlr} in Bayesian statistics demonstrates how unimodal distributions can be effectively approximated by fitting a Gaussian distribution centered at their mode.
+
+\section{Related work}
+\label{sec:related_work}
+We discuss two types of works related to our study, including reinforcement learning (RL) and causality:
+
+
+\noindent\textbf{Reinforcement Learning (RL).} RL methods have demonstrated remarkable success across various decision-making domains~\citep{sutton2018reinforcement}. 
+In general, classical RL approaches~\citep{Lillicrap2016ddpg, haarnoja2018SAC} typically require extensive cost-free interactions, which are unavailable in AUF setting. 
+While numbers of offline RL~\citep{pmlr-v202-li23av, NEURIPS2023_c1aaf7c3} and hybrid offline-online RL~\citep{song2022hybrid, pong2022offline} methods have been developed to mitigate interaction requirements, they remain ill-suited for AUF scenarios (which demands immediate decisions \emph{without} interactions) and necessitate substantial offline datasets. 
+Furthermore, when using MDP to model AUF, the reward function may differ substantially between offline and online data, as the distribution of \(\Y\) given observed \(\z\) (\(\mathbb{P}(\Y \mid \z)\)) can fundamentally differ from that under alterations on \(\z\) (\(\mathbb{P}(\Y \mid Rh(\z))\)), resulting in mismatched reward functions \(\mathbb{I}(\Y\in \sS \mid \z)\) versus \(\mathbb{I}(\Y\in \sS \mid Rh(\z))\). 
+In contrast, rehearsal learning leverages structural relations among variables, enabling it to recommend immediate decisions based solely on observational data without requiring interactions. 
+Note that for addressing AUF, finding influence relations is a key step, while RL could be a helpful tool for finding the relations with proper adaptations. 
+
+
+
+\textbf{Causality.} Extensive research has explored structural models for decision-making, primarily based on structural causal models~\citep{spirtes2000causation}. This work encompasses two notable categories: (i) methods for identifying causal structures or effects~\citep{KocaogluDV17, wang2020cost, wang2023sound, qint2021ate, wang2023estimating, zhang2023active, qin2024tracking}, which focus primarily on causal discovery and estimation; and (ii) approaches for determining optimal intervention points using causal bandits or causal RL methods~\citep{latt2016causalbandit, sen2017identifying, lee2018structural, zhang2019RL, LuMT21, park2025structural}, which incorporate additional utility considerations. 
+These methods generally rely on causal modeling, which may be luxurious or restrictive in some real-world decision-making scenarios~\citep{zhouzh2022rehearsal}. 
+The strong assumptions required for causal identification often limit the feasibility of finding viable alterations. 
+Conversely, correlation-based approaches, which underpin most ML models, 
+are generally not sufficient for decision-making.
+Based on this insight, rehearsal is proposed~\citep{zhouzh2022rehearsal}, which captures influence relations for addressing the AUF problem~\citep{zhouzh2023influence}. \citet{qint2023srm} further 
+propose the SRM and rehearsal-learning framework, which can adapt to dynamically evolving decision systems. 
+Note that this framework can 
+recommend effective alterations across both time-varying systems and scenarios with mutual influences.
+
+\section{Experiments}
+
+We evaluate our proposed approach on two datasets including a synthetic dataset and a real-world dataset. 
+We compare our method with two baseline methods and the existing rehearsal learning methods, including QWZ23~\citep{qint2023srm} and AUF-MICNS~\citep{du2024micns}. 
+Besides, although we have discussed in \Sec~\ref{sec:related_work} that RL methods are not well-suited for the AUF problem due to limited or even nonexistent interactions with the decision environment, we still implement some classic RL algorithms for comparison to mitigate potential concerns.
+The compared RL algorithms includes DDPG~\citep{Lillicrap2016ddpg},  PPO~\citep{John2017PPO}, and SAC~\citep{haarnoja2018SAC}. 
+First, we briefly introduce the datasets, with details listed in Appx.~\ref{app:exper}.
+
+\noindent \textbf{Synthetic Data (Manage).} 
+The Manage dataset is designed to simulate a market management scenario where a market manager must make decisions to promote total profit (TPF) and customer numbers (NCT). 
+Key variables affecting TPF and NCT include the cost of raw materials (C), product price (P), and competitor's price (E), among others. 
+We assume that P and C are the actionable variables in this context.
+There are mutually influenced relationships among these variables: setting P low leads to a competitive drop in E, and vice versa.
+The dimensions of $\X$, $\Z$, and $\Y$ are 2, 4, and 2, respectively.
+The desired region $\sS$ for $\Y$ is a circular region, and over 95\% of value $\Y$ fails to fall within \(\sS\) in natural conditions as shown in \Fig~\ref{fig:region1}(a).
+
+
+\noindent \textbf{Real-world Data (Bermuda).}
+The Bermuda dataset, which records environmental variables in the Bermuda area, is described in ecology research~\citep{courtney2017environmental}, with available generation order of variables~\citep{bermuda_dataset}. The dimensions of $\X$, $\Z$, and $\Y$ are 3, 7, and 1, and the desired region $\sS$ for $\Y$ is $\sS=\{\text{NEC}\in[0.5, 2]\}$.
+In natural conditions, over 90\% of value $\Y$ fails to fall within \(\sS\), as shown in \Fig~\ref{fig:region2}(a). 
+The parameters of structural equations are derived from fitting linear models on normalized data~\citep{qint2023srm}. It is assumed that 5 variables in $\Z$ are actionable~\citep{aglietti2020causal}, and feasible alteration values are set to $[-1, 1]$ for each of them.
+
+Meanwhile, we repeat the experiment under 100 random seeds for each dataset, incluing 3 measures as follows:
+\vspace*{-0.02in}
+\begin{compactenum}
+  \item \textbf{AUF Prob. given $\x$.} The probability that the selected action can successfully make $\Y\in\sS$ (conditioned on $\x$ and $\bm{\theta}$). This is an immediate decision, and the probability is approximated by Monte Carlo method.
+  \item \textbf{100-Rds AUF Freq.} Success counts of making $\Y\in\sS$ in a 100-round experiment (with different observations $\x$s). This is a sequential decision-making scenario, in which the RL methods could update the policy. 
+  \item \textbf{Avg. Time.} Average executing time for making one decision (the time only for the decision-making step). 
+\end{compactenum}
+
+
+
+\begin{table}[t]
+  \renewcommand\arraystretch{0.8}
+  \caption{
+    Results of synthetic data (mean $\pm$ std). 
+  }
+  \label{tab:result-synthetic}
+  \vskip -0.03in
+  \begin{center}
+  \begin{sc}
+  \resizebox{0.49\textwidth}{!}{
+    \begin{tabular}{cccc}
+      \toprule
+       Method &
+      AUF Prob.(\%) &
+      100-Rds Succ. Freq. &
+      Avg. Time (ms)
+       \\ 
+       \midrule
+      No action  & $\ $ 2.52 {\footnotesize$\pm$ 9.19} & $\ $ 1.61 {\footnotesize$\pm$ 1.29} & \textbackslash \\ 
+      \rule{0pt}{2.2ex} 
+      Random     & $\ $ 0.97 {\footnotesize$\pm$ 7.01} & $\ $ 1.60 {\footnotesize$\pm$ 1.52} & \textbackslash \\ 
+      \rule{0pt}{2.2ex} 
+      DDPG & $\ $ 1.44 {\footnotesize$\pm$ 9.53} & $\ $ 1.57 {\footnotesize$\pm$ 1.16} & $\ $ 6.35 {\footnotesize$\pm$ 0.28} \\ 
+      \rule{0pt}{2.2ex} 
+      SAC & $\ $ 0.98 {\footnotesize$\pm$ 8.07} & $\ $ 1.55 {\footnotesize$\pm$ 1.16} & 10.85 {\footnotesize$\pm$ 0.22} \\ 
+      \rule{0pt}{2.2ex} 
+      PPO & $\ $ 1.42 {\footnotesize$\pm$ 8.02} & $\ $ 1.65 {\footnotesize$\pm$ 1.13} & 11.50 {\footnotesize$\pm$ 1.84}\\ 
+      \rule{0pt}{2.2ex} 
+      QWZ23  & 94.22 {\footnotesize$\pm$ 1.25} &  94.06 {\footnotesize$\pm$ 1.25} & 85.37 {\footnotesize$\pm$ 69.3} \\ 
+      \rule{0pt}{2.2ex} 
+      MICNS & 96.96 {\footnotesize$\pm$ 8.12} & 96.99 {\footnotesize$\pm$ 8.44} & $\ $ \textbf{4.02} {\footnotesize$\pm$ 1.28} \\ 
+      \rowcolor{green!25}
+      \rule{0pt}{2.2ex} 
+      Ours & \textbf{99.01} {\footnotesize$\pm$ 0.62} & \textbf{98.93} {\footnotesize$\pm$ 1.26} & $\ $ 5.86 {\footnotesize$\pm$ 2.17} \\ 
+      \bottomrule
+      \end{tabular}
+  }
+    \end{sc}
+  \end{center}
+  \vskip -0.2in
+\end{table}
+
+
+\begin{table}[t]
+  \renewcommand\arraystretch{0.8}
+  \caption{
+      Results of Bermuda data (mean $\pm$ std). 
+  }
+  \label{tab:result-bermuda}
+  \vskip -0.03in
+  \begin{center}
+    \begin{sc}
+  \resizebox{0.49\textwidth}{!}{
+    \begin{tabular}{ccccc}
+      \toprule
+       Method  &  
+      AUF Prob.(\%) &
+      100-Rds Succ. Freq.  &
+      Avg. Time (ms)
+       \\ 
+      \midrule
+      No action   & $\ \ $8.77 {\footnotesize$\pm$ 3.36} & $\ \ $8.94 {\footnotesize$\pm$ 2.76} & \textbackslash\\ 
+      \rule{0pt}{2.2ex} 
+      Random  & 15.47 {\footnotesize$\pm$ 20.9} & 14.93 {\footnotesize$\pm$ 3.41} & \textbackslash \\ 
+      \rule{0pt}{2.5ex} 
+      DDPG &   14.46 {\footnotesize$\pm$ 27.6} & 20.70 {\footnotesize$\pm$ 5.52} & 15.17 {\footnotesize$\pm$ 3.57} \\ 
+      \rule{0pt}{2.2ex} 
+      SAC &  14.05 {\footnotesize$\pm$ 31.1} & 18.21 {\footnotesize$\pm$ 3.94} & 12.48 {\footnotesize$\pm$ 0.66}  \\ 
+      \rule{0pt}{2.2ex} 
+      PPO &  15.91 {\footnotesize$\pm$ 33.8} & 17.15 {\footnotesize$\pm$ 3.71} & 13.31 {\footnotesize$\pm$ 2.59 }\\ 
+      \rule{0pt}{2.2ex} 
+      QWZ23 &  73.47 {\footnotesize$\pm$ 7.11} & 72.62 {\footnotesize$\pm$ 4.21} & 567.7 {\footnotesize$\pm$ $\ $129}\\ 
+      \rule{0pt}{2.2ex} 
+      MICNS  & 76.19 {\footnotesize$\pm$ 20.8} & 76.69 {\footnotesize$\pm$ 14.3} & 23.61 {\footnotesize$\pm$ 13.2}\\ 
+      \rowcolor{green!25}
+      \rule{0pt}{2.2ex} 
+      Ours  & \textbf{82.76} {\footnotesize$\pm$ 4.44} & \textbf{83.26} {\footnotesize$\pm$ 3.68} & $\ $ \textbf{0.91} {\footnotesize$\pm$ 0.07} \\ 
+      \bottomrule
+      \end{tabular}
+  }
+    \end{sc}
+  \end{center}
+  \vskip -0.2in
+\end{table}
+
+\begin{figure}[b]
+  \vskip -0.15in
+  \begin{center}
+  \includegraphics[width=0.95\linewidth]{./figures/rl_convergence.pdf}
+  \vskip -0.05in
+  \caption{RL convergence curves (DDPG and SAC) on Bermuda data with adequate number of interactions.}
+  \label{fig:rl-convergence}
+  \end{center}
+\end{figure}
+
+\begin{figure*}[!t]
+  \begin{center}
+  \renewcommand{\thesubfigure}{} 
+    \subfigure{
+    \includegraphics[width=0.3 \linewidth]{./figures/region1.pdf}\label{fig:region1}
+    }$\quad$
+  \subfigure{
+    \includegraphics[width=0.3 \linewidth]{./figures/region1_after_alter.pdf}
+    }$\quad$
+  \subfigure{
+    \includegraphics[width=0.3 \linewidth]{./figures/number_manage.pdf}
+    }
+    \\
+    \subfigure[(a) $\sS$ and natural $\Y$ distribution]{
+    \includegraphics[width=0.3 \linewidth]{./figures/region2.pdf}\label{fig:region2}
+    }$\quad$
+  \subfigure[(b) $\sS$ and altered $\Y$ distribution]{
+    \includegraphics[width=0.3 \linewidth]{./figures/region2_after_alter.pdf}
+  }$\quad$
+  \subfigure[(c) $\mathbb{P}_{\operatorname*{AUF}}$, $\mathbb{E}||\hat{\bm{\theta}}-\bm{\theta}||$ and sample numbers]{
+    \includegraphics[width=0.3 \linewidth]{./figures/number_bermuda.pdf}
+    }
+  \vskip -0.05in
+  \caption{Results for the synthetic dataset (row 1) and Bermuda dataset (row 2), respectively.  
+  For each dataset, the desired region shaded in red in column (a) is identical to that in column (b). 
+  The bands in column (c) represent the standard deviations. 
+  }
+  \label{fig:experiments}
+  \end{center}
+  \vskip -0.15in
+\end{figure*}
+
+
+The comparison results are summarized in Tab.~\ref{tab:result-synthetic} and Tab.~\ref{tab:result-bermuda}, where the number of observational samples is set to 100. 
+For immediate decisions, RL methods rely on default policies, resulting in performance similar to random actions. 
+With limited interactions, RL methods can gather information to update their policies but still fail to produce actions comparable to rehearsal methods due to limited interactions. 
+In contrast, rehearsal methods can generate effective actions by exploiting structural relations among environment variables. 
+Our approach consistently outperforms others across all datasets under the AUF probability measure, which is the core concern of AUF problem.  
+In terms of execution time, our approach has the same complexity ($\mathcal{O}(|\z|^3)$) as AUF-MICNS when $|\Y| > 1$, but achieves efficient decision-making with a reduced complexity of $\mathcal{O}(|\z|)$ for $|\Y| = 1$, leveraging the closed-form solution provided in Alg.~\ref{alg:close_form}.
+Finally, the hyperparameter $\tau$ for previous rehearsal-learning methods is selected as the value that achieves the highest average AUF probability among various candidates.
+
+
+Fig.~\ref{fig:rl-convergence} illustrates the convergence curves of DDPG and SAC on Bermuda data, demonstrating that classical RL methods perform well with sufficient interactions, despite their poor performance in the AUF setting where interactions are limited (Tab.~\ref{tab:result-bermuda}). Fig.~\ref{fig:experiments} presents: (a) the original distribution of outcome $\Y$; (b) the distribution of $\Y$ after implementing alterations; and (c) the relationship between AUF probability $\mathbb{P}_{\operatorname*{AUF}}$, estimation error $\mathbb{E}||\hat{\bm{\theta}}-\bm{\theta}||$, and the number of \emph{observational samples}.
+As evident in Fig.~\ref{fig:experiments}(b), our proposed approach successfully shifts the distribution of $\Y$ toward the desired region $\sS$ through selected alterations.
+Furthermore, Fig.~\ref{fig:experiments}(c) shows that our method converges to the optimal solution as the number of observational samples increases, without requiring any interactions with the environment.
+ 
+
+
+
+ 
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+
+Rehearsal learning provides a promising framework for addressing the AUF problem in practical applications. 
+However, existing rehearsal methods cannot identify the optimal decision alterations that maximize the AUF probability.  
+To overcome this limitation, we proposed the CARE condition, which enables the transformation of the AUF problem into a convex optimization. 
+For solving this transformed problem, we developed the projection-Newton algorithm that guarantees optimal decisions with superlinear convergence.  
+Recognizing that some AUF scenarios fall outside the CARE condition, we introduced inner CARE embedding to generalize our approach. 
+Additionally, we proved that when $|\Y| = 1$, AUF problem admits a closed-form solution, enabling decision-making with time complexity $\mathcal{O}(|\z|)$, significantly improving efficiency over prior methods. 
+Experiments validate the effectiveness of our approach.  
+
+
+\section*{Acknowledgements}
+This research was supported by Jiangsu Science Foundation Leading-edge Technology Program (BK20232003), NSFC (62406137). Tian-Zuo Wang was supported by National Postdoctoral Program for Innovative Talent and Xiaomi Foundation. The authors thank Tian Qin for discussions.
+
+
+\section*{Impact Statement}
+This paper presents work whose goal is to advance the field of 
+Machine Learning. There are many potential societal consequences 
+of our work, none which we feel must be specifically highlighted here. 
+
+\nocite{langley00}
+
+\bibliography{references}
+\bibliographystyle{icml2025}
+
+
+\newpage
+\appendix
+\onecolumn
+
+\section{Definitions}
+\subsection{Details about Structural Rehearsal Models}
+\label{app:SRM}
+
+
+In this section, we provide comprehensive definitions and discussions of the Structural Rehearsal Model (SRM), a probabilistic graphical model introduced by~\cite{qint2023srm} to characterize influence relations among variables in AUF problem. 
+The original definitions and discussions of the SRM can be found in~\citet{qint2023srm}, and in this paper, we do not consider the time $t$ since we focus on the immediate decision making.
+
+\subsection*{$\bullet$ Definition of the rehearsal graph}
+
+
+\begin{definition}[Mixed graph,~\cite{qint2023srm}]
+  \label{def:mixed_graph} Let $G=(\V, \E)$ be a graph, where $\V$ denotes the vertices and $\E$ the edges. $G$ is a mixed graph if for any distinct vertices $u, v \in \V$, there is at most one edge connecting them, and the edge is either directional ( $u \rightarrow v$ or $u \leftarrow v$ ) or bi-directional $(u \leftrightarrow v)$.
+\end{definition}
+
+\begin{definition}[Bi-directional clique,~\cite{qint2023srm}]
+  \label{def:bi_clique}
+  A bi-directional clique $C=\left(\V^c, \E^c\right)$ of a mixed graph $G=$ $(\V, \E)$ is a complete subgraph induced by $\V^c \subseteq \V$ such that any edge $e \in \E^c$ is bi-directional. $C$ is maximal if adding any other vertex does not induce a bi-directional clique.
+\end{definition}
+
+\begin{definition}[Rehearsal graph,~\cite{qint2023srm}]
+  \label{def:rh_graph}
+  Let $G=(\V, \E)$ be a mixed graph. Let $\left\{C_i\right\}_{i=1}^l$ denote all maximal bi-directional cliques of $G$, where $C_i=\left(\V_i^c, \E_i^c\right)$. $G$ is a rehearsal graph if and only if:
+  \vspace{-0.3\baselineskip}
+  \begin{enumerate}
+    \item $\V_i^c \cap \V_j^c=\emptyset$ for any $i \neq j$.
+    \vspace{0.2\baselineskip}
+    \item $\forall i \in[l]$, if there is any edge pointing from some $u \in \V \backslash \V_i^c$ to some $v \in \V_i^c$, then $\forall v \in \V_i^c$, $u \rightarrow v$.
+    \vspace{0.2\baselineskip}
+    \item There exists a topological ordering for $\left\{C_i\right\}_{i=1}^l$ following the directions of directional edges between $C_i$s.
+  \end{enumerate}
+\end{definition}
+
+Note that the topological ordering for bi-directional cliques $\left\{C_i\right\}_{i=1}^l$ in $G$ reflects the generation order of involved variables. 
+
+
+\subsection*{$\bullet$ The associated structural equations}
+
+\setlength{\intextsep}{-1pt}
+\begin{wrapfigure}[19]{r}{0.48\textwidth}
+  \centering
+  \subfigure[original rehearsal graph $G$]{
+    \includegraphics[width=0.43\linewidth]{./figures/rh_graph.pdf}
+    \label{fig:rh_graph_1}
+  }
+  \hskip 0.14in
+  \subfigure[$G^{Rh(\text{Z}_1=z_1)}$]{
+    \includegraphics[width=0.43\linewidth]{./figures/rh_graph_2.pdf}
+    \label{fig:rh_graph_2}
+  }
+  \\
+  \subfigure[$G^{Rh(\text{Z}_3=z_3)}$]{
+    \includegraphics[width=0.43\linewidth]{./figures/rh_graph_3.pdf}
+    \label{fig:rh_graph_3}
+  }
+  \hskip 0.11in
+  \subfigure[$G^{Rh(\{\text{Z}_1, \text{Z}_3\}=\{z_1, z_3\} )}$]{
+    \includegraphics[width=0.43\linewidth]{./figures/rh_graph_4.pdf}
+    \label{fig:rh_graph_4}
+  }
+  \vskip -0.05in
+  \caption{\Fig~\ref{fig:rh_graph_1} is a rehearsal graph, \Fig~\ref{fig:rh_graph_2}$\sim$ \Fig~\ref{fig:rh_graph_4} is the corresponding alteration graphs with alterations. When an alteration occurs to certain variables, all incoming arrows to those variables are removed while other graph structures preserved.}
+  \label{fig:rh_graph}
+  \vskip -0.15in
+\end{wrapfigure}
+Associated with the graphical representation, the structural equations are defined over the bi-directional cliques $\left\{C_i\right\}_{i=1}^l$. 
+Specifically, these equations are parameterized by $\bm{\theta}$, which comprises the set of parameter matrices $\left\{\bm{\beta}_{i}\right\}$ and the covariance matrix $\bm{\Sigma}_i$ for each clique $C_i$ in the rehearsal graph $G$. 
+Notably, the quantitative influence of a directed edge $A\rightarrow B$, where $A\in C_a$ and $B\in C_b$, is captured in the parameter matrix $\bm{\beta}_{b}$. 
+This is due to the topological ordering of the bi-directional cliques reflecting the temporal sequence of the generation process.  
+In contrast, the influence of a bi-directional edge $D_1\leftrightarrow D_2$ for $D_1, D_2\in C_d$ is encoded in the covariance matrix $\bm{\Sigma}_d$, as mutual influence between variables ceases once the system reaches equilibrium.
+
+For clarity in the main paper, we simplify the definition of dynamic structural equations in \Eq~(\ref{eq:structural_equations}) to operate at the variable level rather than the clique level. 
+For each variable $V_j\in C_i$, the associated parameter vector can be extracted directly from the corresponding parameter matrices $\left\{\bm{\beta}_{i}\right\}$.  
+Similarly, the variance $\sigma_j^2$ for each variable $V_j\in C_i$ can be obtained from the respective covariance matrix $\bm{\Sigma}_i$. 
+
+Lastly, while the dynamic structural equations in \Eq~(\ref{eq:structural_equations}) assume Gaussian noise for all $V_j\in \V$, it is worth emphasizing that for variables in cliques without parents, their noise terms can follow arbitrary distributions.  
+This flexibility does not affect our proposed approach, as the columns of the matrix $\C$ corresponding to such variables are zero (as per Lemma~\ref{lemma:identi}).  
+Consequently, both the theoretical results and the proposed algorithms remain unaffected.
+
+
+
+
+\section{Proofs}
+\label{app:proof}
+In this section, we prove the asserts appeared in the paper.
+
+\subsection{Proof of Theorem~\ref{thm:prob}}
+\begin{lemma}
+  \label{lemma:convex}
+  Let $h\left(\x, \lambda\right) = -\log\left(\Phi\left(\c^\mathsf{T} \x + \lambda\right) - \Phi\left(\c^\mathsf{T} \x \right)\right)$ where $\lambda> 0$ and $\c$ is a non-zero constant vector.
+  Then $h\left(\x, \lambda\right)$ is convex \wrt $\x$, since the Hessian matrix $\nabla^2_{\x} h\left(\x, \lambda\right) \succeq 0$.
+\end{lemma}
+
+\begin{proof}
+  First, the gradient and Hessian \wrt $\x$ can be derived as:
+  \begin{equation}
+    \label{eq:g}
+        \nabla_\x h = - \frac{\phi\left(\c^\mathsf{T} \x + \lambda\right) - \phi\left(\c^\mathsf{T} \x \right)}{\Phi\left(\c^\mathsf{T} \x + \lambda\right) - \Phi\left(\c^\mathsf{T} \x \right)}\cdot \c
+  \end{equation}
+  \begin{equation}      
+    \label{eq:H}
+        \nabla^2_\x h = \frac{\left(\Phi\left(\c^\mathsf{T} \x + \lambda\right) - \Phi\left(\c^\mathsf{T} \x \right)\right)\left\{\left(\c^\mathsf{T} \x + \lambda\right)\phi\left(\c^\mathsf{T} \x + \lambda\right) - \c^\mathsf{T} \x\phi\left(\c^\mathsf{T} \x \right)\right\} + \left(\phi\left(\c^\mathsf{T} \x + \lambda\right) - \phi\left(\c^\mathsf{T} \x \right)\right)^2}{\left(\Phi\left(\c^\mathsf{T} \x + \lambda\right) - \Phi\left(\c^\mathsf{T} \x \right)\right)^2}\cdot \c\c^\mathsf{T}
+  \end{equation}
+  
+  Let $f(x, \lambda) = \left(\Phi\left(x + \lambda\right) - \Phi\left(x \right)\right)\left\{\left(x + \lambda\right)\phi\left(x + \lambda\right) - x\phi\left(x \right)\right\} + \left(\phi\left(x + \lambda\right) - \phi\left(x \right)\right)^2$. Notice that in \Eq~(\ref{eq:H}), $\left(\Phi\left(\c^\mathsf{T} \x + \lambda\right) - \Phi\left(\c^\mathsf{T} \x \right)\right)^2>0$ and $\c\c^\mathsf{T}\succeq 0$ always hold. Hence, it suffices to prove that $\nabla^2_\x h\succeq 0$ if we can prove that $f(x, \lambda) > 0$ holds for $\forall x\in\mathbb{R}$ when $\lambda>0$.
+  Notice that:
+  \begin{equation*}
+    \label{eq:trick}
+    \begin{aligned}
+      f(x, \lambda) &= \phi(x)f_1(x, \lambda) + \phi(x+\lambda)f_2(x, \lambda), \text{where}
+    \end{aligned}
+  \end{equation*}
+  \begin{equation*}
+    \left\{
+    \begin{aligned}
+      &f_1(x, \lambda) =   -x\left(\Phi\left(x + \lambda\right) - \Phi\left(x \right)\right) + \phi(x)-\phi(x+\lambda)\\
+      &f_2(x, \lambda) =  (x+\lambda)\left(\Phi\left(x + \lambda\right) - \Phi\left(x \right)\right) + \phi(x+\lambda)-\phi(x).
+    \end{aligned}
+    \right.
+  \end{equation*}
+Since $\phi(x)>0$ and $\phi(x+\lambda)>0$ always holds, thus when $\lambda>0$, if we can prove that $f_1(x, \lambda), f_2(x, \lambda) > 0$ holds for $\forall x\in\mathbb{R}$, it suffices to prove that $f(x, \lambda) > 0$ holds for $\forall x\in\mathbb{R}$.
+Notice that when $\lambda>0$, it can be derived that:
+\begin{equation*}
+  \left\{
+  \begin{aligned}
+    &\nabla_\lambda f_1  =   -x\phi\left(x + \lambda\right) + (x+\lambda)\phi(x+\lambda) = \lambda \phi(x+\lambda) > 0\\
+    &\nabla_\lambda f_2  = \Phi\left(x + \lambda\right) - \Phi\left(x \right) + (x+\lambda)\phi\left(x + \lambda\right) - (x+\lambda)\phi(x+\lambda)=\Phi\left(x + \lambda\right) - \Phi\left(x \right)>0.
+  \end{aligned}
+  \right.
+\end{equation*}
+Hence, for $\forall x\in\mathbb{R}$, $f_1(x, \lambda)>f_1(x, 0) = 0$ and $f_2(x, \lambda)>f_2(x, 0) = 0$, which suffices to prove that $\nabla^2_\x h\succeq 0$.
+\end{proof}
+
+
+\begin{theorem35}
+  We call the desired region $\sS(\M, \d)$ satisfies the CARE condition iff $\sS(\M, \d)$ is canonical \wrt $\C\bm{\Sigma}\C^\mathsf{T}$. Let $\mathbb{P}_{\operatorname*{A}}$ denote $\mathbb{P}(\Y \in \sS\mid \bm{\theta}, \x, Rh(\z^\xi))$, $\k_j^\mathsf{T}$ denote the $j$-th row of $\M\B$ and $b_j$ denote the $j$-th component of $\M\A\x-\d$, the following asserts hold under the CARE condition:
+  \vspace{-0.05in}
+  \begin{compactenum}
+    \item Let $|\Y|=d$, the AUF probability can be expressed as
+    \vspace{-0.1in}
+    \begin{equation*}
+      \mathbb{P}_{\operatorname*{A}} = \prod_{i=1}^{d}\left\{\Phi\left(-\k_i^\mathsf{T} \z^\xi - b_i\right) - \Phi\left(\k^\mathsf{T}_{i+d} \z^\xi + b_{i+d}\right)\right\};
+    \end{equation*}
+    \vspace{-0.17in}
+    \item For any bounded alteration $\z^\xi$, $\mathbb{P}_{\operatorname*{A}}>0$ and the function $\ell\left(\z^\xi\right) = -\log\left(\mathbb{P}_{\operatorname*{A}}\right)$ is convex \wrt $\z^\xi$ .
+  \end{compactenum}
+\end{theorem35}
+
+\begin{proof}
+Since $\sS(\M, \d)$ is canonical \wrt $\C\bm{\Sigma}\C^\mathsf{T}$, as discussed in Remark~\ref{remark:canonical_rectangle}, we define without loss of generality that:
+\begin{equation*}
+  \label{eq:M}
+  \M = \begin{bmatrix}
+    \I & -\I
+  \end{bmatrix}^\mathsf{T} \D^{-\frac{1}{2}} \Q\in \mathbb{R}^{2p\times p},
+\end{equation*}
+where $p=|\Y|$, $\C\bm{\Sigma}\C^\mathsf{T} = \Q^\mathsf{T}\D\Q$ is the eigen decomposition of matrix $\C\bm{\Sigma}\C^\mathsf{T}$. Meanwhile, from Lemma~\ref{lemma:identi}, we know that $\Y\sim \mathcal{N}\left(\A\x+\B\z^\xi, \C\bm{\Sigma}\C^\mathsf{T}\right)$. 
+Hence, it can be derived that:
+\begin{equation*}
+  \label{eq:region_trans}
+  \begin{aligned}
+    \M\Y\leq \d &\Leftrightarrow \M\Y - \M\left(\A\x+\B\z^\xi\right)\leq \d - \M\left(\A\x+\B\z^\xi\right)\\
+    &\Leftrightarrow \M\left(\Y - \A\x-\B\z^\xi\right)\leq \d - \M\left(\A\x+\B\z^\xi\right)\\
+    &\Leftrightarrow (\I, -\I)^\mathsf{T} \D^{-\frac{1}{2}} \Q\left(\Y - \A\x-\B\z^\xi\right)\leq \d - \M\left(\A\x+\B\z^\xi\right)\\
+    &\Leftrightarrow (\I, -\I)^\mathsf{T}  \bm{\nu}\leq \d - \M\left(\A\x+\B\z^\xi\right)\text{, where $\bm{\nu}\sim\mathcal{N}(\bm{0}, \I_{p\times p})$}\\
+  \end{aligned}
+\end{equation*}
+That is to say, it holds that:
+\vskip -0.2in
+\begin{equation}
+  \label{eq:prob_derive}
+  \begin{aligned}
+  \mathbb{P}(\Y \in \sS\mid \bm{\theta}, \x, Rh(\z^\xi))
+  &= \mathbb{P}\left(\mathop{\bigwedge}_{i=1}^p\left\{\k^\mathsf{T}_{i+p} \z^\xi + b_{i+p}\leq \nu_i\leq -\k_i^\mathsf{T} \z^\xi - b_i\right\}\right)\\
+  &= \prod_{i=1}^p \mathbb{P}\left(\k^\mathsf{T}_{i+p} \z^\xi + b_{i+p}\leq \nu_i\leq -\k_i^\mathsf{T} \z^\xi - b_i\right)\\
+  &= \prod_{i=1}^p\left\{\Phi\left(-\k_i^\mathsf{T} \z^\xi - b_i\right) - \Phi\left(\k^\mathsf{T}_{i+p} \z^\xi + b_{i+p}\right)\right\},
+  \end{aligned}
+\end{equation}
+where $\k_j^\mathsf{T}$ is $j$-th row of $\M\B$, and $b_j$ is $j$-th component of $\M\A\x-\d$.
+
+Besides, we prove the convexity of $\ell\left(\z^\xi\right)$ as follows. First, it can be derived that:
+\begin{equation}
+  \label{eq:convex_derive}
+  \begin{aligned}
+    \ell\left(\z^\xi\right)
+    &= -\log \mathbb{P}(\Y \in \sS\mid \bm{\theta}, \x, Rh(\z^\xi))\\
+    &= -\sum_{i=1}^p\log\left(\Phi\left(-\k_i^\mathsf{T} \z^\xi - b_i\right) - \Phi\left(\k^\mathsf{T}_{i+p} \z^\xi + b_{i+p}\right)\right),
+  \end{aligned}
+\end{equation}
+
+Let $\ell_i\left(\z^\xi\right)$ denote $-\log\left(\Phi\left(-\k_i^\mathsf{T} \z^\xi - b_i\right) - \Phi\left(\k^\mathsf{T}_{i+p} \z^\xi + b_{i+p}\right)\right)$. If we could prove that $\ell_i\left(\z^\xi\right)$s are all convex \wrt $\z^\xi$, it suffices to prove $\ell\left(\z^\xi\right)$ is convex \wrt $\z^\xi$ because $\ell\left(\z^\xi\right)=\sum_{i=1}^p \ell_i\left(\z^\xi\right)$.
+
+It can be observed that $-\k_i=\k_{i+p}$ always holds due to the definition of $\M$. Meanwhile, it has to hold that $b_{i+p}\leq-b_{i}$ because $\sS(\M,\d)$ is a canonical rectangle as defined in Def.~\ref{def:canonical-rectangle}. 
+Without loss of generality, assume the $j$-th component of $\k_i$ is non-zero, then define the affine transformation:
+\[
+  a_i\left(\z^\xi\right) = \z^\xi+\frac{b_{i+p}}{k_{ij}}\e_j, \text{where $\e_j$ is a zero vector except $j$-th component set to 1}.
+\]
+ Notice that by definition, it can be derived that:
+\[
+\begin{aligned}
+  \ell_i\left(a_i\left(\z^\xi\right)\right) &=-\log\left(\Phi\left(-\k_i^\mathsf{T}a_i\left(\z^\xi\right) - b_i\right) - \Phi\left(-\k^\mathsf{T}_{i}a_i\left(\z^\xi\right)+ b_{i+p}\right)\right)\\
+  &= -\log\left(\Phi\left(-\k_i^\mathsf{T}\z^\xi-b_{i+p} - b_i\right) - \Phi\left(-\k^\mathsf{T}_{i}\z^\xi\right)\right).
+\end{aligned}
+\]
+Because $-b_{i+p} - b_i>0$ as explained above, $\ell_i\left(a_i\left(\z^\xi\right)\right)$ is convex \wrt $\z^\xi$ by Lemma~\ref{lemma:convex}. 
+Since $a_i(\cdot)$ is an affine transformation, $\ell_i\left( \z^\xi\right)$ is also convex \wrt $\z^\xi$ (for $\forall i$), which suffices to prove that $\ell\left(\z^\xi\right)$ is convex \wrt $\z^\xi$.
+
+\end{proof}
+
+
+\subsection{Proof of Theorem~\ref{thm:converge}}
+The proof of Thm.~\ref{thm:converge} relies on the detailed definition of the gradient, the Hessain matrix, the $\operatorname*{DiagApprox}$ operator and the Armijo-like rule. Hence, we provide the proof in Appx.~\ref{sec:proj_Newton} after the details of Alg.~\ref{alg:proj_newton}.
+
+
+\subsection{Proof of Proposition~\ref{prop:upper-bound}}
+
+\begin{proposition39}
+      Let $\sS$ denote a non-empty region in $\mathbb{R}^{d}$, and let $\sI_{cr}\left(\M, \d\right)$ denote the inner CARE embedding of $\sS$. 
+      Then, it always holds that \(\ell(\z^\xi)\leq\hat{\ell}(\z^\xi)\), where the loss function $\ell(\z^\xi)=-\log\left(\mathbb{P}(\Y \in \sS\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\right)$ and $\hat{\ell}(\z^\xi)=-\log\left(\mathbb{P}(\Y \in \sI_{cr}\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\right)$.
+\end{proposition39}
+
+\begin{proof}
+  \label{proof:upper-bound}
+  By definition of the inner CARE embedding as in Def.~\ref{def:inner-embedding}, it always holds that $\sI_{cr}\left(\M, \d\right)\subseteq \sS$. Hence, it suffices to prove that for any given $\hat{\bm{\theta}}, \x,$ and $\z^\xi$, it must hold that $\mathbb{P}(\Y \in \sI_{cr}\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\leq \mathbb{P}(\Y \in \sS\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))$ by the definition of probability theory. Consequently, we always have $\ell(\z^\xi)\leq \hat{\ell}(\z^\xi)$.
+\end{proof}
+
+\subsection{Proof of Proposition~\ref{prop:inner4circle}}
+
+\begin{proposition310}
+  Let $\sS=\{\x\in\mathbb{R}^d\mid \|\x-\bm{o}\|_2^2 = r^2\}$ denote a circular region on $\mathbb{R}^d$, and let $\C,\bm{\Sigma}$ denote problem-related matrices as defined in Lemma~\ref{lemma:identi}. 
+  Then, the inner CARE embedding of $\sS$ can be expressed by $\sI_{cr}\left(\M, \d\right)$ with:
+  \vspace*{-0.03in}
+  \begin{equation*}
+    \left\{
+      \begin{aligned}
+        &\M = (\I,-\I)^\mathsf{T}\bm{\Lambda}\Q\\
+        &\d = (\I,\I)^\mathsf{T}\bm{\Lambda}\bm{1}\cdot r/\sqrt{d}+\M\o,
+      \end{aligned}
+    \right.
+  \end{equation*}
+  \vskip -0.12in
+  where $\Q^\mathsf{T}\bm{\Lambda}\Q$ is the eigen-decomposition of matrix $\C\bm{\Sigma}\C^\mathsf{T}$, $\I\in\mathbb{R}^{d\times d}$ is the identity matrix and $\bm{1}\in\mathbb{R}^{d}$ is the vector with all components equals 1.
+  \end{proposition310}
+
+\begin{proof}
+  \label{proof:inner4circle}
+  The inner CARE rectangle of a circle must be a (hyper-)square. Let $a$ denote the edge length of the square, then by pythagorean theorem, it can be derived  that:
+  \[
+  d\cdot a^2 = (2r)^2\Rightarrow a = \frac{2r}{\sqrt{d}}.
+  \]
+  Hence, the inner CARE square \wrt the original axes coordinate system should be:
+  \[
+    \left\{\x\mid(\I,-\I)^\mathsf{T}(\x-\o)\leq (\bm{1}, \bm{1})^\mathsf{T} \frac{r}{\sqrt{d}}\right\}.
+  \]
+  If we rotate the coordinate system using the positive definite matrix $\Q$, the inner CARE square \wrt $\Q$ can be expressed as:
+  \[
+    \left\{\x\mid(\I,-\I)^\mathsf{T}\Q(\x-\o)\leq (\bm{1}, \bm{1})^\mathsf{T} \frac{r}{\sqrt{d}}\right\}.
+  \]
+As introduced in \Sec~\ref{sec:cr-condition}, we add the shrinkage matrix $\bm{\Lambda}$, and can derive that:
+\[
+    \left\{\x\mid(\I,-\I)^\mathsf{T}\bm{\Lambda}\Q(\x-\o)\leq (\I, \I)^\mathsf{T} \bm{\Lambda}\bm{1}\frac{r}{\sqrt{d}}\right\},
+\]
+from which we can assert that $\M = (\I,-\I)^\mathsf{T}\bm{\Lambda}\Q$ and $\d = (\I,\I)^\mathsf{T}\bm{\Lambda}\bm{1}\cdot r/\sqrt{d}+\M\o$ for region $\{\x\mid \M\x\leq \d\}$.
+\end{proof}
+
+
+\subsection{Proof of Theorem~\ref{thm:close}}
+
+\begin{theorem41}
+    When \(|\Y|=1\), let \(\mathbb{P}_{\operatorname*{A}}^\star\) denote the maximal AUF probability \(\mathbb{P}(Y \in [l, r]\mid \hat{\bm{\theta}}, \x, Rh(\z^\xi))\) that can be achieved by alteration \(\z^\xi\in\left[\z_{\operatorname*{left}}, \z_{\operatorname*{right}}\right]\), and let \(\z^\star\) denote the alteration outputted by Alg.~\ref{alg:close_form}. Then the probability \(\mathbb{P}(Y \in [l, r]\mid \hat{\bm{\theta}}, \x, Rh(\z^\star))\) equals the maximal one \(\mathbb{P}_{\operatorname*{A}}^\star\).
+\end{theorem41}
+
+
+\begin{proof}
+  \label{proof:close}
+  Recall from \Sec~\ref{sec:1d-close} that when the dimension of $\Y$ is 1, we can know that:
+  \[
+    \ell(\z^\xi)=-\log\left\{ \Phi\left(\k_2^\mathsf{T} \z^\xi - b_1\right) - \Phi\left(\k_2^\mathsf{T} \z^\xi + b_2\right) \right\}.
+  \]
+  In this case, to find $\z^\xi_\star\mathop{\arg\min}\limits_{\z^\xi\in[\z_{\operatorname{left}}, \z_{\operatorname{right}}]}\ell(\z^\xi)$, we first define function $f(x)$ as follws:
+  \[
+    f(x)=-\log\left\{ \Phi\left(x - b_1\right) - \Phi\left(x + b_2\right) \right\}.
+  \]
+  Let $m=\k_2^\mathsf{T}\cdot\left(\mathbb{I}(\k_2>\bm{0})\circ\z_{\operatorname{left}}+ \mathbb{I}(\k_2<\bm{0})\circ\z_{\operatorname{right}}\right)$ and $M=\k_2^\mathsf{T}\cdot\left(\mathbb{I}(\k_2<\bm{0})\circ\z_{\operatorname{left}} + \mathbb{I}(\k_2>\bm{0})\circ\z_{\operatorname{right}}\right)$, it can be derived that $\k_2^\mathsf{T} \z^\xi \in \left[m, M\right]$ and $\k_2^\mathsf{T} \z^\xi$ can continuously choose the value in this interval. Hence, we turn to use a two stage method to find $\z^\xi_\star$: first, we find $x_\star = \mathop{\arg\min}\limits_{x\in[m, M]} f(x)$; and second, we find an appropriate $\z^\xi_\star$ such that $\k_2^\mathsf{T} \z^\xi_\star = x_\star$.
+
+  It can be derived that $f^\prime(x) = -\frac{\phi\left(x - b_1\right) - \phi\left(x + b_2\right)}{\Phi\left(x - b_1\right) - \Phi\left(x + b_2\right)}$, which can be analyzed that $f^\prime(x) \leq 0$ on $(-\infty, \frac{b_1-b_2}{2}]$ and $f^\prime(x) \geq 0$ on $[\frac{b_1-b_2}{2}, +\infty)$. Hence, $f(x)$ is monotone decreasing on $(-\infty, \frac{b_1-b_2}{2}]$ and is monotone increasing on $[\frac{b_1-b_2}{2}, +\infty)$. Thus, it can be derived that if $\frac{b_1-b_2}{2} \leq m$, then $x_\star = m$; and if $\frac{b_1-b_2}{2} \geq M$, then $x_\star = M$. For these two cases, we can directly set $\z^\xi_\star = \mathbb{I}(\k_2>\bm{0})\circ\z_{\operatorname{left}}+ \mathbb{I}(\k_2<\bm{0})\circ\z_{\operatorname{right}}$ for $x_\star = m$ and set $\z^\xi_\star = \mathbb{I}(\k_2<\bm{0})\circ\z_{\operatorname{left}} + \mathbb{I}(\k_2>\bm{0})\circ\z_{\operatorname{right}}$ for $x_\star = M$ such that $\k_2^\mathsf{T} \z^\xi_\star = x_\star$ can always hold.
+
+  For the remaining case that $m<\frac{b_1-b_2}{2}<M$, it holds that $x_\star = \frac{b_1-b_2}{2}$. In this case, to find an appropriate $\z^\xi_\star$ such that $\k_2^\mathsf{T} \z^\xi_\star = \frac{b_1-b_2}{2}$, we can start from $\z^\xi_\star = \bm{0}$ and perform an iteration that for each dimension $j$ of $\z^\xi_\star$, check if there exist $z_j \in [z_{\operatorname{left}, j}, z_{\operatorname{right}, j}]$ such that substitute the $j$-th dimension of $\z^\xi_\star$ by $z_j$ can lead to $\k_2^\mathsf{T} \z^\xi_\star = \frac{b_1-b_2}{2}$. The checking process is listed in line~9 to line~14 in Alg.~\ref{alg:close_form}. As we have discussed how to determine $\z^\xi_\star$ for all the possible cases ($\frac{b_1-b_2}{2}\leq m$, $m<\frac{b_1-b_2}{2}<M$ and $\frac{b_1-b_2}{2}\geq M$), it has been proven that Alg.~\ref{alg:close_form} always outputs the alteration that can achieve $\mathop{\min}\limits_{\z^\xi\in[\z_{\operatorname{left}}, \z_{\operatorname{right}}]}\ell(\z^\xi)$, \ie, the one that can achieve the maximum AUF probability.
+\end{proof}
+
+
+\section{Details of projection Newton method}
+\label{sec:proj_Newton}
+
+We aim to optimize the following objective function:
+
+\[
+    \ell\left(\z^\xi\right) = \sum_{i=1}^d -\log \left\{ \Phi\left(-\k_i^\mathsf{T} \z^\xi - b_i\right) - \Phi\left(-\k_i^\mathsf{T} \z^\xi + b_{i+d}\right) \right\}.
+\]
+
+We can compute both the gradient and the second-order Hessian matrix of the objective function as follows:
+
+\begin{equation}
+  \label{eq:gradient-hessian}
+\begin{aligned}
+\mathbf{g}\left(\mathbf{z}^{\xi}\right)\triangleq & \nabla \ell\left(\mathbf{z}^{\xi}\right)=\sum_{i=1}^d \frac{\phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)}{\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)} \mathbf{k}_i \\
+\mathbf{H}\left(\mathbf{z}^{\xi}\right)\triangleq&\nabla^2\ell\left(\mathbf{z}^{\xi}\right)=  \sum_{i=1}^d \mathbf{k}_i^{\top} \mathbf{k}_i \cdot\left\{\frac{\left(\phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)\right)^2}{\left(\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)\right)^2}+\right. \\
+& \left.\frac{\left\{\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right) \phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right) \phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)\right\}}{\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)}\right\}
+\end{aligned}
+\end{equation}
+
+Before proceeding, we make a few simple observations regarding \(\g(\z^\xi)\) and \(\H(\z^\xi)\). Both of these quantities admit closed-form expressions, enabling us to leverage second-order Hessian information to facilitate the optimization of \(\ell(\z^\xi)\), and we employ a modified projection Newton method. The method can be expressed as follows:
+
+
+\[
+    \z_{k+1} = \z_k(\alpha_k),
+\]
+
+where the subscript $k+1$ and $k$ are identical to $(t+1)$ and $(t)$ as defined in the main body of the paper, and
+
+\[
+    \z_k(\alpha) = \operatorname{Proj}\left[\z_k - \alpha \D_k \nabla \ell\left(\z_k\right)\right].
+\]
+
+For all $\z \in \mathbb{R}^n$, we define the projection operator $\operatorname{Proj}[\z]$ with coordinates given by:
+
+\[
+    \operatorname{Proj}[\z]^i = 
+    \begin{cases} 
+      \z_{\operatorname{right}}^i & \text{if } \z_{\operatorname{right}}^i \leq \z^i, \\
+      \z^i & \text{if } \z_{\operatorname{left}}^i < \z^i < \z_{\operatorname{right}}^i, \\
+      \z_{\operatorname{left}}^i & \text{if } \z^i \leq \z_{\operatorname{left}}^i.
+    \end{cases}
+\]
+
+To clarify the definitions of \( \D_k \) and \(\alpha_k\) in the above equation, we first introduce the subset of indices \( \sI_k^{\operatorname{Proj}} \):
+
+\[
+    \sI_k^{\operatorname{Proj}} = \left\{ i \mid \z_{\operatorname{left}}^i \leq \z_k^i \leq \z_{\operatorname{left}}^i + \varepsilon_k \text{ and } \frac{\partial \ell\left(\z_k\right)}{\partial z^i} > 0 \text{ or } \z_{\operatorname{right}}^i - \varepsilon_k \leq \z_k^i \leq \z_{\operatorname{right}}^i \text{ and } \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} < 0 \right\},
+\]
+
+and the matrix \( \D_k \) is defined as:
+
+\[
+    \D_k = \H_k^{-1},
+\]
+
+where \( \H_k \) is the matrix with elements \( \H_k^{ij} \) given by
+
+\[
+    \H_k^{ij} = 
+    \begin{cases} 
+      0 & \text{if } i \neq j, \text{ and either } i \in \sI_k^{\operatorname{Proj}} \text{ or } j \in \sI_k^{+}, \\
+      \frac{\partial^2 \ell\left(x_k\right)}{\partial \z^i \partial \z^i} & \text{otherwise.}
+    \end{cases}
+\]
+
+The algorithm utilizes a scalar \( \varepsilon > 0 \) (typically small), a fixed diagonal positive definite matrix \( M \) (such as the identity matrix), and two parameters \( \beta \in (0,1) \) and \( \sigma \in \left(0, \frac{1}{2}\right) \), which are used in conjunction with an Armijo-like stepsize rule (first introduced in \citep{bertsekas1976goldstein}). The scalar \( \varepsilon_k \) is defined as
+
+\[
+    \varepsilon_k = \min \left\{ \varepsilon, \left| \z_k - \left[ \z_k - \M \nabla \ell\left(\z_k\right) \right]^* \right| \right\}.
+\]
+
+The matrix \( \D_k \) is positive definite, and \( \M \) is a fixed diagonal positive definite matrix. The stepsize \( \alpha_k \) is given by:
+
+\[
+    \alpha_k = \beta^{m_k},
+\]
+
+where
+
+\[
+    p_k = \D_k \nabla \ell\left(x_k\right),
+\]
+
+and \( m_k \) is the first nonnegative integer \( m \) such that: 
+
+\begin{equation}
+    \label{Eq:Armijo}
+    \ell\left(\z_k\right) - \ell\left[\z_k\left(\beta^m\right)\right] \geq \sigma \left\{ \beta^m \sum_{i \in I_k^{\operatorname{Proj}}} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} p_k^i + \sum_{i \in I_k^{\operatorname{Proj}}} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \left[ \z_k^i - \z_k^i\left(\beta^m\right) \right] \right\}.
+\end{equation}
+
+
+\begin{proposition}
+    We have the following observations:
+        \begin{itemize}
+        \item[1] The gradient $\nabla \ell$ is Lipschitz continuous on each bounded set of $\mathbb{R}^n$; i.e., given any bounded set $S \subset R^n$ there exists a scalar $L$ (depending on $S$ ) such that
+\begin{equation}
+\label{Eq:smooth}
+    |\nabla \ell(\z_1)-\nabla \ell(\z_2)| \leq L|\z_1-\z_2| \quad \forall \z_1, \z_2 \in S .
+\end{equation}
+        \item[2]  There exist positive scalars $\lambda_1, \lambda_2$ and nonnegative integers $q_1, q_2$ such that
+\begin{equation}
+\label{Eq:bounded}
+    \lambda_1 w_k^{q_1}|\z|^2 \leq \z^{\prime} \D_k \z \leq \lambda_2 w_k^{q_2}|\z|^2 \quad \forall \z \in R^n, \quad k=0,1 \cdots,
+\end{equation}
+
+where
+\[
+w_k=\left|\z_k-\left[\z_k-M \nabla \ell\left(\z_k\right)\right]^{\operatorname{Proj}}\right| .
+\]
+
+\item[3]  The local minimum \(\z^*\) of problem is such that for some \(\delta > 0\), \(\ell\) is twice continuously differentiable in the open sphere \(\left\{\z \mid \left|\z - \z^*\right| < \delta\right\}\), and there exist positive scalars \(m_1, m_2\) such that
+\[
+m_1|\z|^2 \leq \z^{\prime} \nabla^2 \ell(\z) \z \leq m_2|\z|^2 \quad
+\forall \z \text{ such that } \left|\z - \z^*\right| < \delta \text{ and } \z \neq 0 \text{ such that } \z^i = 0, \forall i \in B\left(\z^*\right).
+\]
+
+Furthermore,
+\begin{equation}
+\label{Eq:ball}
+    \frac{\partial \ell\left(\z^*\right)}{\partial \z^i} > 0 \quad \forall i \in B\left(\z^*\right).
+\end{equation}
+
+    \end{itemize}
+\end{proposition}
+
+\begin{proof}
+
+
+Consider a bounded set $\mathcal{Z} \subset \mathbb{R}^d$ for $\mathbf{z}^{\xi}$. Because $\mathbf{k}_i$, $b_i$, and $b_{i+d}$ are fixed, the quantities $-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i$ and $-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}$ vary over a bounded interval as $\mathbf{z}^{\xi}$ ranges over the bounded set $Z$.
+
+Since $\Phi(\cdot)$ is continuous, $\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)$ and $\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)$ are also continuous functions of $\mathbf{z}^{\xi}$, and hence uniformly continuous on the compact set $\mathcal{Z}$.
+
+We write $b_{\min }=\min _{1 \leq i \leq d}\left|b_{i+d}-b_i\right|$, and let
+
+\begin{equation}
+D_i\left(\mathbf{z}^{\xi}\right)=\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)-\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right).
+\end{equation}
+
+Without loss of generality, suppose $b_{i+d}>b_i$. Then for all $\mathbf{z}^{\xi} \in \mathcal{Z}$: 
+
+\[
+-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i<-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d} .
+\]
+
+
+Since $\Phi(\cdot)$ is strictly increasing, it follows that $D_i\left(\mathbf{z}^{\xi}\right)>0$. 
+Because $\mathbf{z}^{\xi}$ is restricted to a bounded set $\mathcal{Z}$, the values $-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}$ lie within some finite interval. 
+Hence, $\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)$ and $\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)$ also lie in some bounded intervals. 
+Since $\Phi(\cdot)$ is continuous and strictly increasing, the difference $\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)-\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)$ attains a strictly positive minimum on the compact set $\mathcal{Z}$. Alternatively, one can use a Lipschitz continuity argument: $\Phi(\cdot)$ is Lipschitz continuous with some constant $L \leq \frac{1}{\sqrt{2 \pi}}$, so
+
+\[
+D_i\left(\mathbf{z}^{\xi}\right)=\Phi(y)-\Phi(x) \geq L|y-x|,
+\]
+
+where $x=-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i$ and $y=-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}$, and $L$ is determined by $S$. Thus,
+
+\[
+|y-x|=\left|b_{i+d}-b_i\right| \geq b_{\min}.
+\]
+
+
+Therefore,
+
+\[
+D_i\left(\mathbf{z}^{\xi}\right) \geq L b_{\min } \quad \forall \mathbf{z}^{\xi} \in Z
+\]
+
+For the numerator:
+
+\[
+N_i\left(\mathbf{z}^{\xi}\right)=\phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right) .
+\]
+
+
+Since $\phi(\cdot)$ is the standard normal PDF, it is bounded above by $\frac{1}{\sqrt{2 \pi}}$. Thus:
+
+\[
+\left|N_i\left(\mathbf{z}^{\xi}\right)\right| \leq \frac{2}{\sqrt{2 \pi}}.
+\]
+
+
+Combining these results:
+
+\[
+\left|\frac{N_i\left(\mathbf{z}^{\xi}\right)}{D_i\left(\mathbf{z}^{\xi}\right)}\right| \leq \frac{\frac{2}{\sqrt{2 \pi}}}{L b_{\min }}=\frac{C_1}{b_{\min }},
+\]
+
+where $C_1=\frac{2}{\sqrt{2 \pi} L}$ is a constant independent of $\mathbf{z}^{\xi}$. 
+Since $\mathbf{k}_i$ are fixed vectors, let
+
+\[
+C_2=\max _{1 \leq i \leq d}\left\|\mathbf{k}_i\right\|, 
+\]
+
+
+then each term in the sum has a uniform bound: 
+
+\[
+  \left\|\frac{N_i\left(\mathbf{z}^{\xi}\right)}{D_i\left(\mathbf{z}^{\xi}\right)} \mathbf{k}_i\right\| \leq \frac{C_1}{b_{\min }} C_2.
+\]
+
+
+Summing over $i=1, \ldots, d$: 
+
+\[
+  \left\|\mathbf{g}\left(\mathbf{z}^{\xi}\right)\right\|=\left\|\sum_{i=1}^d \frac{N_i\left(\mathbf{z}^{\xi}\right)}{D_i\left(\mathbf{z}^{\xi}\right)} \mathbf{k}_i\right\| \leq \sum_{i=1}^d\left\|\frac{N_i\left(\mathbf{z}^{\xi}\right)}{D_i\left(\mathbf{z}^{\xi}\right)} \mathbf{k}_i\right\| \leq \sum_{i=1}^d \frac{C_1}{b_{\min }} C_2=d \frac{C_1 C_2}{b_{\min }}.
+\]
+
+
+This constants do not depend on $\mathbf{z}^{\xi}$. 
+
+For the second one, From this definition, $\H_k$ is essentially diagonal except possibly for som modifications dictated by the sets $\sI_k^{\text {Proj }}$ and $\sI_k^{+}$. Crucially, if an index $i$ falls into $\sI_k^{\text {Proj }}$, it indicates that $\mathbf{z}_k^i$ is close to the boundary and that the sign of $\frac{\partial \ell\left(\mathbf{z}_k\right)}{\partial z^i}$ is such that pushing beyond the boundary would reduce, hence the zeroing out of certain off-diagonal terms ensures a stable modification. 
+
+Because $\ell(\cdot)$ is twice continuously differentiable, the second derivatives $\frac{\partial^2 \ell}{\partial z^i \partial z^i}$ are continuous and thus bounded within any compact region. This ensures that each nonzero diagonal element of $\H_k$ stays within certain positive bounds, except potentially when $i \in I_k^{\text {Proj }}$, where the proximity to the boundary and the definition of $\H_k$ allows the diagonal entries to shrink.
+
+Indices in the set $I_k^{\text {Proj }}$ correspond to coordinates near the boundary where the step is adjusted by the projection. The deviation $w_k$ controls how significant this projection adjustment is. As $\mathbf{z}_k$ approaches the boundary, the difference between $\mathbf{z}_k$ and $\left[\mathbf{z}_k-M \nabla \ell\left(\mathbf{z}_k\right)\right]^{\text {Proj }}$ reflects how the Hessian's diagonal elements may shrink or grow.
+
+By suitable scaling arguments and using continuity of the second derivatives, we can show that there exist nonnegative integers $q_1, q_2$ and positive constants $\lambda_1, \lambda_2$ such that every nonzero diagonal element of $\H_k$ (and thus its inverse $\D_k$ ) can be sandwiched as follows:
+
+\[
+  \lambda_1 w_k^{q_1} \leq \H_k^{i i} \leq \lambda_2 w_k^{q_2}.
+\]
+
+
+Since $\D_k=\H_k^{-1}$, these inequalities invert to give:
+
+\[
+  \frac{1}{\lambda_2} w_k^{-q_2} \leq \frac{1}{\H_k^{i i}} \leq \frac{1}{\lambda_1} w_k^{-q_1}.
+\]
+
+
+Taking all coordinates $\mathbf{z}$ into account and using the fact that $\D_k$ is diagonal (due to the structure imposed by zeroing out certain offdiagonal terms), for all $\mathbf{z} \in \mathbb{R}^n$, we obtain:
+
+\[
+  \lambda_1 w_k^{q_1}|\mathbf{z}|^2 \leq \mathbf{z}^{\prime} \D_k \mathbf{z} \leq \lambda_2 w_k^{q_2}|\mathbf{z}|^2.
+\]
+
+
+For the third one, $\ell(\cdot)$ is twice continuously differentiable at $\mathbf{z}^*$. By definition, this means that there exists a $\delta>0$ such that $\ell$ is $C^2$-smooth in the open ball
+
+\[
+  \left\{\mathbf{z} \mid\left\|\mathbf{z}-\mathbf{z}^*\right\|<\delta\right\}
+\]
+
+
+This ensures that both the gradient $\nabla \ell(\mathbf{z})$ and the Hessian $\nabla^2 \ell(\mathbf{z})$ are continuous functions in that neighborhood. Since $\mathbf{z}^*$ is a local minimizer of $\ell(\cdot)$, the second-order sufficient condition for a strict local minimum states that the Hessian at $\mathbf{z}^*$, \ie, $\nabla^2 \ell\left(\mathbf{z}^*\right)$, 
+is positive definite. 
+
+Because $\nabla^2 \ell\left(\mathbf{z}^*\right)$ is a symmetric positive definite matrix, it has a full set of positive eigenvalues. Let $\lambda_{\min }\left(\mathbf{z}^*\right)$ and $\lambda_{\max }\left(\mathbf{z}^*\right)$ denote the smallest and largest eigenvalues of $\nabla^2 \ell\left(\mathbf{z}^*\right)$, respectively. We then have:
+
+\[
+  0<\lambda_{\min }\left(\mathbf{z}^*\right) \leq \frac{\mathbf{h}^{\top} \nabla^2 \ell\left(\mathbf{z}^*\right) \mathbf{h}}{\|\mathbf{h}\|^2} \leq \lambda_{\max }\left(\mathbf{z}^*\right)
+\]
+
+And the Hessian $\nabla^2 \ell(\mathbf{z})$ is continuous in $\mathbf{z}$. Therefore, there exists a $\delta>0$ such that for all $\mathbf{z}$ with $\left\|\mathbf{z}-\mathbf{z}^*\right\|<\delta$, the Hessian $\nabla^2 \ell(\mathbf{z})$ remains close to $\nabla^2 \ell\left(\mathbf{z}^*\right)$ in operator norm. This implies that the eigenvalues of $\nabla^2 \ell(\mathbf{z})$ are also close to those of $\nabla^2 \ell\left(\mathbf{z}^*\right)$.
+
+Since $\nabla^2 \ell\left(\mathbf{z}^*\right)$ is positive definite, we can find constants $m_1, m_2>0$ such that for all $\mathbf{z}$ with $\left\|\mathbf{z}-\mathbf{z}^*\right\|<\delta$ :
+
+\[
+  m_1 \I \preceq \nabla^2 \ell(\mathbf{z}) \preceq m_2 \I,
+\]
+
+where $\I$ is the identity matrix and $\preceq$ denotes the Loewner (matrix) order. Equivalently:
+
+\[
+  m_1|\mathbf{z}|^2 \leq \mathbf{z}^{\top} \nabla^2 \ell(\mathbf{z}) \mathbf{z} \leq m_2|\mathbf{z}|^2 \quad \forall \mathbf{z} \neq 0 \text { with }\left\|\mathbf{z}-\mathbf{z}^*\right\|<\delta.
+\]
+
+
+This shows both the boundedness from above and below of the quadratic form defined by the Hessian in a neighborhood of the minimizer. $\frac{\partial \ell\left(\mathbf{z}^*\right)}{\partial \mathbf{z}^i}>0 \quad \forall i \in B\left(\mathbf{z}^*\right)$ is obviously since $z^*$ is local minimum and $\frac{\partial \ell\left(\mathbf{z}^*\right)}{\partial \mathbf{z}^i}$ is continous.
+
+
+
+\end{proof}
+
+
+
+
+
+
+
+
+Notice that in: 
+
+\[
+\begin{aligned}
+\mathbf{H}\left(\mathbf{z}^{\xi}\right) =&\sum_{i=1}^d \mathbf{k}_i^{\top} \mathbf{k}_i \cdot\left\{\frac{\left(\phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)\right)^2}{\left(\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)\right)^2}+\right. \\
+& \left.\frac{\left\{\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right) \phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right) \phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)\right\}}{\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)}\right\}, 
+\end{aligned}
+\]
+
+since \(\k_j^\mathsf{T}\k_j\) has only rank 1, the upper and lower bounds of the eigenvalues of \(\H\left(\z^\xi\right)\) can be only depended on term: 
+
+\[
+\begin{aligned}
+& \frac{\left(\phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)\right)^2}{\left(\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)\right)^2}+\frac{\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right) \phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right) \phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)}{\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}-b_i\right)-\Phi\left(-\mathbf{k}_i^{\top} \mathbf{z}^{\xi}+b_{i+d}\right)}.
+\end{aligned}
+\]
+
+Next, we will prove that every limit point of a sequence \(\{\z_k \}\) generated by iteration is a critical point with respect to Eq.~(\ref{eq:target_opt}). First, we need the following lemma, which was first proven in \citep{bertsekas1982projected}.
+
+\begin{lemma}\citep{bertsekas1982projected}.
+    
+    Let \(\z \geq 0\) and \(D\) be a positive definite symmetric matrix that is diagonal with respect to \(\sI^{\operatorname{Proj}}(\z)\). Define
+\[
+\z(\alpha)=\operatorname{Proj}[\z-\alpha \D \nabla \ell(\z)] \quad \forall \alpha \geq 0.
+\]
+\begin{itemize}
+    \item[1] \label{lemmaD1.1} The vector \(\z\) is a critical point with respect to problem (1) if and only if
+\[
+\z=\z(\alpha) \quad \forall \alpha \geq 0.
+\]
+    \item[2] \label{lemmaD1.2} If \(\z\) is not a critical point with respect to problem (1), there exists a scalar \(\bar{\alpha}>0\) such that
+\[
+\ell[\z(\alpha)]<\ell(\z) \quad \forall \alpha \in (0, \bar{\alpha}].
+\]
+\end{itemize}
+
+\end{lemma}
+
+Note that for all \( k \) we have
+
+\[
+\sI_k^{\operatorname{Proj}} \supset \sI^{\operatorname{Proj}}\left(\z_k\right), 
+\]
+
+so the matrix \( \D_k \) is diagonal with respect to \( I^{\operatorname{Proj}}\left(\z_k\right) \). It can be shown that for all \( m \geq 0 \), the right-hand side of Eq.~(\ref{Eq:Armijo}) is nonnegative and is positive if and only if \(\z_k\) is not a critical point. Indeed, since \( \D_k \) is positive definite and diagonal with respect to \( I_k^{\operatorname{Proj}} \), we have
+\begin{equation}
+  \label{Eq:irtation}
+    \sum_{i \in r_k} \frac{\partial f\left(\z_k\right)}{\partial \z^i} p_k^i \geq 0 \quad \forall k=0,1, \cdots,
+\end{equation}
+while for all \( i \in I_k^{\operatorname{Proj}} \), given that \(\frac{\partial \ell\left(\z^k\right)}{\partial \z^i} > 0\), we have \( p_k^i > 0 \) and thus
+\begin{equation}
+\label{Eq:gather}
+    \begin{gathered}
+\z_k^i - \z_k^i(\alpha) \geq 0 \quad \forall \alpha \geq 0, \quad i \in I_k^{\operatorname{Proj}}, \quad k=0,1, \cdots, \\
+\frac{\partial \ell\left(\z_k\right)}{\partial \z^i}\left[\z_k^i - \z_k^i(\alpha)\right] \geq 0 \quad \forall \alpha \geq 0, \quad i \in I_k^{\operatorname{Proj}}, \quad k=0,1, \cdots.
+\end{gathered}
+\end{equation}
+
+
+This shows that the right side of Eq.~(\ref{Eq:Armijo}) is nonnegative. If \(\z_k\) is not a critical point, then it is clear  that one of the inequalities Eq.~(\ref{Eq:irtation})is strict for \(\alpha > 0\), making the right side of Eq.~(\ref{Eq:Armijo}) positive for all \( m \geq 0 \). A slight modification of the proof of Proposition 1(b) also shows that if \(\z_k\) is not a critical point, then Eq.~(\ref{Eq:Armijo}) will be satisfied for all sufficiently large \( m \), ensuring that the stepsize \(\alpha_k\) is well-defined and can be determined via a finite number of arithmetic operations. If \(\z_k\) is a critical point, then, by Lemma \ref{lemmaD1.1}, we have \(\z_k = \z_k(\alpha)\) for all \(\alpha \geq 0\). Furthermore, the argument given in the proof of Proposition 1(a) shows that: 
+\[
+\sum_{i=1}^r \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} p_k^i = 0, 
+\]
+so both terms on the right side of Eq.~(\ref{Eq:Armijo}) are zero. Since also \(\z_k = \z_k(\alpha)\) for all \(\alpha \geq 0\), it follows that Eq.~(\ref{Eq:Armijo}) is satisfied for \( m = 0 \), thereby implying that: 
+\[
+\z_{k+1} = \z_k(1) = \z_k \quad \text{if } \z_k \text{ is critical.}
+\]
+
+Now assume that there exists a subsequence \(\left\{\z_k\right\}_k\) converging to a vector \(\bar{\z}\) which is not critical. Since \(\left\{\ell\left(\z_k\right)\right\}\) is decreasing and \(f\) is continuous, it follows that \(\left\{\ell\left(\z_k\right)\right\}\) converges to \(f(\bar{\z})\) and therefore: 
+\[
+\left[\ell\left(\z_k\right)-\ell\left(\z_{k+1}\right)\right] \rightarrow 0.
+\]
+
+Since each of the sums on the right-hand side of Eq.~(\ref{Eq:Armijo}) is nonnegative (cf. Eq.~(\ref{Eq:irtation}), Eq.~(\ref{Eq:gather})), we must have
+\begin{equation}
+\label{Eq:asy0}
+    \alpha_k \sum_{i \in I_k^{\operatorname{Proj}}} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} p_k^i \rightarrow 0; 
+\end{equation}
+
+and
+
+\[
+\sum_{i \in r_k} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i}\left[\z_k^i - \z_k^i\left(\alpha_k\right)\right] \rightarrow 0.
+\]
+
+Also, since \(\bar{\z}\) is not critical and \(M\) is diagonal, we have \(\left|\bar{\z} - [\bar{\z} - M \nabla \ell(\bar{\z})]^{\operatorname{Proj}}\right| \neq 0\), so Eq.~(\ref{Eq:bounded}) implies that the eigenvalues of \(\left\{\D_k\right\}_K\) are uniformly bounded above and away from zero. In view of the fact that \(\D_k\) is diagonal \wrt \(\sI_k^{\operatorname{Proj}}\), it follows that there exist positive scalars \(\bar{\lambda}_1, \bar{\lambda}_2\) such that for all \(k \in K\) that are sufficiently large, it holds that: 
+\[
+\begin{aligned}
+& 0 < \bar{\lambda}_1 \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \leq p_k^i \leq \bar{\lambda}_2 \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \quad \forall i \in \sI_k^{\operatorname{Proj}}, \\
+& \bar{\lambda}_1 \sum_{i \in \sI_k}\left|\frac{\partial \ell\left(\z_k\right)}{\partial \z^i}\right|^2 \leq \sum_{i \in \Gamma_k} p_k^i \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \leq \bar{\lambda}_2 \sum_{i \in \sI_k}\left|\frac{\partial l\ell\left(\z_k\right)}{\partial \z^i}\right|^2.
+\end{aligned}
+\]
+
+We will show that our hypotheses so far lead to the conclusion that
+\begin{equation}
+\label{Eq:limit}
+    \lim _{\substack{k \rightarrow \infty \\ k \in K}} \inf \alpha_k = 0.
+\end{equation}
+
+
+Indeed, since \(\bar{\z}\) is not a critical point, there must exist an index \(i\) such that either
+\begin{equation}
+\label{Eq:if1}
+    \bar{\z}^i > 0 \quad \text{and} \quad \frac{\partial f(\bar{\z})}{\partial \z^i} \neq 0, 
+\end{equation}
+
+or
+\begin{equation}
+\label{Eq:if2}
+    \bar{\z}^i = 0 \quad \text{and} \quad \frac{\partial f(\bar{\z})}{\partial \z^i} < 0.
+\end{equation}
+
+
+If \(i \notin \sI_k^{\operatorname{Proj}}\) for an infinite number of indices \(k \in K\), then Eq.~(\ref{Eq:limit}) follows from Eq.~(\ref{Eq:asy0}),Eq.~(\ref{Eq:if1}) and Eq.~(\ref{Eq:if2}) . If \(i \in \sI_k^{\operatorname{Proj}}\) for an infinite number of indices \(k \in K\), then for all those indices we must have \(\frac{\partial \ell\left(\z_k\right)}{\partial \z^i} > 0\), so Eq.~(\ref{Eq:if2}) cannot hold. Therefore, from Eq.~(\ref{Eq:if1}),
+\begin{equation}
+\label{Eq:if3}
+    \bar{\z}^i > 0 \text{ and } \frac{\partial \ell(\bar{\z})}{\partial \z^i} > 0.
+\end{equation}
+
+
+Since we have [cf. Eq.~(\ref{Eq:gather})] for all \(k \in K\) for which \(i \in \sI_k^{\operatorname{Proj}}\), it holds that: 
+\[
+\sum_{j \in \sI_k} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i}\left[\z_k^j - \z_k^j\left(\alpha_k\right)\right] \geq \frac{\partial \ell\left(\z_k\right)}{\partial \z^i}\left[\z_k^i - \z_k^i\left(\alpha_k\right)\right] \geq 0,
+\]
+which follows from Eq.~(\ref{Eq:asy0}) and Eq.~(\ref{Eq:if3}) that
+\[
+\lim _{\substack{k \rightarrow \infty \\ k \in K}}\left[\z_k^i - \z_k^i\left(\alpha_k\right)\right] = 0.
+\]
+
+Using the above relation, we obtain Eq.~(\ref{Eq:limit}).
+
+We will complete the proof by showing that \(\left\{\alpha_k\right\}_K\) is bounded away from zero, thereby the subsequences \(\left\{\z_k\right\}_K\), \(\left\{p_k\right\}_K\), and \(\left\{\z_k(\alpha)\right\}_K\), \(\alpha \in[0,1]\), are uniformly bounded. Hence, by \ref{Eq:smooth}, there exists a scalar \(L>0\) such that for all \(t \in[0,1]\), \(\alpha \in[0,1]\), and \(k \in K\), we have
+\[
+\left|\nabla \ell\left(\z_k\right)-\nabla \ell\left[\z_k - t\left[\z_k - \z_k(\alpha)\right]\right]\right| \leq t L\left|\z_k - \z_k(\alpha)\right|.
+\]
+
+For all \(k \in K\) and \(\alpha \in[0,1]\), we have
+\[
+\ell\left[\z_k(\alpha)\right] =  \ell\left(\z_k\right) + \nabla \ell\left(\z_k\right)^{\prime}\left[\z_k(\alpha) - \z_k\right] + \int_0^1 \left\{\nabla \ell\left(\z_k\right) - \nabla \ell\left[\z_k - t\left[\z_k - \z_k(\alpha)\right]\right]\right\}^{\prime} dt \left[\z_k - \z_k(\alpha)\right]. 
+\]
+
+Hence, 
+\[
+\begin{aligned}
+\ell\left(\z_k\right) - \ell\left[\z_k(\alpha)\right] &  = \nabla \ell\left(\z_k\right)^{\prime} \left[\z_k - \z_k(\alpha)\right] + \int_0^1 \left\{\nabla \ell\left[\z_k - t\left[\z_k - \z_k(\alpha)\right]\right] - \nabla \ell\left(\z_k\right)\right\}^{\prime} dt \left[\z_k - \z_k(\alpha)\right] \\
+& \geq \nabla \ell\left(\z_k\right)^{\prime} \left[\z_k - \z_k(\alpha)\right] - \int_0^1 \left|\nabla \ell\left[\z_k - t\left[\z_k - \z_k(\alpha)\right]\right] - \nabla \ell\left(\z_k\right)\right| dt \left|\z_k - \z_k(\alpha)\right|\\
+& \geq \nabla \ell\left(\z_k\right)^{\prime} \left[\z_k - \z_k(\alpha)\right] - \frac{L}{2} \left|\z_k - \z_k(\alpha)\right|^2.
+\end{aligned}
+\]
+
+For \(i \in \sI_k^{\operatorname{Proj}}\), we have \(\z_k^i(\alpha) = \left[\z_k^i - \alpha p_k^i\right]^{\operatorname{Proj}} \geq \z_k^i - \alpha p_k^i\) and \(p_k^i > 0\), so \(0 \leq \z_k^i - \z_k^i(\alpha) \leq \alpha p_k^i\). It follows,
+\[
+\sum_{i \in r_k} \left|\z_k^i - \z_k^i(\alpha)\right|^2 \leq \alpha \sum_{i \in r_k} p_k^i \left[\z_k^i - \z_k^i(\alpha)\right] \leq \alpha \tilde{\lambda_2} \sum_{i \in r_k^{\prime}} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \left[\z_k^i - \z_k^i(\alpha)\right].
+\]
+
+Consider the sets
+\[
+\sI_{1, k} = \left\{i \mid \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} > 0, i \notin \sI_k^{\operatorname{Proj}}\right\}, \quad \sI_{2, k} = \left\{i \mid \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \leq 0, i \notin \sI_k^{\operatorname{Proj}}\right\}.
+\]
+
+For all \(i \in \sI_{1, k}\), we must have \(\z_k^i > \varepsilon_k\), otherwise we would have \(i \in \sI_k^{\operatorname{Proj}}\). Since \(\left|\bar{\z} - [\bar{\z} - M \nabla \ell(\bar{\z})]^{\operatorname{Proj}}\right| \neq 0\), we must have \(\lim_{k \rightarrow 0, k \in K} \inf \varepsilon_k > 0\) and \(\varepsilon_k > 0\) for all \(k\). Let \(\bar{\varepsilon} > 0\) be such that \(\bar{\varepsilon} \leq \varepsilon_k\) for all \(k \in K\), and let \(B\) denote a constant such that \(\left|p_k^i\right| \leq B\) for all \(i\) and \(k \in K\). Then for all \(\alpha \in [0, \bar{\varepsilon} / B]\), we have \(\z_k^i(\alpha) = \z_k^i - \alpha p_k^i\) for all \(i \in I_{i, k}\), so it follows that: 
+
+\[
+  \sum_{i \in I_{1, k}} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \left[\z_k^i - \z_k^i(\alpha)\right] = \alpha \sum_{i \in I_{1, k}} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} p_k^i \quad \forall \alpha \in \left[0, \frac{\bar{\varepsilon}}{B}\right].
+\]
+
+Also, for all \(\alpha \geq 0\), we have \(\z_k^i - \z_k^i(\alpha) \leq \alpha p_k^i\), and since \(\frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \leq 0\) for all \(i \in I_{2, k}\), we obtain
+\[
+\sum_{i \in I_{2, k}} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \left[\z_k^i - \z_k^i(\alpha)\right] \geq \alpha \sum_{i \in I_{2, k}} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} p_k^i.
+\]
+
+Combining these two equations above, we obtain
+\[
+\sum_{i \in \sI_k} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \left[\z_k^i - \z_k^i(\alpha)\right] \geq \alpha \sum_{i \in \sI_k} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} p_k^i \quad \forall \alpha \in \left[0, \frac{\bar{\varepsilon}}{B}\right].
+\]
+
+
+For all \(\alpha \geq 0\), we also have
+\[
+\left|\z_k^i - \z_k^i(\alpha)\right| \leq \alpha \left|p_k^i\right| \quad \forall i=1, \cdots, n.
+\]
+
+Furthermore, it is easily seen using Eq.~(\ref{Eq:bounded}) that there exists \(\lambda > 0\) such that
+\[
+\sum_{i \in \sI_k}\left(p_k^i\right)^2 \leq \lambda \sum_{i \in \sI_k} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} p_k^i \quad \forall k \in K.
+\]
+
+Combining the last two relations, we obtain for all \(\alpha \geq 0\), it holds that: 
+\[
+\sum_{i \in \sI_k}\left|\z_k^i - \z_k^i(\alpha)\right|^2 \leq \alpha^2 \lambda \sum_{i \in \sI_k} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} p_k^i \quad \forall k \in K.
+\]
+
+We now obtain for all \(\alpha \in[0, (\bar{\varepsilon} / B)]\) and \(k \in K\), it holds that: 
+\[
+\ell\left(\z_k\right) - \ell\left[\z_k(\alpha)\right] \geq \left(\alpha - \frac{\alpha^2 \lambda L}{2}\right) \sum_{i \in \sI_k} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} p_k^i + \left(1 - \frac{\alpha \bar{\lambda}_2 L}{2}\right) \sum_{i \in \sI_k} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i}\left[\z_k^i - \z_k^i(\alpha)\right].
+\]
+
+Suppose \(\alpha\) is chosen such that: 
+
+\[
+0 \leq \alpha \leq \frac{\bar{\varepsilon}}{B}, \quad 1 - \frac{\alpha \lambda L}{2} \geq \sigma, \quad 1 - \frac{\alpha \overline{\lambda_2} L}{2} \geq \sigma, \quad \alpha \leq 1;
+\]
+
+or equivalently, 
+\begin{equation}
+\label{Eq:asy1}
+    0 \leq \alpha \leq \min \left\{\frac{\bar{\varepsilon}}{B}, \frac{2(1 - \sigma)}{\lambda L}, \frac{2(1 - \sigma)}{\bar{\lambda}_2 L}, 1\right\}.
+\end{equation}
+
+
+Then for all \(k \in K\), we have: 
+\[
+\ell\left(\z_k\right) - \ell\left[\z_k(\alpha)\right] \geq \sigma\left\{\alpha \sum_{i \in \sI_k} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} p_k^i + \sum_{i \in \sI_k} \frac{\partial \ell\left(\z_k\right)}{\partial \z^i}\left[\z_k^i - \z_k^i(\alpha)\right]\right\}.
+\]
+
+This means that if Eq.~(\ref{Eq:asy1}) is satisfied with \(\beta^m = \alpha\), then the inequality Eq.~(\ref{Eq:Armijo}) of the Armijo-like rule will be satisfied. It follows from the way the stepsize is reduced that \(\alpha_k\) satisfies:
+\[
+  \alpha_k \geq \beta \min \left\{\frac{\bar{\varepsilon}}{B}, \frac{2(1 - \sigma)}{\lambda L}, \frac{2(1 - \sigma)}{\bar{\lambda}_2 L}, 1\right\} \quad \forall k \in K.
+\]
+
+This contradicts Eq.~(\ref{Eq:limit}). 
+From Eq.~(\ref{Eq:ball}), since \(f\) is twice differentiable on \(\left\{\z \mid \left|\z - \z^*\right| < \delta\right\}\), it follows that there exist scalars \(L > 0\) and \(\delta_1 \in (0, \delta]\) such that for all \(\z, \y\) with \(\left|\z - \z^*\right| \leq \delta\) and \(\left|\y - \z^*\right| \leq \delta_1\), we have
+\[
+|\nabla \ell(\z) - \nabla \ell(\y)| \leq L|\z - \y|.
+\]
+
+Also, for \(\z_k\) sufficiently close to \(\z^*\), the scalar $
+w_k = \left|\z_k - \left[\z_k - M \nabla \ell\left(\z_k\right)\right]^{\operatorname{Proj}}\right|
+$ is arbitrarily close to zero. Thus we have:
+\[
+  \left[\z_k^i - \mu^i \frac{\partial \ell\left(\z_k\right)}{\partial \z^i}\right]^{\operatorname{Proj}} = 0 \quad \forall i \in B\left(\z^*\right),
+\]
+where \(\mu^i\) is the \(i\)-th diagonal element of \(M\). It follows that for \(\z_k\) sufficiently close to \(\z^*\), we have
+\[
+  \z_k^i \leq w_k = \varepsilon_k \quad \forall i \in B\left(\z^*\right), \text{ while } \z_k^i > \varepsilon_k \quad \forall i \notin B\left(\z^*\right).
+\]
+
+This implies that there exists \(\delta_2 \in\left(0, \delta_1\right]\) such that
+\[
+B\left(\z^*\right) = \sI_k^{\operatorname{Proj}} \quad \forall k \text{ such that } \left|\z_k - \z^*\right| \leq \delta_2.
+\]
+
+Also, there exist scalars \(\bar{\varepsilon} > 0\) and \(\delta_3 \in\left(0, \delta_2\right]\) such that
+\[
+\z_k^i > \bar{\varepsilon} \quad \forall i \notin B\left(\z^*\right) \text{ and } k \text{ such that } \left|\z_k - \z^*\right| \leq \delta_3.
+\]
+
+By essentially repeating the argument in the proof of above that, we find that there exists a scalar \(\bar{\alpha} > 0\) such that
+\[
+\alpha_k \geq \bar{\alpha} \quad \forall k \text{ such that } \left|\z_k - \z^*\right| \leq \delta_3.
+\]
+
+It follows that
+\[
+  0 < \bar{\lambda}_1 \frac{\partial \ell\left(\z_k\right)}{\partial \z^i} \leq p_k^i \quad \forall i \in B\left(\z^*\right) \text{ and } k \text{ such that } \left|\z_k - \z^*\right| \leq \delta_3,
+\]
+
+
+
+While there exists a scalar \(\lambda > 0\) such that
+\[
+  \sum_{i \in B\left(\z^*\right)}\left|p_k^i\right|^2 \leq \lambda \sum_{i \in B\left(\z^*\right)}\left|\frac{\partial \ell\left(\z_k\right)}{\partial \z^i}\right|^2 \quad \forall k \text{ such that } \left|\z_k - \z^*\right| \leq \delta_3.
+\]
+
+Since \(\frac{\partial \ell\left(\z^*\right)}{\partial \z^i} > 0\) for \(\forall i \in {B}\left(\z^*\right)\) and $\frac{\partial f\left(\mathbf{z}^*\right)}{\partial \mathbf{z}^i}=0$ for \(\forall i \notin B\left(\z^*\right)\), it follows that there exists a scalar \(\delta_4 \in \left(0, \delta_3\right]\) such that
+\[
+  B\left(\z^*\right) = B\left(\z_{k+1}\right) \text{ and }\left|\z_{k+1} - \z^*\right| \leq \delta_3; \quad \forall k \text{ such that } \left|\z_k - \z^*\right| \leq \delta_4.
+\]
+
+Thus we have
+
+\[
+B\left(\z^*\right) = B\left(\z_{k+1}\right) = I_{k+1}^{\operatorname{Proj}} \quad \forall k \text{ such that } \left|\z_k - \z^*\right| \leq \delta_4.
+\]
+
+This to say, when \(\left|\z_k - \z^*\right| \leq \delta_4\), we have \(\left|\z_{k+1} - \z^*\right| \leq \delta_3\), \(B\left(\z^*\right) = B\left(\z_{k+1}\right)\), and the \((k+1)\)-st iteration of the algorithm reduces to an iteration of an unconstrained minimization algorithm on the subspace of binding constraints at \(\z^*\). Given the well-known quadratic convergence rate of the unconstrained Newton method, we thus obtain a guarantee on the convergence rate.
+
+
+\section{Experiments}
+\label{app:exper}
+% The experiments are done by using macOS Monterey, Apple M1 Pro. All algorithms are running under the same environment.
+The experiments are run on a Nvidia Tesla A100 GPU and two Intel Xeon Platinum 8358 CPUs. 
+Besides, the RL results (Fig.~\ref{fig:rl-convergence}) are obtained by using the stable-baselines3 library~\citep{stable-baselines3}.
+
+\subsection{Synthetic Data}
+In this section, we provide details about the Market-Manage data. 
+The variables included in the generation process are: 
+
+
+\begin{itemize}
+  \item Feature$_{\text{our}}$: The feature used to predict the raw cost of our market; 
+  \item Feature$_{\text{cpt}}$: The feature used to predict the raw cost of the competitor market; 
+  \item C$_{\text{our}}$: The raw cost of our market; 
+  \item C$_{\text{cpt}}$: The raw cost of the competitor market; 
+  \item P$_{\text{our}}$: The product price of our market; 
+  \item P$_{\text{cpt}}$: The product price of the competitor market; 
+  \item NCT: Customer numbers of our market; 
+  \item TPF: Total profit of our market.
+\end{itemize}
+% \vskip -0.1in
+
+The rehearsal graph for the variables is illustrated in \Fig~\ref{fig:market}. 
+The presumed actionable variables that can be altered by the manager are C$_{\text{our}}$ and P$_{\text{our}}$. 
+ 
+\vskip 0.1in
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=0.8\linewidth]{./figures/Graph_market.pdf}
+    % \includegraphics[width=0.8\linewidth]{./figures/t1.pdf}
+  \caption{The rehearsal graph for market-manage data.}
+  \label{fig:market}
+  % \vskip -0.1in
+\end{figure}
+
+\subsection{Bermuda Data}
+In this section, we provide details about the Bermuda data. 
+The Bermuda data is an environment dataset that involves some environmental variables in Bermuda~\citep{courtney2017environmental}.
+The variables included in the generation process are: 
+\begin{itemize}
+  \item Light: Light levels at the bottom; 
+  \item Temp: Temperature at the bottom; 
+  \item Sal: Sea surface salinity; 
+  \item DIC: Dissolved inorganic carbon of seawater; 
+  \item TA: Total alkalinity of seawater; 
+  \item $\Omega_A$: Saturation with respect to aragonite in seawater; 
+  \item Chla: Chlorophyll-a at sea surface; 
+  \item Nut: PC1 of NH$_4$, NiO$_2$ + NiO$_3$, SiO$_4$;
+  \item pHsw: pH of seawater; 
+  \item CO$_2$: P$_{\text{CO}_2}$ of seawater; 
+  \item NEC: Net ecosystem calcification.
+\end{itemize}
+
+The rehearsal graph for the variables is illustrated in \Fig~\ref{fig:bermuda}. 
+The presumed actionable variables that can be altered by the decision-maker are DIC, TA, $\Omega_A$, Chla, and Nut according to~\citet{aglietti2020causal, qint2023srm, du2024micns}. 
+ 
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=0.8\linewidth]{./figures/Graph_bermuda.pdf}
+    \caption{The rehearsal graph for Bermuda data.}
+    \label{fig:bermuda}
+\end{figure}
+
+\end{document}

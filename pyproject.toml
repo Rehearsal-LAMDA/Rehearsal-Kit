@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rehearsal"
+version = "0.1.0"
+description = "Unified framework for rehearsal-learning research code."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+rehearsal-run = "rehearsal.experiments.run:main"
+rehearsal-icml2025-reproduce = "rehearsal.experiments.icml2025_reproduce:main"
+rehearsal-icml2025-care-reproduce = "rehearsal.experiments.icml2025_reproduce:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+rehearsal = ["datasets/data/*.mat"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

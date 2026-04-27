@@ -1,0 +1,54 @@
+# Python bytecode and test caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Build and packaging artifacts
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local runtime artifacts
+runs/
+wandb/
+artifacts/
+checkpoints/
+*.ckpt
+*.pt
+*.pth
+*.npy
+*.npz
+
+# LaTeX generated files. PDFs are not ignored because previous_works contains
+# paper PDFs used as reference material.
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+
+# OS, editor, and local agent state
+.DS_Store
+.idea/
+.vscode/
+.codex
+.agent/
+src/rehearsal/methods/Untitled
