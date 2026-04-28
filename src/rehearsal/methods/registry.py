@@ -8,11 +8,15 @@ from typing import Any, Mapping
 from rehearsal.core import RehearsalMethod
 from rehearsal.methods.care import ICML2025CARERehearsal
 from rehearsal.methods.cme import CMERehearsal
+from rehearsal.methods.micns import MICNSRehearsal
+from rehearsal.methods.qwz23 import QWZ23Rehearsal
 
 MethodFactory = Callable[..., RehearsalMethod]
 
 _METHODS: dict[str, MethodFactory] = {
     "icml2025-care": ICML2025CARERehearsal,
+    "micns": MICNSRehearsal,
+    "qwz23": QWZ23Rehearsal,
     "unpublished-cme": CMERehearsal,
 }
 
