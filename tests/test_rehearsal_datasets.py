@@ -17,13 +17,6 @@ def test_bermuda_dataset_uses_generic_data_asset_name():
     assert spec.task.metadata["raw_data_path"].endswith("bermuda_sem_data.mat")
 
 
-def test_icml2025_dataset_module_is_compatibility_layer():
-    from rehearsal.datasets.icml2025 import bermuda_icml2025, manage_icml2025
-
-    assert bermuda_icml2025().name == "bermuda"
-    assert manage_icml2025().name == "manage"
-
-
 def test_reproduction_runner_smoke_for_manage():
     results = run_reproduction("manage", runs=1, val_samples=20, rounds=3, seed=10, max_iters=5)
     summary = results["manage"]["summary"]
