@@ -9,8 +9,8 @@ PYTHONPATH=src python -m rehearsal.experiments.run examples/care/care_bermuda_ex
 
 import numpy as np
 
-from rehearsal.datasets.icml2025 import (
-    bermuda_icml2025,
+from rehearsal.datasets import (
+    bermuda,
     estimate_true_auf_success_rate,
     generate_observational_data,
     sample_observation,
@@ -23,7 +23,7 @@ def build_experiment(params, seed):
     default_eval_samples = 50
     covariance_profile = str(params.get("covariance_profile", "paper"))
 
-    spec = bermuda_icml2025(covariance_profile=covariance_profile)
+    spec = bermuda(covariance_profile=covariance_profile)
     observation_rng = np.random.default_rng(seed + 1009)
     data = generate_observational_data(spec, n_data, seed=seed)
     observation = sample_observation(spec, observation_rng)
@@ -60,7 +60,7 @@ def build_experiment(params, seed):
         "metadata": {
             "dataset": spec.name,
             "source": "examples/care/care_bermuda_example.py",
-            "data_source": "seeded ICML 2025 Bermuda linear Gaussian SEM migration",
+            "data_source": "seeded Bermuda linear Gaussian SEM migration",
             "covariance_profile": covariance_profile,
             "n_data": n_data,
             "observation_policy": "sampled from the migrated SEM for each run seed",

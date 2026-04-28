@@ -5,8 +5,8 @@ from dataclasses import replace
 
 import numpy as np
 
-from rehearsal.datasets.icml2025 import (
-    bermuda_icml2025,
+from rehearsal.datasets import (
+    bermuda,
     estimate_true_auf_success_rate,
     generate_observational_data,
     sample_observation,
@@ -19,7 +19,7 @@ def build_experiment(params, seed):
     default_eval_samples = 50
     covariance_profile = str(params.get("covariance_profile", "paper"))
 
-    spec = bermuda_icml2025(covariance_profile=covariance_profile)
+    spec = bermuda(covariance_profile=covariance_profile)
     task = replace(
         spec.task,
         metadata={**dict(spec.task.metadata), "method_family": "unpublished CME"},
@@ -66,7 +66,7 @@ def build_experiment(params, seed):
         "metadata": {
             "dataset": spec.name,
             "source": "examples/cme/cme_bermuda_example.py",
-            "data_source": "seeded ICML 2025 Bermuda SEM used as CME training data",
+            "data_source": "seeded Bermuda SEM used as CME training data",
             "covariance_profile": covariance_profile,
             "n_data": n_data,
             "observation_policy": "sampled from the migrated SEM for each run seed",

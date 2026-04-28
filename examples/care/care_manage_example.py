@@ -9,10 +9,10 @@ PYTHONPATH=src python -m rehearsal.experiments.run examples/care/care_manage_exa
 
 import numpy as np
 
-from rehearsal.datasets.icml2025 import (
+from rehearsal.datasets import (
     estimate_true_auf_success_rate,
     generate_observational_data,
-    manage_icml2025,
+    manage,
     sample_observation,
 )
 
@@ -22,7 +22,7 @@ def build_experiment(params, seed):
     n_data = int(params.get("n_data", 100))
     default_eval_samples = 500
 
-    spec = manage_icml2025()
+    spec = manage()
     observation_rng = np.random.default_rng(seed + 1009)
     data = generate_observational_data(spec, n_data, seed=seed)
     observation = sample_observation(spec, observation_rng)
@@ -59,7 +59,7 @@ def build_experiment(params, seed):
         "metadata": {
             "dataset": spec.name,
             "source": "examples/care/care_manage_example.py",
-            "data_source": "seeded ICML 2025 Manage linear Gaussian SEM migration",
+            "data_source": "seeded Manage linear Gaussian SEM migration",
             "n_data": n_data,
             "observation_policy": "sampled from the migrated SEM for each run seed",
         },

@@ -40,7 +40,8 @@ See `ExecPlan.md` for the staged porting plan.
   models.
 - `rehearsal.methods`: thin method adapters exposing `fit`, `suggest`, and
   `evaluate`.
-- `rehearsal.datasets`: reusable dataset and SEM factories.
+- `rehearsal.datasets`: reusable dataset and SEM factories, including generic
+  Bermuda and Manage dataset modules shared across methods.
 - `rehearsal.experiments`: command-line runners for seeded experiment batches.
 
 ## Runner Contract

@@ -10,12 +10,12 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 
-from rehearsal.datasets.icml2025 import (
-    ICML2025DatasetSpec,
-    bermuda_icml2025,
+from rehearsal.datasets import (
+    RehearsalDatasetSpec,
+    bermuda,
     estimate_true_auf_success_rate,
     generate_observational_data,
-    manage_icml2025,
+    manage,
     sample_observation,
 )
 from rehearsal.methods import CARERehearsal
@@ -48,7 +48,7 @@ def run_reproduction(
 
 
 def run_dataset(
-    spec: ICML2025DatasetSpec,
+    spec: RehearsalDatasetSpec,
     *,
     runs: int,
     val_samples: int,
@@ -91,7 +91,7 @@ def run_dataset(
 
 
 def _run_once(
-    spec: ICML2025DatasetSpec,
+    spec: RehearsalDatasetSpec,
     *,
     run_seed: int,
     n_data: int,
@@ -146,7 +146,7 @@ def _run_once(
     }
 
 
-def _random_alterations(spec: ICML2025DatasetSpec, rng: np.random.Generator) -> dict[str, float]:
+def _random_alterations(spec: RehearsalDatasetSpec, rng: np.random.Generator) -> dict[str, float]:
     candidate_sets = tuple(tuple(candidate) for candidate in spec.task.candidate_alteration_sets)
     candidate = candidate_sets[int(rng.integers(0, len(candidate_sets)))]
     lower, upper = spec.task.alteration_domain.arrays_for(candidate)
@@ -154,13 +154,13 @@ def _random_alterations(spec: ICML2025DatasetSpec, rng: np.random.Generator) -> 
     return {name: float(value) for name, value in zip(candidate, values)}
 
 
-def _select_specs(dataset: str, bermuda_covariance_profile: str) -> Sequence[ICML2025DatasetSpec]:
+def _select_specs(dataset: str, bermuda_covariance_profile: str) -> Sequence[RehearsalDatasetSpec]:
     if dataset == "all":
-        return (manage_icml2025(), bermuda_icml2025(covariance_profile=bermuda_covariance_profile))
+        return (manage(), bermuda(covariance_profile=bermuda_covariance_profile))
     if dataset == "manage":
-        return (manage_icml2025(),)
+        return (manage(),)
     if dataset == "bermuda":
-        return (bermuda_icml2025(covariance_profile=bermuda_covariance_profile),)
+        return (bermuda(covariance_profile=bermuda_covariance_profile),)
     raise ValueError(f"Unknown dataset: {dataset}")
 
 
