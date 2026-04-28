@@ -230,6 +230,71 @@ config importing and constructing the adapter itself.
 
 There are no duplicate short aliases such as `"care"` or `"cme"`.
 
+## Collaboration Guidelines
+
+This repository is a research-code migration project. Keep changes small,
+reviewable, and aligned with the shared `src/rehearsal/` package interfaces
+rather than adding new one-off experiment scripts.
+
+### Commit Prefixes
+
+Use a short, bracketed prefix at the start of every commit subject:
+
+| Prefix | Use for |
+| --- | --- |
+| `[ENH]` | New features, method adapters, experiment runners, or supported capabilities. |
+| `[FIX]` | Bug fixes, numerical corrections, CLI contract fixes, or broken-test repairs. |
+| `[DOC]` | README, architecture notes, method-porting notes, comments, or examples that do not change behavior. |
+| `[TST]` | New or updated tests, fixtures, smoke checks, or regression coverage. |
+| `[REF]` | Refactors that preserve behavior while improving structure or readability. |
+| `[EXP]` | Reproducible experiment configs, result JSON files, or benchmark-output updates. |
+| `[DATA]` | Dataset loaders, small tracked data fixtures, or metadata changes. |
+| `[DEP]` | Dependency, packaging, or environment changes. Production dependencies require prior confirmation. |
+| `[CHORE]` | Repository maintenance, formatting-only changes, or cleanup with no user-facing behavior change. |
+
+Commit subjects should be imperative and specific, for example
+`[ENH] Add CME Bermuda batch runner` or
+`[FIX] Preserve one-seed batch summary shape`.
+
+### Branches And Reviews
+
+- Use branch names such as `enh/cme-runner`, `fix/seed-summary`,
+  `doc/collaboration-guidelines`, or `exp/care-bermuda-smoke`.
+- Keep each pull request focused on one method, runner contract, dataset, or
+  documentation topic.
+- For complex features or significant refactors, write or update an ExecPlan
+  before implementation and keep the plan current as the work changes.
+- Treat `previous_works/` as read-only historical reference material. Port
+  behavior into `src/rehearsal/`, add focused tests in `tests/`, and document
+  method-specific notes under `docs/`.
+
+### Testing And Verification
+
+- After Python package, example, or test changes, run:
+
+  ```bash
+  PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python -m pytest -q -p no:cacheprovider tests
+  ```
+
+- After modifying JavaScript files, run `npm test`.
+- When changing CLI behavior, include or update a regression test in
+  `tests/test_experiment_runner.py`.
+- When changing numerical methods, prefer deterministic toy tests with fixed
+  seeds before adding larger experiment outputs.
+- Keep tracked `outputs/` files reproducible from README-style commands and
+  avoid committing local cache, temporary, or exploratory artifacts.
+
+### Dependencies And Data
+
+- Keep runtime dependencies minimal. Ask for confirmation before adding any new
+  production dependency.
+- Prefer optional imports for heavy research dependencies and keep CPU smoke
+  tests runnable without historical data downloads.
+- Prefer `pnpm` when installing JavaScript dependencies.
+- Track only small, necessary data fixtures. Large generated artifacts should
+  stay outside Git unless they are explicitly accepted as reproducibility
+  references.
+
 ## Verification
 
 Run the Python tests:
