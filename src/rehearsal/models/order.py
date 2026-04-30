@@ -25,7 +25,7 @@ class OrderLearningResult:
 
 
 class OrderBasedStructuralLearner:
-    """Learn an OLEM-style variable order and fit conditional samplers on it."""
+    """Learn a variable order using OLEM and fit conditional samplers on it."""
 
     def __init__(
         self,

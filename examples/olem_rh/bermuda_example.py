@@ -64,7 +64,7 @@ def build_experiment(params, seed):
         "metadata": {
             "dataset": spec.name,
             "source": "examples/olem_rh/bermuda_example.py",
-            "reference": "OLEM-Rh/code/olem.py",
+            "reference": "previous_works/unpublished/Order-Based Rehearsal Learning.pdf",
             "data_source": "seeded Bermuda SEM used as OLEM-Rh training data",
             "covariance_profile": covariance_profile,
             "n_data": n_data,

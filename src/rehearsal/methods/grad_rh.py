@@ -1,4 +1,4 @@
-"""AAAI 2025 Grad-Rh adapter for the unified Rehearsal API."""
+"""AAAI 2025 Grad-Rh adapter."""
 
 from __future__ import annotations
 

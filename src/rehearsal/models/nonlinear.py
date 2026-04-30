@@ -1,13 +1,4 @@
-"""Lightweight nonlinear structural models for Grad-Rh style rehearsal.
-
-The AAAI 2025 reference implementation trains either linear regressors or
-normalizing-flow conditionals and then differentiates a bounded alteration
-variable through simulated outcomes.  This package module keeps that contract
-inside the dependency-light Rehearsal framework: ``linear`` predictors use
-least squares, while ``flow``/``flow_style`` predictors expose the same sampler
-interface with empirical residual resampling rather than requiring FrEIA/PyTorch
-at runtime.
-"""
+"""Nonlinear structural models for Grad-Rh rehearsal."""
 
 from __future__ import annotations
 
@@ -54,7 +45,6 @@ class ConditionalPredictor:
 
 @dataclass(frozen=True)
 class NonlinearStructuralModel:
-    """A conditional structural model with dependency-free simulation."""
 
     variable_order: tuple[str, ...]
     predictors: Mapping[str, ConditionalPredictor]

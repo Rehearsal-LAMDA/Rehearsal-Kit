@@ -1,4 +1,4 @@
-"""Bounded alteration optimizer used by Grad-Rh and OLEM-Rh adapters."""
+"""Bounded alteration optimizer used by Grad-Rh rehearsal."""
 
 from __future__ import annotations
 

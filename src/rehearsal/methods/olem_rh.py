@@ -1,4 +1,4 @@
-"""Unpublished order-learning OLEM-Rh adapter for Rehearsal."""
+"""Unpublished OLEM-Rh adapter."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from rehearsal.optimizers.grad_rh import optimize_grad_rh_alterations
 
 
 class OLEMRhRehearsal:
-    """Order-based sampler plus AUF bounded alteration optimization."""
+    """Order-based rehearsal."""
 
     def __init__(
         self,
