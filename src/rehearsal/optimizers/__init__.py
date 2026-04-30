@@ -7,6 +7,11 @@ from rehearsal.optimizers.cme import (
     cme_action_objective,
     optimize_action_projected_gradient,
 )
+from rehearsal.optimizers.grad_rh import (
+    GradRhOptimizationResult,
+    desired_region_center_and_radius,
+    optimize_grad_rh_alterations,
+)
 
 __all__ = [
     "CAREOptimizationResult",
@@ -15,4 +20,7 @@ __all__ = [
     "cme_action_objective",
     "optimize_action_projected_gradient",
     "optimize_care_independent_normal",
+    "GradRhOptimizationResult",
+    "desired_region_center_and_radius",
+    "optimize_grad_rh_alterations",
 ]
