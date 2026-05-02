@@ -1,0 +1,619 @@
+{
+  "config": {
+    "num_samples": 4000,
+    "n_bins": 2,
+    "model": "DoctorOracleSEM (ground-truth structural equations, no learning)",
+    "start_node": "W",
+    "seed": 1,
+    "max_extensions": 24
+  },
+  "task": {
+    "observed_variables": [],
+    "alterable_variables": [
+      "W",
+      "X",
+      "Z1"
+    ],
+    "outcome_variables": [
+      "Y"
+    ],
+    "total_order": [
+      "U",
+      "W",
+      "X",
+      "Z1",
+      "Y"
+    ],
+    "desired_bins": [
+      1
+    ],
+    "structural_equations": {
+      "U": "Bern(0.5)",
+      "W": "Bern(0.1)",
+      "X": "min(U, W) * (1 - N_X), N_X ~ Bern(0.1)",
+      "Z1": "Bern(0.1)",
+      "Y": "Z1 * (1 - U) + (1 - Z1) * N_Y, N_Y ~ Bern(0.4)"
+    },
+    "probabilities": {
+      "U": 0.5,
+      "W": 0.1,
+      "X": 0.1,
+      "Z1": 0.1,
+      "Y": 0.4
+    }
+  },
+  "demos": {
+    "A_total_order_inp": {
+      "label": "Demo A: total-order INP (expert ordering)",
+      "ordering": [
+        "U",
+        "W",
+        "X",
+        "Z1",
+        "Y"
+      ],
+      "start_node": "W",
+      "evaluated_variables": [
+        "W",
+        "X",
+        "Z1"
+      ],
+      "inp": {
+        "W": {
+          "variable": "W",
+          "inp": 0.1419757132714461,
+          "mep_do": 0.6789481929287079,
+          "mep_ob": 0.5369724796572618,
+          "best_do_bin": 1,
+          "best_do_value": 1.0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "X": {
+          "variable": "X",
+          "inp": -0.009689096629714511,
+          "mep_do": 0.50575,
+          "mep_ob": 0.5154390966297145,
+          "best_do_bin": 1,
+          "best_do_value": 1.0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "Z1": {
+          "variable": "Z1",
+          "inp": 0.08278732677189221,
+          "mep_do": 0.497,
+          "mep_ob": 0.4142126732281078,
+          "best_do_bin": 1,
+          "best_do_value": 1.0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        }
+      }
+    },
+    "B_partial_order_inp": {
+      "label": "Demo B: partial-order INP",
+      "predecessor_map": {
+        "W": [],
+        "X": [
+          "W"
+        ],
+        "Z1": [],
+        "Y": [
+          "X",
+          "Z1"
+        ]
+      },
+      "ordered_variables": [
+        "W",
+        "X",
+        "Z1",
+        "Y"
+      ],
+      "selection": {
+        "best_order": [
+          "W",
+          "X",
+          "Z1",
+          "Y"
+        ],
+        "best_mep": 0.6764870262696507,
+        "best_start_node": "W",
+        "candidates": [
+          {
+            "order": [
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "mep": 0.6764870262696507
+          },
+          {
+            "order": [
+              "W",
+              "Z1",
+              "X",
+              "Y"
+            ],
+            "mep": 0.509200740827554
+          },
+          {
+            "order": [
+              "Z1",
+              "W",
+              "X",
+              "Y"
+            ],
+            "mep": 0.42271982692010507
+          }
+        ],
+        "truncated": false,
+        "diagnostics": {
+          "n_candidates": 3,
+          "n_skipped": 0,
+          "max_extensions": 24,
+          "target": "Y",
+          "desired_bins": [
+            1
+          ]
+        }
+      },
+      "evaluated_variables": [
+        "W",
+        "X",
+        "Z1"
+      ],
+      "inp_under_best_order": {
+        "W": {
+          "variable": "W",
+          "inp": 0.15442002179660275,
+          "mep_do": 0.6777856916632307,
+          "mep_ob": 0.5233656698666279,
+          "best_do_bin": 1,
+          "best_do_value": 1.0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "X": {
+          "variable": "X",
+          "inp": -0.004489891475582097,
+          "mep_do": 0.5085,
+          "mep_ob": 0.512989891475582,
+          "best_do_bin": 0,
+          "best_do_value": 0.0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "Z1": {
+          "variable": "Z1",
+          "inp": 0.0849022732505032,
+          "mep_do": 0.49025,
+          "mep_ob": 0.4053477267494968,
+          "best_do_bin": 1,
+          "best_do_value": 1.0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        }
+      }
+    },
+    "C_conditional_inp": {
+      "label": "Demo C: conditional INP",
+      "variable": "W",
+      "ordering": [
+        "U",
+        "W",
+        "X",
+        "Z1",
+        "Y"
+      ],
+      "upstream_variable": "U",
+      "upstream_bins": [
+        0,
+        1
+      ],
+      "results": {
+        "unconditional": {
+          "variable": "W",
+          "inp": 0.14516899040653786,
+          "mep_do": 0.6692964902960172,
+          "mep_ob": 0.5241274998894794,
+          "best_do_bin": 1,
+          "best_do_value": 1.0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "do(U=0)": {
+          "variable": "W",
+          "inp": 0.0,
+          "mep_do": 1.0,
+          "mep_ob": 1.0,
+          "best_do_bin": 0,
+          "best_do_value": 0.0,
+          "do_conditions": {
+            "U": 0
+          },
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "ob(U=0)": {
+          "variable": "W",
+          "inp": 0.0,
+          "mep_do": 1.0,
+          "mep_ob": 1.0,
+          "best_do_bin": 0,
+          "best_do_value": 0.0,
+          "do_conditions": {},
+          "ob_conditions": {
+            "U": 0
+          },
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "do(U=1)": {
+          "variable": "W",
+          "inp": 0.008983127771618582,
+          "mep_do": 0.40725,
+          "mep_ob": 0.3982668722283814,
+          "best_do_bin": 0,
+          "best_do_value": 0.0,
+          "do_conditions": {
+            "U": 1
+          },
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "ob(U=1)": {
+          "variable": "W",
+          "inp": 0.022700413378672235,
+          "mep_do": 0.4192734611503532,
+          "mep_ob": 0.39657304777168095,
+          "best_do_bin": 0,
+          "best_do_value": 0.0,
+          "do_conditions": {},
+          "ob_conditions": {
+            "U": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        }
+      }
+    },
+    "D_ace_and_cace": {
+      "label": "Demo D: ACE and CACE",
+      "ordering": [
+        "U",
+        "W",
+        "X",
+        "Z1",
+        "Y"
+      ],
+      "evaluated_variables": [
+        "W",
+        "X",
+        "Z1"
+      ],
+      "ob_conditions_for_cace": {
+        "U": 1
+      },
+      "ace": {
+        "W": {
+          "variable": "W",
+          "ace": 0.009000000000000008,
+          "kind": "ace",
+          "per_value_probs": {
+            "0": 0.407,
+            "1": 0.416
+          },
+          "best_value": 1,
+          "worst_value": 0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "X": {
+          "variable": "X",
+          "ace": 0.0030000000000000027,
+          "kind": "ace",
+          "per_value_probs": {
+            "0": 0.41525,
+            "1": 0.41225
+          },
+          "best_value": 0,
+          "worst_value": 1,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "Z1": {
+          "variable": "Z1",
+          "ace": 0.10325000000000001,
+          "kind": "ace",
+          "per_value_probs": {
+            "0": 0.39225,
+            "1": 0.4955
+          },
+          "best_value": 1,
+          "worst_value": 0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        }
+      },
+      "cace": {
+        "W": {
+          "variable": "W",
+          "ace": 0.0004629772523843667,
+          "kind": "cace",
+          "per_value_probs": {
+            "0": 0.3676544450025113,
+            "1": 0.36719146775012695
+          },
+          "best_value": 0,
+          "worst_value": 1,
+          "do_conditions": {},
+          "ob_conditions": {
+            "U": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "X": {
+          "variable": "X",
+          "ace": 0.0002714294254567151,
+          "kind": "cace",
+          "per_value_probs": {
+            "0": 0.36191425722831505,
+            "1": 0.36218568665377177
+          },
+          "best_value": 1,
+          "worst_value": 0,
+          "do_conditions": {},
+          "ob_conditions": {
+            "U": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        },
+        "Z1": {
+          "variable": "Z1",
+          "ace": 0.3865546218487395,
+          "kind": "cace",
+          "per_value_probs": {
+            "0": 0.3865546218487395,
+            "1": 0.0
+          },
+          "best_value": 0,
+          "worst_value": 1,
+          "do_conditions": {},
+          "ob_conditions": {
+            "U": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "U",
+              "W",
+              "X",
+              "Z1",
+              "Y"
+            ],
+            "target": "Y",
+            "desired_bins": [
+              1
+            ],
+            "num_samples": 4000
+          }
+        }
+      }
+    }
+  },
+  "runtime_seconds": 0.4932233626022935
+}

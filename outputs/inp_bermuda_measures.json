@@ -1,0 +1,1016 @@
+{
+  "config": {
+    "n_data": 2000,
+    "num_samples": 1500,
+    "n_bins": 3,
+    "target_n_bins": 3,
+    "start_node": "TA",
+    "seed": 1,
+    "max_extensions": 8
+  },
+  "task": {
+    "observed_variables": [
+      "Light",
+      "Temp",
+      "Sal"
+    ],
+    "alterable_variables": [
+      "DIC",
+      "TA",
+      "Omega",
+      "Chla",
+      "Nutrients_PC1"
+    ],
+    "outcome_variables": [
+      "NEC"
+    ],
+    "learned_order": [
+      "Temp",
+      "pHsw",
+      "TA",
+      "DIC",
+      "CO2",
+      "Sal",
+      "Light",
+      "Omega",
+      "NEC",
+      "Nutrients_PC1",
+      "Chla"
+    ],
+    "desired_bins": [
+      2
+    ],
+    "desired_region_metadata": {
+      "dataset": "Bermuda",
+      "reference_paper": "ICML 2025 CARE",
+      "nec_bias": -0.540219707915382,
+      "covariance_profile": "paper",
+      "true_region": {
+        "kind": "interval",
+        "lower": 1.0402197079153819,
+        "upper": 2.540219707915382
+      }
+    }
+  },
+  "demos": {
+    "A_total_order_inp": {
+      "label": "Demo A: total-order INP (learned ordering)",
+      "ordering": [
+        "Temp",
+        "pHsw",
+        "TA",
+        "DIC",
+        "CO2",
+        "Sal",
+        "Light",
+        "Omega",
+        "NEC",
+        "Nutrients_PC1",
+        "Chla"
+      ],
+      "start_node": "TA",
+      "evaluated_variables": [
+        "DIC",
+        "TA",
+        "Omega"
+      ],
+      "inp": {
+        "DIC": {
+          "variable": "DIC",
+          "inp": 0.4691467591441658,
+          "mep_do": 0.6504336224149433,
+          "mep_ob": 0.18128686327077748,
+          "best_do_bin": 0,
+          "best_do_value": -0.6666666666666667,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "TA": {
+          "variable": "TA",
+          "inp": 0.32247920643712547,
+          "mep_do": 0.9819536895451964,
+          "mep_ob": 0.6594744831080709,
+          "best_do_bin": 2,
+          "best_do_value": 0.6666666666666666,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "Omega": {
+          "variable": "Omega",
+          "inp": 0.18631393298059964,
+          "mep_do": 0.19,
+          "mep_ob": 0.0036860670194003528,
+          "best_do_bin": 0,
+          "best_do_value": -0.6666666666666667,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        }
+      }
+    },
+    "B_partial_order_inp": {
+      "label": "Demo B: partial-order INP",
+      "predecessor_map": {
+        "Light": [],
+        "Temp": [
+          "Light"
+        ],
+        "Sal": [
+          "Temp"
+        ],
+        "Nutrients_PC1": [],
+        "DIC": [
+          "Sal"
+        ],
+        "TA": [
+          "Sal"
+        ],
+        "Chla": [
+          "Light",
+          "Nutrients_PC1",
+          "Temp"
+        ],
+        "Omega": [
+          "DIC",
+          "TA",
+          "Sal",
+          "Temp"
+        ],
+        "pHsw": [
+          "DIC",
+          "TA",
+          "Sal",
+          "Temp"
+        ],
+        "CO2": [
+          "DIC",
+          "TA",
+          "Sal",
+          "Temp"
+        ],
+        "NEC": [
+          "Omega",
+          "pHsw",
+          "CO2",
+          "Chla",
+          "Nutrients_PC1"
+        ]
+      },
+      "selection": {
+        "best_order": [
+          "Light",
+          "Nutrients_PC1",
+          "Temp",
+          "Chla",
+          "Sal",
+          "TA",
+          "DIC",
+          "CO2",
+          "Omega",
+          "pHsw",
+          "NEC"
+        ],
+        "best_mep": 0.9800362870311988,
+        "best_start_node": "TA",
+        "candidates": [
+          {
+            "order": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "DIC",
+              "TA",
+              "CO2",
+              "Omega",
+              "pHsw",
+              "NEC"
+            ],
+            "mep": 0.23733333333333334
+          },
+          {
+            "order": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "DIC",
+              "TA",
+              "CO2",
+              "pHsw",
+              "Omega",
+              "NEC"
+            ],
+            "mep": 0.266
+          },
+          {
+            "order": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "DIC",
+              "TA",
+              "Omega",
+              "CO2",
+              "pHsw",
+              "NEC"
+            ],
+            "mep": 0.23133333333333334
+          },
+          {
+            "order": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "DIC",
+              "TA",
+              "Omega",
+              "pHsw",
+              "CO2",
+              "NEC"
+            ],
+            "mep": 0.26266666666666666
+          },
+          {
+            "order": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "DIC",
+              "TA",
+              "pHsw",
+              "CO2",
+              "Omega",
+              "NEC"
+            ],
+            "mep": 0.24133333333333334
+          },
+          {
+            "order": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "DIC",
+              "TA",
+              "pHsw",
+              "Omega",
+              "CO2",
+              "NEC"
+            ],
+            "mep": 0.25333333333333335
+          },
+          {
+            "order": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "TA",
+              "DIC",
+              "CO2",
+              "Omega",
+              "pHsw",
+              "NEC"
+            ],
+            "mep": 0.9800362870311988
+          },
+          {
+            "order": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "TA",
+              "DIC",
+              "CO2",
+              "pHsw",
+              "Omega",
+              "NEC"
+            ],
+            "mep": 0.9799037800687285
+          }
+        ],
+        "truncated": true,
+        "diagnostics": {
+          "n_candidates": 8,
+          "n_skipped": 0,
+          "max_extensions": 8,
+          "target": "NEC",
+          "desired_bins": [
+            2
+          ]
+        }
+      },
+      "inp_under_best_order": {
+        "DIC": {
+          "variable": "DIC",
+          "inp": 0.47342657779807473,
+          "mep_do": 0.6591060707138092,
+          "mep_ob": 0.18567949291573452,
+          "best_do_bin": 0,
+          "best_do_value": -0.6666666666666667,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "TA",
+              "DIC",
+              "CO2",
+              "Omega",
+              "pHsw",
+              "NEC"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "TA": {
+          "variable": "TA",
+          "inp": 0.3462286273949865,
+          "mep_do": 0.9813972165183664,
+          "mep_ob": 0.6351685891233799,
+          "best_do_bin": 2,
+          "best_do_value": 0.6666666666666666,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "TA",
+              "DIC",
+              "CO2",
+              "Omega",
+              "pHsw",
+              "NEC"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "Omega": {
+          "variable": "Omega",
+          "inp": 0.1737845238095238,
+          "mep_do": 0.17866666666666667,
+          "mep_ob": 0.004882142857142857,
+          "best_do_bin": 0,
+          "best_do_value": -0.6666666666666667,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Light",
+              "Nutrients_PC1",
+              "Temp",
+              "Chla",
+              "Sal",
+              "TA",
+              "DIC",
+              "CO2",
+              "Omega",
+              "pHsw",
+              "NEC"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        }
+      }
+    },
+    "C_conditional_inp": {
+      "label": "Demo C: conditional INP",
+      "variable": "DIC",
+      "ordering": [
+        "Temp",
+        "pHsw",
+        "TA",
+        "DIC",
+        "CO2",
+        "Sal",
+        "Light",
+        "Omega",
+        "NEC",
+        "Nutrients_PC1",
+        "Chla"
+      ],
+      "do_conditions": {
+        "pHsw": 1
+      },
+      "ob_conditions": {
+        "Temp": 1
+      },
+      "results": {
+        "unconditional": {
+          "variable": "DIC",
+          "inp": 0.4447745369685646,
+          "mep_do": 0.6415220293724967,
+          "mep_ob": 0.19674749240393208,
+          "best_do_bin": 0,
+          "best_do_value": -0.6666666666666667,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "with_do_only": {
+          "variable": "DIC",
+          "inp": 0.45894727435210014,
+          "mep_do": 0.636,
+          "mep_ob": 0.1770527256478999,
+          "best_do_bin": 0,
+          "best_do_value": -0.6666666666666667,
+          "do_conditions": {
+            "pHsw": 1
+          },
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "with_ob_only": {
+          "variable": "DIC",
+          "inp": 0.4397510000746213,
+          "mep_do": 0.6286666666666667,
+          "mep_ob": 0.18891566659204537,
+          "best_do_bin": 0,
+          "best_do_value": -0.6666666666666667,
+          "do_conditions": {},
+          "ob_conditions": {
+            "Temp": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "with_do_and_ob": {
+          "variable": "DIC",
+          "inp": 0.4661680720344253,
+          "mep_do": 0.644,
+          "mep_ob": 0.17783192796557473,
+          "best_do_bin": 0,
+          "best_do_value": -0.6666666666666667,
+          "do_conditions": {
+            "pHsw": 1
+          },
+          "ob_conditions": {
+            "Temp": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        }
+      }
+    },
+    "D_ace_and_cace": {
+      "label": "Demo D: ACE and CACE",
+      "ordering": [
+        "Temp",
+        "pHsw",
+        "TA",
+        "DIC",
+        "CO2",
+        "Sal",
+        "Light",
+        "Omega",
+        "NEC",
+        "Nutrients_PC1",
+        "Chla"
+      ],
+      "evaluated_variables": [
+        "DIC",
+        "TA",
+        "Omega",
+        "Chla",
+        "Nutrients_PC1"
+      ],
+      "do_conditions_for_cace": {
+        "pHsw": 1
+      },
+      "ob_conditions_for_cace": {
+        "Temp": 1
+      },
+      "ace": {
+        "DIC": {
+          "variable": "DIC",
+          "ace": 0.13133333333333333,
+          "kind": "ace",
+          "per_value_probs": {
+            "0": 0.0,
+            "1": 0.004,
+            "2": 0.13133333333333333
+          },
+          "best_value": 2,
+          "worst_value": 0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "TA": {
+          "variable": "TA",
+          "ace": 0.017333333333333333,
+          "kind": "ace",
+          "per_value_probs": {
+            "0": 0.017333333333333333,
+            "1": 0.004,
+            "2": 0.0
+          },
+          "best_value": 0,
+          "worst_value": 2,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "Omega": {
+          "variable": "Omega",
+          "ace": 0.18533333333333332,
+          "kind": "ace",
+          "per_value_probs": {
+            "0": 0.18533333333333332,
+            "1": 0.0013333333333333333,
+            "2": 0.0
+          },
+          "best_value": 0,
+          "worst_value": 2,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "Chla": {
+          "variable": "Chla",
+          "ace": 0.002666666666666667,
+          "kind": "ace",
+          "per_value_probs": {
+            "0": 0.002,
+            "1": 0.004666666666666667,
+            "2": 0.004666666666666667
+          },
+          "best_value": 1,
+          "worst_value": 0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "Nutrients_PC1": {
+          "variable": "Nutrients_PC1",
+          "ace": 0.0006666666666666665,
+          "kind": "ace",
+          "per_value_probs": {
+            "0": 0.0033333333333333335,
+            "1": 0.004,
+            "2": 0.0033333333333333335
+          },
+          "best_value": 1,
+          "worst_value": 0,
+          "do_conditions": {},
+          "ob_conditions": {},
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        }
+      },
+      "cace": {
+        "DIC": {
+          "variable": "DIC",
+          "ace": 0.14333333333333334,
+          "kind": "cace",
+          "per_value_probs": {
+            "0": 0.0,
+            "1": 0.002,
+            "2": 0.14333333333333334
+          },
+          "best_value": 2,
+          "worst_value": 0,
+          "do_conditions": {
+            "pHsw": 1
+          },
+          "ob_conditions": {
+            "Temp": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "TA": {
+          "variable": "TA",
+          "ace": 0.026,
+          "kind": "cace",
+          "per_value_probs": {
+            "0": 0.026,
+            "1": 0.0033333333333333335,
+            "2": 0.0
+          },
+          "best_value": 0,
+          "worst_value": 2,
+          "do_conditions": {
+            "pHsw": 1
+          },
+          "ob_conditions": {
+            "Temp": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "Omega": {
+          "variable": "Omega",
+          "ace": 0.186,
+          "kind": "cace",
+          "per_value_probs": {
+            "0": 0.186,
+            "1": 0.0006666666666666666,
+            "2": 0.0
+          },
+          "best_value": 0,
+          "worst_value": 2,
+          "do_conditions": {
+            "pHsw": 1
+          },
+          "ob_conditions": {
+            "Temp": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "Chla": {
+          "variable": "Chla",
+          "ace": 0.004666666666666667,
+          "kind": "cace",
+          "per_value_probs": {
+            "0": 0.006666666666666667,
+            "1": 0.0026666666666666666,
+            "2": 0.002
+          },
+          "best_value": 0,
+          "worst_value": 2,
+          "do_conditions": {
+            "pHsw": 1
+          },
+          "ob_conditions": {
+            "Temp": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        },
+        "Nutrients_PC1": {
+          "variable": "Nutrients_PC1",
+          "ace": 0.002666666666666667,
+          "kind": "cace",
+          "per_value_probs": {
+            "0": 0.004666666666666667,
+            "1": 0.002,
+            "2": 0.004666666666666667
+          },
+          "best_value": 0,
+          "worst_value": 1,
+          "do_conditions": {
+            "pHsw": 1
+          },
+          "ob_conditions": {
+            "Temp": 1
+          },
+          "diagnostics": {
+            "ordering": [
+              "Temp",
+              "pHsw",
+              "TA",
+              "DIC",
+              "CO2",
+              "Sal",
+              "Light",
+              "Omega",
+              "NEC",
+              "Nutrients_PC1",
+              "Chla"
+            ],
+            "target": "NEC",
+            "desired_bins": [
+              2
+            ],
+            "num_samples": 1500
+          }
+        }
+      }
+    }
+  },
+  "runtime_seconds": 4.984695545397699
+}
