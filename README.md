@@ -1,7 +1,15 @@
 # Rehearsal
 
-`rehearsal` is a unified package for rehearsal-learning methods migrated from
-`previous_works/`. It provides shared task contracts, structural-model
+`rehearsal` first exposes the Influence Power (InP) measure from the ICLR 2026
+paper "On Measuring Influence in Avoiding Undesired Future." InP quantifies how
+much an actionable variable can increase the maximum expected probability of
+avoiding an undesired future by comparing alteration-style `do(...)` reasoning
+against observation-style `ob(...)` reasoning along a rehearsal ordering. The
+package implements InP together with MEP, ACE, and CACE utilities under
+`rehearsal.measures`, with runnable demonstrations in `examples/inp/`.
+
+The package also provides a unified interface for rehearsal-learning methods
+migrated from `previous_works/`: shared task contracts, structural-model
 interfaces, method adapters, optimizers, metrics, datasets, and seeded
 experiment runners for comparing rehearsal methods under one CLI shape.
 
@@ -10,25 +18,30 @@ See `ExecPlan.md` for the staged porting plan.
 
 ## Implemented Method Provenance
 
-This table covers the currently registered `rehearsal-run --method` adapters.
-Unpublished methods are listed as `arXiv 2026`.
+This table covers the implemented InP measure demos and the currently
+registered `rehearsal-run --method` adapters. Values of the form `--method ...`
+are stable method-registry names; InP is a measure API with standalone example
+CLIs rather than a `RehearsalMethod` adapter. Unpublished methods are listed as
+`arXiv 2026`.
 
-| CLI method | Adapter | Year / venue | Paper | Example config |
+| Registry / entry point | Implementation | Year / venue | Paper | Example config |
 | --- | --- | --- | --- | --- |
+| InP measure demos | `compute_inp`, `compute_inp_for_variables` | 2026 ICLR | On Measuring Influence in Avoiding Undesired Future | `examples/inp/bermuda_inp_example.py` |
 | `qwz23` | `QWZ23Rehearsal` | 2023 NeurIPS | Rehearsal Learning for Avoiding Undesired Future | `examples/qwz23/bermuda_example.py` |
 | `micns` | `MICNSRehearsal` | 2024 NeurIPS | Avoiding Undesired Future with Minimal Cost in Non-Stationary Environments | `examples/micns/bermuda_example.py` |
 | `grad-rh` | `GradRhRehearsal` | 2025 AAAI | Gradient-Based Nonlinear Rehearsal Learning with Multivariate Alterations | `examples/grad_rh/bermuda_example.py` |
 | `care` | `ICML2025CARERehearsal` | 2025 ICML | Enabling Optimal Decisions in Rehearsal Learning under CARE Condition | `examples/care/care_bermuda_example.py` |
+| `msr` | `MSRRehearsal` | 2025 IJCAI | Avoiding Undesired Future with Sequential Decisions | `examples/msr/bermuda_example.py` |
 | `cme-rh` | `CMERehearsal` | arXiv 2026 | Non-Parametric Rehearsal Learning via Conditional Mean Embeddings | `examples/cme/cme_bermuda_example.py` |
 | `olem-rh` | `OLEMRhRehearsal` | arXiv 2026 | Order-Based Rehearsal Learning | `examples/olem_rh/bermuda_example.py` |
 
 ## Project Structure
 
 - `src/rehearsal/`: installable Python package. It contains the shared task
-  contracts, model interfaces, method adapters, optimizers, metrics, datasets,
-  and experiment runners.
+  contracts, model interfaces, method adapters, measure APIs, optimizers,
+  metrics, datasets, and experiment runners.
 - `tests/`: focused regression and contract tests for the package.
-- `examples/`: runnable method experiment configs used by the README commands.
+- `examples/`: runnable method and measure examples used by the README commands.
 - `docs/`: architecture notes and method-porting guidance.
 - `previous_works/`: read-only historical code, paper sources, data, and PDFs
   used as reference material while migrating methods into the unified package.
@@ -41,8 +54,8 @@ Files intentionally kept out of Git include Python bytecode, pytest/cache
 directories, OS metadata such as `.DS_Store`, local agent/editor state,
 packaging/build artifacts, LaTeX auxiliary files, and local runtime artifacts.
 
-The current implementation includes all method adapters listed in the
-provenance table above while keeping shared model, task, optimizer, and
+The current implementation includes the measure APIs and method adapters listed
+in the provenance table above while keeping shared model, task, optimizer, and
 experiment-runner interfaces reusable across papers.
 
 ## Package Layout
@@ -56,6 +69,8 @@ experiment-runner interfaces reusable across papers.
   models.
 - `rehearsal.methods`: thin method adapters exposing `fit`, `suggest`, and
   `evaluate`.
+- `rehearsal.measures`: InP, MEP, ACE, CACE, and partial-order utilities for
+  evaluating influence properties of fitted rehearsal models.
 - `rehearsal.datasets`: reusable dataset and SEM factories, including generic
   Bermuda and Manage dataset modules shared across methods.
 - `rehearsal.experiments`: command-line runners for seeded experiment batches.
@@ -108,7 +123,7 @@ Use these forms only:
 | Argument | Meaning |
 | --- | --- |
 | `--seeds 3,4,5` | Required. The exact run seeds. `--seeds 3` is a one-seed batch. |
-| `--method NAME` | Method registry name. Currently registered: `grad-rh`, `care`, `micns`, `olem-rh`, `qwz23`, `cme-rh`. |
+| `--method NAME` | Method registry name. Currently registered: `care`, `cme-rh`, `grad-rh`, `micns`, `msr`, `olem-rh`, `qwz23`. |
 | `--params KEY=VALUE` | Experiment config parameters passed to `build_experiment(params, seed)`. |
 | `--method-params KEY=VALUE` | Method constructor parameters. Do not put `seed` here. |
 | `--fit-params KEY=VALUE` | Extra options passed to `method.fit(...)`; rarely needed. |
@@ -123,10 +138,22 @@ the runner prints a short completion line such as
 The removed singular aliases `--param`, `--method-param`, and `--fit-param`
 are intentionally rejected.
 
-## Method CLI Examples
+## Measure And Method CLI Examples
 
-Run these commands from the repository root. They generate the tracked
-single-seed Bermuda reference outputs under `outputs/`.
+Run these commands from the repository root. They generate the tracked Bermuda
+reference outputs under `outputs/`.
+
+InP / ICLR 2026 measure example:
+
+```bash
+env PYTHONPATH=src python examples/inp/bermuda_inp_example.py \
+  --n-data 2000 \
+  --num-samples 1500 \
+  --n-bins 3 \
+  --start-node TA \
+  --output outputs/inp_bermuda_measures.json \
+  --quiet
+```
 
 QWZ23 / NeurIPS 2023:
 
@@ -176,6 +203,18 @@ env PYTHONPATH=src python -m rehearsal.experiments.run examples/care/care_bermud
   --compact
 ```
 
+MSR / IJCAI 2025, registered as `msr`:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/msr/bermuda_example.py \
+  --method msr \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/msr_bermuda_seed3.json \
+  --compact
+```
+
 CME / arXiv 2026:
 
 ```bash
@@ -202,48 +241,46 @@ env PYTHONPATH=src python -m rehearsal.experiments.run examples/olem_rh/bermuda_
 
 ## Bermuda Reference Results
 
-The tracked method outputs use the same Bermuda setting: seed `3`,
-`n_data=2000`, and `eval_samples=1000`. The table reports only the true AUF
-probability measured by each example's true simulator.
-
-| Method | Output | True AUF probability |
-| --- | --- | ---: |
-| `qwz23` | `outputs/qwz23_bermuda_seed3.json` | 0.1680 |
-| `micns` | `outputs/micns_bermuda_seed3.json` | 0.8370 |
-| `grad-rh` | `outputs/grad_rh_bermuda_seed3.json` | 0.8270 |
-| `care` | `outputs/care_bermuda_seed3.json` | 0.8400 |
-| `cme-rh` | `outputs/cme_bermuda_seed3.json` | 0.8310 |
-| `olem-rh` | `outputs/olem_rh_bermuda_seed3.json` | 0.8080 |
-
-The observed Bermuda context is sampled inside each seeded experiment config.
-Do not pass observed variables through `--params`; use `--seeds` to make the
-sampled observations reproducible.
+### InP Measure Results
 
 The INP / ACE examples under `examples/inp/` are measure demonstrations rather
 than `RehearsalMethod` adapters: they compute influence-power diagnostics and
 write JSON reports directly, so they intentionally use their own small CLI
 instead of the seeded `rehearsal-run` batch contract.
 
-INP Bermuda measure example:
+The tracked `outputs/inp_bermuda_measures.json` run uses `n_data=2000`,
+`num_samples=1500`, `n_bins=3`, and `start_node=TA`. Demo A reports these
+total-order InP values under the learned Bermuda order:
 
-```bash
-env PYTHONPATH=src python examples/inp/bermuda_inp_example.py \
-  --n-data 2000 \
-  --num-samples 1500 \
-  --n-bins 3 \
-  --start-node TA \
-  --output outputs/inp_bermuda_measures.json \
-  --quiet
-```
+| Variable | InP | MEP-do | MEP-ob |
+| --- | ---: | ---: | ---: |
+| `DIC` | 0.469 | 0.650 | 0.181 |
+| `TA` | 0.322 | 0.982 | 0.659 |
+| `Omega` | 0.186 | 0.190 | 0.004 |
 
-The tracked `outputs/inp_bermuda_measures.json` run reports these Demo A
-total-order INP values under the learned Bermuda order:
+Demo B selects a partial-order-compatible Bermuda order with best MEP `0.980`
+for start node `TA`; under that order, `DIC`, `TA`, and `Omega` have InP values
+`0.473`, `0.346`, and `0.174`, respectively.
 
-| Variable | INP |
-| --- | ---: |
-| `DIC` | 0.4691 |
-| `TA` | 0.3225 |
-| `Omega` | 0.1863 |
+### Rehearsal Method Results
+
+The tracked rehearsal method outputs are single-seed Bermuda references. All
+rows use seed `3`, `n_data=2000`, and `eval_samples=1000`. The table reports
+the true AUF probability measured by each example's true simulator.
+
+| Method | Venue | Output | True AUF probability |
+| --- | --- | --- | ---: |
+| `qwz23` | 2023 NeurIPS | `outputs/qwz23_bermuda_seed3.json` | 0.168 |
+| `micns` | 2024 NeurIPS | `outputs/micns_bermuda_seed3.json` | 0.837 |
+| `grad-rh` | 2025 AAAI | `outputs/grad_rh_bermuda_seed3.json` | 0.827 |
+| `care` | 2025 ICML | `outputs/care_bermuda_seed3.json` | 0.840 |
+| `msr` | 2025 IJCAI | `outputs/msr_bermuda_seed3.json` | 0.830 |
+| `cme-rh` | arXiv 2026 | `outputs/cme_bermuda_seed3.json` | 0.831 |
+| `olem-rh` | arXiv 2026 | `outputs/olem_rh_bermuda_seed3.json` | 0.808 |
+
+The observed Bermuda context is sampled inside each seeded experiment config.
+Do not pass observed variables through `--params`; use `--seeds` to make the
+sampled observations reproducible.
 
 ## Output Shape
 
@@ -332,6 +369,7 @@ config importing and constructing the adapter itself.
 "grad-rh": GradRhRehearsal
 "care": ICML2025CARERehearsal
 "micns": MICNSRehearsal
+"msr": MSRRehearsal
 "olem-rh": OLEMRhRehearsal
 "qwz23": QWZ23Rehearsal
 "cme-rh": CMERehearsal
