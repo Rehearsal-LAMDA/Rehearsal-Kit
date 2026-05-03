@@ -63,7 +63,7 @@ def test_olem_rh_registry():
 
 def test_olem_rh_bermuda_example_runs_through_seeded_batch_runner():
     result = run_experiment_configs(
-        "examples/olem-rh/bermuda_example.py",
+        "examples/olem_rh/bermuda_example.py",
         seeds=(1,),
         method_name="olem-rh",
         method_params={"n_mc_samples": 32, "epochs": 8, "num_restarts": 1, "max_parents": 3},

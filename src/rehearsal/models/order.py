@@ -6,9 +6,7 @@ from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
 import numpy as np
-import torch
-from math import log, pi, e, ceil
-from scipy.special import digamma
+from math import e, lgamma, log, pi
 
 from rehearsal.core import AUFTask
 from rehearsal.core.data import coerce_data_matrix
@@ -178,28 +176,38 @@ def _task_with_learned_order(
 
 
 def _entropy_estimate_kozachenko(data: np.ndarray) -> float:
-    n_samples = data.shape[0]
-    dim = data.shape[1]
-    if isinstance(data, np.ndarray):
-        data = torch.from_numpy(data)
-    elif isinstance(data, list):
-        data = torch.tensor(data)
+    values = np.asarray(data, dtype=float)
+    if values.ndim == 1:
+        values = values.reshape(-1, 1)
+    if values.ndim != 2:
+        raise ValueError("data must be one- or two-dimensional.")
+    n_samples = values.shape[0]
+    dim = values.shape[1]
+    if n_samples <= 1:
+        raise ValueError("Kozachenko entropy estimation requires at least two samples.")
     k = 1
-    log_V_d = (dim/2) * log(pi) - torch.lgamma(torch.tensor(1+dim/2)) # V_d = pi**(d/2) / torch.gamma(1+d/2)
-    ret = 0
+    log_v_d = (dim / 2.0) * log(pi) - lgamma(1.0 + dim / 2.0)
+    ret = 0.0
     for i in range(n_samples):
-        distances = torch.norm(data - data[i], dim=1)
-        k_nearest_dist, t = torch.topk(distances, k=k+1, largest=False)
-        w = torch.Tensor(k)
+        if dim == 0:
+            distances = np.zeros(n_samples, dtype=float)
+        else:
+            distances = np.linalg.norm(values - values[i], axis=1)
+        nearest_distances = np.partition(distances, kth=k)[: k + 1]
+        nearest_distances.sort()
         for j in range(k):
-            rho = k_nearest_dist[j+1]
-            if rho < 1e-3:
-                rho = 1e-3
-            log_xi = log_V_d + log(n_samples-1) + dim*log(rho) - digamma(j+1)
-            w[j] = 1/k
-            ret += w[j] * log_xi
+            rho = max(float(nearest_distances[j + 1]), 1e-3)
+            log_xi = log_v_d + log(n_samples - 1) + dim * log(rho) - _digamma_positive_integer(j + 1)
+            ret += (1.0 / k) * log_xi
     ret /= n_samples
-    return ret
+    return float(ret)
+
+
+def _digamma_positive_integer(value: int) -> float:
+    if value <= 0:
+        raise ValueError("digamma helper is defined only for positive integers.")
+    euler_mascheroni = 0.5772156649015329
+    return -euler_mascheroni + sum(1.0 / i for i in range(1, value))
 
 
 def _gaussian_conditional_entropy(y: np.ndarray, x: np.ndarray) -> float:

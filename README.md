@@ -92,7 +92,7 @@ Use these forms only:
 | Argument | Meaning |
 | --- | --- |
 | `--seeds 1,2,3` | Required. The exact run seeds. `--seeds 1` is a one-seed batch. |
-| `--method NAME` | Method registry name. Currently registered: `icml2025-care`, `unpublished-cme`. |
+| `--method NAME` | Method registry name. Currently registered: `grad-rh`, `icml2025-care`, `micns`, `olem-rh`, `qwz23`, `unpublished-cme`. |
 | `--params KEY=VALUE` | Experiment config parameters passed to `build_experiment(params, seed)`. |
 | `--method-params KEY=VALUE` | Method constructor parameters. Do not put `seed` here. |
 | `--fit-params KEY=VALUE` | Extra options passed to `method.fit(...)`; rarely needed. |
@@ -139,6 +139,11 @@ PYTHONPATH=src python -m rehearsal.experiments.run examples/cme/cme_bermuda_exam
 The observed Bermuda context is sampled inside each seeded experiment config.
 Do not pass observed variables through `--params`; use `--seeds` to make the
 sampled observations reproducible.
+
+The INP / ACE examples under `examples/inp/` are measure demonstrations rather
+than `RehearsalMethod` adapters: they compute influence-power diagnostics and
+write JSON reports directly, so they intentionally use their own small CLI
+instead of the seeded `rehearsal-run` batch contract.
 
 ## Output Shape
 
@@ -224,11 +229,16 @@ the runner instantiate methods by a stable CLI name without every experiment
 config importing and constructing the adapter itself.
 
 ```python
+"grad-rh": GradRhRehearsal
 "icml2025-care": ICML2025CARERehearsal
+"micns": MICNSRehearsal
+"olem-rh": OLEMRhRehearsal
+"qwz23": QWZ23Rehearsal
 "unpublished-cme": CMERehearsal
 ```
 
-There are no duplicate short aliases such as `"care"` or `"cme"`.
+There are no duplicate aliases such as `"care"` or `"cme"` beyond the stable
+registry names listed above.
 
 ## Collaboration Guidelines
 
