@@ -1,4 +1,4 @@
-你可以直接用下面这个 prompt 作为 unpublished CME worker agent 的任务说明：
+你可以直接用下面这个 prompt 作为 CME-Rh worker agent 的任务说明：
 
 你是 Rehearsal 项目的实现型 worker agent，负责把未发表工作
 `Non-Parametric Rehearsal Learning via Conditional Mean Embeddings` 接入当前统一
@@ -27,7 +27,7 @@ Python package。
 - `src/rehearsal/optimizers/cme.py`
 - `src/rehearsal/metrics/cme.py`，仅在确实需要共享指标/核函数时新增
 - `src/rehearsal/datasets/cme.py` 或 `examples/cme/` 中的轻量实验配置
-- `tests/test_unpublished_cme.py`
+- `tests/test_cme_rh.py`
 - 如需让 CLI 可用，可以小范围修改：
   - `src/rehearsal/methods/registry.py`
   - `src/rehearsal/methods/__init__.py`
@@ -35,7 +35,7 @@ Python package。
   不要重构现有 framework。
 
 目标：
-实现 unpublished CME / kernel conditional mean embedding rehearsal 方法的 package
+实现 CME-Rh / kernel conditional mean embedding rehearsal 方法的 package
 adapter，使其通过当前统一接口工作：
 
 - `fit(data, task, config=None)`
@@ -49,7 +49,7 @@ adapter，使其通过当前统一接口工作：
 方法注册名使用一个稳定名称：
 
 ```python
-"unpublished-cme": CMERehearsal
+"cme-rh": CMERehearsal
 ```
 
 不要额外添加 `"cme"`、`"kernel-cme"` 等重复 alias。
@@ -130,7 +130,7 @@ adapter，使其通过当前统一接口工作：
   - 一个很小的 seeded batch config，用现有 `rehearsal.experiments.run` 跑通
 
 测试要求：
-添加 `tests/test_unpublished_cme.py`，至少覆盖：
+添加 `tests/test_cme_rh.py`，至少覆盖：
 - tiny synthetic AUF task 可以 `fit`、`suggest`、`evaluate`
 - 输出 alteration 尊重 `task.alteration_domain`
 - 固定 seed 下结果 deterministic
@@ -140,10 +140,10 @@ adapter，使其通过当前统一接口工作：
 - 有 `U` 中间变量和没有显式 `U` metadata 的 fallback 都能工作
 - 多个 candidate 时能返回合法 selected candidate
 - diagnostics 字段存在
-- registry 可以通过 `"unpublished-cme"` 创建 method
+- registry 可以通过 `"cme-rh"` 创建 method
 
 如果新增 example config，再添加一个轻量 runner smoke test：
-- `run_experiment_configs("examples/cme/cme_toy_experiment.py", seeds=(1,), method_name="unpublished-cme", ...)`
+- `run_experiment_configs("examples/cme/cme_toy_experiment.py", seeds=(1,), method_name="cme-rh", ...)`
   返回 batch payload。
 
 验证命令：
@@ -161,7 +161,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python -m pytest -q -p no:cacheprovider
 你不是唯一一个 agent。不要回滚或重写其他 agent 的修改；如果发现 framework API
 已经变化，请适配现有接口，而不是重建一套接口。
 
-本任务只实现 unpublished Conditional Mean Embeddings / non-parametric rehearsal
+本任务只实现 CME-Rh Conditional Mean Embeddings / non-parametric rehearsal
 adapter，不实现 order-based rehearsal，不实现 ICML 2025 CARE，不实现 NeurIPS
 2023、NeurIPS 2024、AAAI 2025、IJCAI 2025、ICLR 2026。不要扩大范围。
 

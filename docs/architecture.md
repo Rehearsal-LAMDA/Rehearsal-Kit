@@ -61,7 +61,7 @@ builds the task, generated training data, desired region, and per-seed
 observation for that run.
 
 The runner intentionally has no separate single-seed output shape. Passing
-`--seeds 1` still returns `runs` plus aggregate `summary` with mean, standard
+`--seeds 3` still returns `runs` plus aggregate `summary` with mean, standard
 deviation, min, and max. This keeps paper experiments and follow-up analysis on
 one contract.
 

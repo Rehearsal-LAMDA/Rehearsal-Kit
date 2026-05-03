@@ -43,12 +43,12 @@
     "desired_region_metadata": {
       "dataset": "Bermuda",
       "reference_paper": "ICML 2025 CARE",
-      "nec_bias": -0.540219707915382,
+      "nec_bias": -0.5402197079153828,
       "covariance_profile": "paper",
       "true_region": {
         "kind": "interval",
-        "lower": 1.0402197079153819,
-        "upper": 2.540219707915382
+        "lower": 1.0402197079153828,
+        "upper": 2.5402197079153828
       }
     }
   },
@@ -1012,5 +1012,5 @@
       }
     }
   },
-  "runtime_seconds": 4.984695545397699
+  "runtime_seconds": 4.209476008079946
 }

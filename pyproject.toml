@@ -13,7 +13,7 @@ dependencies = []
 [project.scripts]
 rehearsal-run = "rehearsal.experiments.run:main"
 rehearsal-icml2025-reproduce = "rehearsal.experiments.icml2025_reproduce:main"
-rehearsal-icml2025-care-reproduce = "rehearsal.experiments.icml2025_reproduce:main"
+rehearsal-care-reproduce = "rehearsal.experiments.icml2025_reproduce:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

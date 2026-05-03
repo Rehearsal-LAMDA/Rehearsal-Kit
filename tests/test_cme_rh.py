@@ -148,13 +148,13 @@ def test_cme_environment_metadata_and_fallback_both_work():
 def test_cme_multiple_candidates_diagnostics_and_registry():
     data, task = _cme_fixture(seed=4, multiple_candidates=True)
     method = create_method(
-        "unpublished-cme",
+        "cme-rh",
         {"seed": 4, "pgd_steps": 15, "num_restarts": 3, "krr_lambda_alpha": 0.05},
     )
 
     result = method.fit(data, task).suggest({"x": 0.3}, task)
 
-    assert "unpublished-cme" in available_methods()
+    assert "cme-rh" in available_methods()
     assert result.diagnostics["selected_candidate"] in (("a",), ("b",))
     assert result.diagnostics["n_candidates"] == 2
     for field in ("selected_candidate", "objective_value", "solver_status", "n_training_samples"):
@@ -165,14 +165,14 @@ def test_cme_example_runs_through_seeded_batch_runner():
     result = run_experiment_configs(
         "examples/cme/cme_toy_experiment.py",
         seeds=(1,),
-        method_name="unpublished-cme",
+        method_name="cme-rh",
         method_params={"pgd_steps": 15, "num_restarts": 3},
         eval_samples=8,
         params={"n_samples": 50},
     )
 
     assert result["name"] == "cme_toy"
-    assert result["method"] == "unpublished-cme"
+    assert result["method"] == "cme-rh"
     assert result["seeds"] == [1]
     assert result["n_runs"] == 1
     assert 0.0 <= result["runs"][0]["decision"]["estimated_success_probability"] <= 1.0
@@ -183,14 +183,14 @@ def test_cme_bermuda_example_runs_through_seeded_batch_runner():
     result = run_experiment_configs(
         "examples/cme/cme_bermuda_example.py",
         seeds=(1,),
-        method_name="unpublished-cme",
+        method_name="cme-rh",
         method_params={"pgd_steps": 5, "num_restarts": 2},
         eval_samples=5,
         params={"n_data": 30},
     )
 
     assert result["name"] == "cme_bermuda"
-    assert result["method"] == "unpublished-cme"
+    assert result["method"] == "cme-rh"
     assert result["seeds"] == [1]
     assert result["n_runs"] == 1
     assert 0.0 <= result["runs"][0]["decision"]["estimated_success_probability"] <= 1.0

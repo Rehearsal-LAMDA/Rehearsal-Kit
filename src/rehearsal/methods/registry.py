@@ -16,10 +16,10 @@ from rehearsal.methods.olem_rh import OLEMRhRehearsal
 MethodFactory = Callable[..., RehearsalMethod]
 
 _METHODS: dict[str, MethodFactory] = {
-    "icml2025-care": ICML2025CARERehearsal,
+    "care": ICML2025CARERehearsal,
     "micns": MICNSRehearsal,
     "qwz23": QWZ23Rehearsal,
-    "unpublished-cme": CMERehearsal,
+    "cme-rh": CMERehearsal,
     "grad-rh": GradRhRehearsal,
     "olem-rh": OLEMRhRehearsal,
 }

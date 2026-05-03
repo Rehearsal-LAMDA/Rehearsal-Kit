@@ -1,13 +1,34 @@
 # Rehearsal
 
+`rehearsal` is a unified package for rehearsal-learning methods migrated from
+`previous_works/`. It provides shared task contracts, structural-model
+interfaces, method adapters, optimizers, metrics, datasets, and seeded
+experiment runners for comparing rehearsal methods under one CLI shape.
+
+Historical code remains in `previous_works/` as read-only reference material.
+See `ExecPlan.md` for the staged porting plan.
+
+## Implemented Method Provenance
+
+This table covers the currently registered `rehearsal-run --method` adapters.
+Unpublished methods are listed as `arXiv 2026`.
+
+| CLI method | Adapter | Year / venue | Paper | Example config |
+| --- | --- | --- | --- | --- |
+| `qwz23` | `QWZ23Rehearsal` | 2023 NeurIPS | Rehearsal Learning for Avoiding Undesired Future | `examples/qwz23/bermuda_example.py` |
+| `micns` | `MICNSRehearsal` | 2024 NeurIPS | Avoiding Undesired Future with Minimal Cost in Non-Stationary Environments | `examples/micns/bermuda_example.py` |
+| `grad-rh` | `GradRhRehearsal` | 2025 AAAI | Gradient-Based Nonlinear Rehearsal Learning with Multivariate Alterations | `examples/grad_rh/bermuda_example.py` |
+| `care` | `ICML2025CARERehearsal` | 2025 ICML | Enabling Optimal Decisions in Rehearsal Learning under CARE Condition | `examples/care/care_bermuda_example.py` |
+| `cme-rh` | `CMERehearsal` | arXiv 2026 | Non-Parametric Rehearsal Learning via Conditional Mean Embeddings | `examples/cme/cme_bermuda_example.py` |
+| `olem-rh` | `OLEMRhRehearsal` | arXiv 2026 | Order-Based Rehearsal Learning | `examples/olem_rh/bermuda_example.py` |
+
 ## Project Structure
 
 - `src/rehearsal/`: installable Python package. It contains the shared task
   contracts, model interfaces, method adapters, optimizers, metrics, datasets,
   and experiment runners.
 - `tests/`: focused regression and contract tests for the package.
-- `examples/`: runnable CARE and CME experiment configs used by the README
-  commands.
+- `examples/`: runnable method experiment configs used by the README commands.
 - `docs/`: architecture notes and method-porting guidance.
 - `previous_works/`: read-only historical code, paper sources, data, and PDFs
   used as reference material while migrating methods into the unified package.
@@ -20,14 +41,9 @@ Files intentionally kept out of Git include Python bytecode, pytest/cache
 directories, OS metadata such as `.DS_Store`, local agent/editor state,
 packaging/build artifacts, LaTeX auxiliary files, and local runtime artifacts.
 
-`rehearsal` is a unified package for rehearsal-learning methods migrated from
-`previous_works/`. The current implementation includes the ICML 2025 CARE path
-and the unpublished conditional-mean-embedding (CME) adapter while keeping
-shared model, task, optimizer, and experiment-runner interfaces reusable for
-the other papers.
-
-Historical code remains in `previous_works/` as read-only reference material.
-See `ExecPlan.md` for the staged porting plan.
+The current implementation includes all method adapters listed in the
+provenance table above while keeping shared model, task, optimizer, and
+experiment-runner interfaces reusable across papers.
 
 ## Package Layout
 
@@ -49,8 +65,8 @@ See `ExecPlan.md` for the staged porting plan.
 The generic runner has one execution shape: a seeded batch. There is no separate
 single-seed output mode. If you want one seed, pass a one-element seed list:
 
-```bash
---seeds 1
+```text
+--seeds 3
 ```
 
 The output always contains `runs` and `summary`. With one seed, `summary` still
@@ -91,8 +107,8 @@ Use these forms only:
 
 | Argument | Meaning |
 | --- | --- |
-| `--seeds 1,2,3` | Required. The exact run seeds. `--seeds 1` is a one-seed batch. |
-| `--method NAME` | Method registry name. Currently registered: `grad-rh`, `icml2025-care`, `micns`, `olem-rh`, `qwz23`, `unpublished-cme`. |
+| `--seeds 3,4,5` | Required. The exact run seeds. `--seeds 3` is a one-seed batch. |
+| `--method NAME` | Method registry name. Currently registered: `grad-rh`, `care`, `micns`, `olem-rh`, `qwz23`, `cme-rh`. |
 | `--params KEY=VALUE` | Experiment config parameters passed to `build_experiment(params, seed)`. |
 | `--method-params KEY=VALUE` | Method constructor parameters. Do not put `seed` here. |
 | `--fit-params KEY=VALUE` | Extra options passed to `method.fit(...)`; rarely needed. |
@@ -102,39 +118,102 @@ Use these forms only:
 
 When `--output` is provided, the full JSON payload is written to that file and
 the runner prints a short completion line such as
-`wrote outputs/cme_bermuda_seed1.json (n_runs=1, method=unpublished-cme)`.
+`wrote outputs/cme_bermuda_seed3.json (n_runs=1, method=cme-rh)`.
 
 The removed singular aliases `--param`, `--method-param`, and `--fit-param`
 are intentionally rejected.
 
-## Examples
+## Method CLI Examples
 
-Run these commands from the repository root.
+Run these commands from the repository root. They generate the tracked
+single-seed Bermuda reference outputs under `outputs/`.
 
-CARE Bermuda one-seed batch:
-
-```bash
-PYTHONPATH=src python -m rehearsal.experiments.run examples/care/care_bermuda_example.py \
-  --method icml2025-care \
-  --seeds 3 \
-  --params n_data=2000 \
-  --method-params max_iters=50 \
-  --eval-samples 1000 \
-  --output outputs/care_bermuda_seed1.json \
-  --compact
-```
-
-CME Bermuda one-seed batch:
+QWZ23 / NeurIPS 2023:
 
 ```bash
-PYTHONPATH=src python -m rehearsal.experiments.run examples/cme/cme_bermuda_example.py \
-  --method unpublished-cme \
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/qwz23/bermuda_example.py \
+  --method qwz23 \
   --seeds 3 \
   --params n_data=2000 \
   --eval-samples 1000 \
-  --output outputs/cme_bermuda_seed1.json \
+  --output outputs/qwz23_bermuda_seed3.json \
   --compact
 ```
+
+MICNS / NeurIPS 2024:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/micns/bermuda_example.py \
+  --method micns \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/micns_bermuda_seed3.json \
+  --compact
+```
+
+Grad-Rh / AAAI 2025:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/grad_rh/bermuda_example.py \
+  --method grad-rh \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/grad_rh_bermuda_seed3.json \
+  --compact
+```
+
+CARE / ICML 2025:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/care/care_bermuda_example.py \
+  --method care \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/care_bermuda_seed3.json \
+  --compact
+```
+
+CME / arXiv 2026:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/cme/cme_bermuda_example.py \
+  --method cme-rh \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/cme_bermuda_seed3.json \
+  --compact
+```
+
+OLEM-Rh / arXiv 2026:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/olem_rh/bermuda_example.py \
+  --method olem-rh \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/olem_rh_bermuda_seed3.json \
+  --compact
+```
+
+## Bermuda Reference Results
+
+The tracked method outputs use the same Bermuda setting: seed `3`,
+`n_data=2000`, and `eval_samples=1000`. The table reports only the true AUF
+probability measured by each example's true simulator.
+
+| Method | Output | True AUF probability |
+| --- | --- | ---: |
+| `qwz23` | `outputs/qwz23_bermuda_seed3.json` | 0.1680 |
+| `micns` | `outputs/micns_bermuda_seed3.json` | 0.8370 |
+| `grad-rh` | `outputs/grad_rh_bermuda_seed3.json` | 0.8270 |
+| `care` | `outputs/care_bermuda_seed3.json` | 0.8400 |
+| `cme-rh` | `outputs/cme_bermuda_seed3.json` | 0.8310 |
+| `olem-rh` | `outputs/olem_rh_bermuda_seed3.json` | 0.8080 |
 
 The observed Bermuda context is sampled inside each seeded experiment config.
 Do not pass observed variables through `--params`; use `--seeds` to make the
@@ -145,6 +224,27 @@ than `RehearsalMethod` adapters: they compute influence-power diagnostics and
 write JSON reports directly, so they intentionally use their own small CLI
 instead of the seeded `rehearsal-run` batch contract.
 
+INP Bermuda measure example:
+
+```bash
+env PYTHONPATH=src python examples/inp/bermuda_inp_example.py \
+  --n-data 2000 \
+  --num-samples 1500 \
+  --n-bins 3 \
+  --start-node TA \
+  --output outputs/inp_bermuda_measures.json \
+  --quiet
+```
+
+The tracked `outputs/inp_bermuda_measures.json` run reports these Demo A
+total-order INP values under the learned Bermuda order:
+
+| Variable | INP |
+| --- | ---: |
+| `DIC` | 0.4691 |
+| `TA` | 0.3225 |
+| `Omega` | 0.1863 |
+
 ## Output Shape
 
 A one-seed run still returns a batch:
@@ -152,12 +252,12 @@ A one-seed run still returns a batch:
 ```json
 {
   "name": "cme_bermuda",
-  "method": "unpublished-cme",
-  "seeds": [1],
+  "method": "cme-rh",
+  "seeds": [3],
   "n_runs": 1,
   "runs": [
     {
-      "seed": 1,
+      "seed": 3,
       "observation": {"Light": 0.01, "Temp": -0.02, "Sal": 0.03},
       "structural_learning": {
         "runtime_seconds": 0.004
@@ -171,7 +271,7 @@ A one-seed run still returns a batch:
       "evaluation": {
         "true_auf_success_rate": 0.82,
         "no_action_true_auf_success_rate": 0.12,
-        "eval_samples": 500
+        "eval_samples": 1000
       }
     }
   ],
@@ -230,15 +330,15 @@ config importing and constructing the adapter itself.
 
 ```python
 "grad-rh": GradRhRehearsal
-"icml2025-care": ICML2025CARERehearsal
+"care": ICML2025CARERehearsal
 "micns": MICNSRehearsal
 "olem-rh": OLEMRhRehearsal
 "qwz23": QWZ23Rehearsal
-"unpublished-cme": CMERehearsal
+"cme-rh": CMERehearsal
 ```
 
-There are no duplicate aliases such as `"care"` or `"cme"` beyond the stable
-registry names listed above.
+There are no legacy method-name aliases beyond the stable registry names listed
+above.
 
 ## Collaboration Guidelines
 
@@ -283,7 +383,7 @@ Commit subjects should be imperative and specific, for example
 - After Python package, example, or test changes, run:
 
   ```bash
-  PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python -m pytest -q -p no:cacheprovider tests
+  env PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python -m pytest -q -p no:cacheprovider tests
   ```
 
 - After modifying JavaScript files, run `npm test`.
@@ -307,8 +407,4 @@ Commit subjects should be imperative and specific, for example
 
 ## Verification
 
-Run the Python tests:
-
-```bash
-PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python -m pytest -q -p no:cacheprovider tests
-```
+Run the pytest command listed in `Testing And Verification`.

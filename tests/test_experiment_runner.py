@@ -9,14 +9,14 @@ def test_seeded_runner_always_returns_batch_payload_for_one_seed():
     result = run_experiment_configs(
         "examples/care/care_toy_experiment.py",
         seeds=(3,),
-        method_name="icml2025-care",
+        method_name="care",
         method_params={"max_iters": 5},
         eval_samples=8,
         params={"n_samples": 40},
     )
 
     assert result["name"] == "care_toy"
-    assert result["method"] == "icml2025-care"
+    assert result["method"] == "care"
     assert result["seeds"] == [3]
     assert result["n_runs"] == 1
     assert len(result["runs"]) == 1
@@ -43,7 +43,7 @@ def test_rehearsal_run_cli_writes_batch_json(tmp_path, capsys):
         [
             "examples/care/care_toy_experiment.py",
             "--method",
-            "icml2025-care",
+            "care",
             "--method-params",
             "max_iters=5",
             "--params",
@@ -59,7 +59,7 @@ def test_rehearsal_run_cli_writes_batch_json(tmp_path, capsys):
 
     assert exit_code == 0
     payload = json.loads(output.read_text(encoding="utf-8"))
-    assert payload["method"] == "icml2025-care"
+    assert payload["method"] == "care"
     assert payload["seeds"] == [5]
     assert payload["n_runs"] == 1
     assert payload["runs"][0]["evaluation"]["eval_samples"] == 6
@@ -78,7 +78,7 @@ def test_rehearsal_run_cli_rejects_singular_param_aliases():
     base_args = [
         "examples/care/care_toy_experiment.py",
         "--method",
-        "icml2025-care",
+        "care",
     ]
 
     for option in ("--param", "--method-param", "--fit-param"):
@@ -92,7 +92,7 @@ def test_runner_requires_seed_list_and_rejects_seed_as_param():
         run_experiment_configs(
             "examples/care/care_toy_experiment.py",
             seeds=None,
-            method_name="icml2025-care",
+            method_name="care",
             params={"n_samples": 40},
         )
 
@@ -100,7 +100,7 @@ def test_runner_requires_seed_list_and_rejects_seed_as_param():
         run_experiment_configs(
             "examples/care/care_toy_experiment.py",
             seeds=(1,),
-            method_name="icml2025-care",
+            method_name="care",
             params={"seed": 1, "n_samples": 40},
         )
 
@@ -108,7 +108,7 @@ def test_runner_requires_seed_list_and_rejects_seed_as_param():
         run_experiment_configs(
             "examples/care/care_toy_experiment.py",
             seeds=(1,),
-            method_name="icml2025-care",
+            method_name="care",
             method_params={"seed": 1},
             params={"n_samples": 40},
         )
@@ -118,7 +118,7 @@ def test_multi_seed_runner_summarizes_numeric_outputs():
     result = run_experiment_configs(
         "examples/care/care_toy_experiment.py",
         seeds=(1, 2, 3),
-        method_name="icml2025-care",
+        method_name="care",
         method_params={"max_iters": 5},
         eval_samples=6,
         params={"n_samples": 40},
@@ -143,7 +143,7 @@ def test_demo_config_generates_observation_per_seed():
     result = run_experiment_configs(
         "examples/care/care_toy_experiment.py",
         seeds=(1, 2),
-        method_name="icml2025-care",
+        method_name="care",
         method_params={"max_iters": 5},
         eval_samples=6,
         params={"n_samples": 40},
@@ -158,14 +158,14 @@ def test_bermuda_care_example_runs():
     result = run_experiment_configs(
         "examples/care/care_bermuda_example.py",
         seeds=(4,),
-        method_name="icml2025-care",
+        method_name="care",
         method_params={"max_iters": 5},
         eval_samples=5,
         params={"n_data": 20},
     )
 
     assert result["name"] == "care_bermuda"
-    assert result["method"] == "icml2025-care"
+    assert result["method"] == "care"
     assert result["n_runs"] == 1
     assert result["runs"][0]["evaluation"]["eval_samples"] == 5
     assert 0.0 <= result["runs"][0]["evaluation"]["true_auf_success_rate"] <= 1.0
@@ -175,14 +175,14 @@ def test_manage_care_example_runs():
     result = run_experiment_configs(
         "examples/care/care_manage_example.py",
         seeds=(6,),
-        method_name="icml2025-care",
+        method_name="care",
         method_params={"max_iters": 5},
         eval_samples=5,
         params={"n_data": 20},
     )
 
     assert result["name"] == "care_manage"
-    assert result["method"] == "icml2025-care"
+    assert result["method"] == "care"
     assert result["n_runs"] == 1
     assert result["runs"][0]["evaluation"]["eval_samples"] == 5
     assert 0.0 <= result["runs"][0]["evaluation"]["true_auf_success_rate"] <= 1.0

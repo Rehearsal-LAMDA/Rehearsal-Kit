@@ -4,7 +4,7 @@
 Example:
 
 PYTHONPATH=src python -m rehearsal.experiments.run examples/care/care_bermuda_example.py \
-  --method icml2025-care --seeds 1,2,3 --params n_data=100 --eval-samples 500
+  --method care --seeds 3 --params n_data=2000 --eval-samples 1000
 """
 
 import numpy as np

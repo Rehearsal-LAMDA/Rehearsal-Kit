@@ -58,20 +58,20 @@ Minimum Bermuda checks:
 ```bash
 PYTHONPATH=src python -m rehearsal.experiments.run examples/qwz23/bermuda_example.py \
   --method qwz23 \
-  --seeds 1 \
+  --seeds 3 \
   --params n_data=2000 \
   --eval-samples 1000 \
-  --output outputs/qwz23_bermuda_seed1.json \
+  --output outputs/qwz23_bermuda_seed3.json \
   --compact
 ```
 
 ```bash
 PYTHONPATH=src python -m rehearsal.experiments.run examples/micns/bermuda_example.py \
   --method micns \
-  --seeds 1 \
+  --seeds 3 \
   --params n_data=2000 \
   --eval-samples 1000 \
-  --output outputs/micns_bermuda_seed1.json \
+  --output outputs/micns_bermuda_seed3.json \
   --compact
 ```
 
@@ -112,20 +112,20 @@ Minimum Bermuda checks:
 ```bash
 PYTHONPATH=src python -m rehearsal.experiments.run examples/grad_rh/bermuda_example.py \
   --method grad-rh \
-  --seeds 1 \
+  --seeds 3 \
   --params n_data=2000 \
   --eval-samples 1000 \
-  --output outputs/grad_rh_bermuda_seed1.json \
+  --output outputs/grad_rh_bermuda_seed3.json \
   --compact
 ```
 
 ```bash
 PYTHONPATH=src python -m rehearsal.experiments.run examples/olem/bermuda_example.py \
   --method olem \
-  --seeds 1 \
+  --seeds 3 \
   --params n_data=2000 \
   --eval-samples 1000 \
-  --output outputs/olem_bermuda_seed1.json \
+  --output outputs/olem_bermuda_seed3.json \
   --compact
 ```
 
@@ -165,10 +165,10 @@ Minimum Bermuda checks:
 ```bash
 PYTHONPATH=src python -m rehearsal.experiments.run examples/aufsd/bermuda_example.py \
   --method aufsd \
-  --seeds 1 \
+  --seeds 3 \
   --params n_data=2000 \
   --eval-samples 1000 \
-  --output outputs/aufsd_bermuda_seed1.json \
+  --output outputs/aufsd_bermuda_seed3.json \
   --compact
 ```
 

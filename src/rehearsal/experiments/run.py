@@ -17,7 +17,7 @@ import numpy as np
 from rehearsal.core import AUFTask, DecisionResult, RehearsalMethod
 from rehearsal.methods.registry import available_methods, create_method
 
-DEFAULT_METHOD_NAME = "icml2025-care"
+DEFAULT_METHOD_NAME = "care"
 SUMMARY_EVALUATION_METRICS = (
     "true_auf_success_rate",
     "no_action_true_auf_success_rate",
@@ -324,7 +324,7 @@ def _merge_pairs(pairs: Sequence[tuple[str, Any]] | None) -> dict[str, Any]:
 
 def _normalize_seeds(seeds: Sequence[int] | None) -> tuple[int, ...]:
     if seeds is None:
-        raise ValueError("A seed list is required. Use --seeds 1 for a one-seed batch.")
+        raise ValueError("A seed list is required. Use --seeds 3 for a one-seed batch.")
     normalized = tuple(int(seed) for seed in seeds)
     if not normalized:
         raise ValueError("A seed list must include at least one integer.")
