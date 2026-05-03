@@ -35,6 +35,40 @@ CLIs rather than a `RehearsalMethod` adapter. Unpublished methods are listed as
 | `cme-rh` | `CMERehearsal` | arXiv 2026 | Non-Parametric Rehearsal Learning via Conditional Mean Embeddings | `examples/cme/cme_bermuda_example.py` |
 | `olem-rh` | `OLEMRhRehearsal` | arXiv 2026 | Order-Based Rehearsal Learning | `examples/olem_rh/bermuda_example.py` |
 
+## Bermuda InP Example
+
+The Bermuda InP demo estimates influence in two separate phases:
+
+1. Learn a rehearsal order from the original continuous Bermuda variables.
+   The example fits `OrderBasedStructuralLearner(max_parents=4)` on the
+   continuous observational data and reads the learned order from
+   `fit.diagnostics["order"]`.
+2. Discretize every variable before computing InP. The InP / MEP recursion
+   enumerates possible variable values, so every variable participating in the
+   calculation must have a discrete value set.
+3. Compute InP on the discretized model using the learned order. The demo then
+   calls `compute_inp_for_variables(...)` for `DIC`, `TA`, and `Omega`, with
+   `TA` as the default recursion start node.
+
+This type split is intentional. In this Bermuda example, OLEM / order learning
+must use fully continuous variables, because Bermuda is a standardized
+continuous SEM. InP calculation, however, must use fully discrete variable
+values. Therefore the demo first learns the order from continuous data, then
+uses `UniformBinDiscretizer` to map every Bermuda variable into `3` discrete
+bins before estimating InP.
+
+The corresponding command is:
+
+```bash
+env PYTHONPATH=src python examples/inp/bermuda_inp_example.py \
+  --n-data 2000 \
+  --num-samples 1500 \
+  --n-bins 3 \
+  --start-node TA \
+  --output outputs/inp_bermuda_measures.json \
+  --quiet
+```
+
 ## Project Structure
 
 - `src/rehearsal/`: installable Python package. It contains the shared task
