@@ -8,9 +8,27 @@ version = "0.1.0"
 description = "Unified framework for rehearsal-learning research code."
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = []
+dependencies = [
+    "numpy>=1.21",
+]
+
+[project.optional-dependencies]
+bermuda = [
+    "scipy>=1.9",
+]
+qwz23 = [
+    "scipy>=1.9",
+]
+dev = [
+    "pytest",
+]
+publish = [
+    "build",
+    "twine",
+]
 
 [project.scripts]
+rehearsal-demo = "rehearsal.experiments.demo:main"
 rehearsal-run = "rehearsal.experiments.run:main"
 rehearsal-icml2025-reproduce = "rehearsal.experiments.icml2025_reproduce:main"
 rehearsal-care-reproduce = "rehearsal.experiments.icml2025_reproduce:main"

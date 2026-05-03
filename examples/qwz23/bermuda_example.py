@@ -49,8 +49,8 @@ def build_experiment(params, seed):
         "observation": observation,
         "method_params": {
             "n_graph_samples": 6,
-            "interval_grid_size": 31,
-            "success_threshold": 0.6,
+            "n_optimization_samples": 128,
+            "milp_time_limit": 5.0,
             "bound_delta": 0.05,
         },
         "default_eval_samples": default_eval_samples,

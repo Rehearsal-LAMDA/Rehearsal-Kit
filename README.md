@@ -43,9 +43,9 @@ The Bermuda InP demo estimates influence in two separate phases:
    The example fits `OrderBasedStructuralLearner(max_parents=4)` on the
    continuous observational data and reads the learned order from
    `fit.diagnostics["order"]`.
-2. Discretize every variable before computing InP. The InP / MEP recursion
+2. Discretize every variable before computing InP. The **InP / MEP recursion
    enumerates possible variable values, so every variable participating in the
-   calculation must have a discrete value set.
+   calculation must have a discrete value set**.
 3. Compute InP on the discretized model using the learned order. The demo then
    calls `compute_inp_for_variables(...)` for `DIC`, `TA`, and `Omega`, with
    `TA` as the default recursion start node.
@@ -108,6 +108,58 @@ experiment-runner interfaces reusable across papers.
 - `rehearsal.datasets`: reusable dataset and SEM factories, including generic
   Bermuda and Manage dataset modules shared across methods.
 - `rehearsal.experiments`: command-line runners for seeded experiment batches.
+
+## Installation And Packaged Demo
+
+After the package is published, install the base package with:
+
+```bash
+python -m pip install rehearsal
+```
+
+The base install includes the NumPy-backed core APIs, method adapters,
+experiment runner, and an installed toy demo. Bermuda `.mat` loading needs
+SciPy, which is exposed as an optional extra:
+
+```bash
+python -m pip install "rehearsal[bermuda]"
+```
+
+QWZ23 uses sampled multivariate maximization. It runs with a NumPy random-search
+fallback, and installs SciPy for the preferred MILP optimizer via:
+
+```bash
+python -m pip install "rehearsal[qwz23]"
+```
+
+For publishing from a local checkout, install the release tools extra:
+
+```bash
+python -m pip install "rehearsal[publish]"
+```
+
+The package ships a self-contained smoke demo that does not require the
+repository's `examples/` directory:
+
+```bash
+rehearsal-demo \
+  --seed 3 \
+  --n-samples 40 \
+  --eval-samples 6 \
+  --max-iters 5 \
+  --output outputs/care_demo_from_package.json \
+  --compact
+```
+
+The same demo can be imported and run from Python:
+
+```python
+from rehearsal.experiments.demo import run_demo
+
+result = run_demo(seed=3, n_samples=40, eval_samples=6, max_iters=5)
+print(result["name"], result["method"], result["n_runs"])
+print(result["runs"][0]["evaluation"])
+```
 
 ## Runner Contract
 
@@ -304,7 +356,7 @@ the true AUF probability measured by each example's true simulator.
 
 | Method | Venue | Output | True AUF probability |
 | --- | --- | --- | ---: |
-| `qwz23` | 2023 NeurIPS | `outputs/qwz23_bermuda_seed3.json` | 0.168 |
+| `qwz23` | 2023 NeurIPS | `outputs/qwz23_bermuda_seed3.json` | 0.833 |
 | `micns` | 2024 NeurIPS | `outputs/micns_bermuda_seed3.json` | 0.837 |
 | `grad-rh` | 2025 AAAI | `outputs/grad_rh_bermuda_seed3.json` | 0.827 |
 | `care` | 2025 ICML | `outputs/care_bermuda_seed3.json` | 0.840 |
