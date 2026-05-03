@@ -1,17 +1,19 @@
 # Rehearsal
 
-`rehearsal` first exposes the Influence Power (InP) measure from the ICLR 2026
-paper "On Measuring Influence in Avoiding Undesired Future." InP quantifies how
-much an actionable variable can increase the maximum expected probability of
-avoiding an undesired future by comparing alteration-style `do(...)` reasoning
-against observation-style `ob(...)` reasoning along a rehearsal ordering. The
-package implements InP together with MEP, ACE, and CACE utilities under
-`rehearsal.measures`, with runnable demonstrations in `examples/inp/`.
+`rehearsal` implements influence order learning through the OLEM-Rh method and
+provides a unified interface for rehearsal-learning methods migrated from
+`previous_works/`: shared task contracts, structural-model interfaces, method
+adapters, optimizers, metrics, datasets, and seeded experiment runners for
+comparing rehearsal methods under one CLI shape.
 
-The package also provides a unified interface for rehearsal-learning methods
-migrated from `previous_works/`: shared task contracts, structural-model
-interfaces, method adapters, optimizers, metrics, datasets, and seeded
-experiment runners for comparing rehearsal methods under one CLI shape.
+The package also implements the Influence Power (InP) measure from the ICLR
+2026 paper "On Measuring Influence in Avoiding Undesired Future." InP
+quantifies how much an actionable variable can increase the maximum expected
+probability of avoiding an undesired future by comparing alteration-style
+`do(...)` reasoning against observation-style `ob(...)` reasoning along a
+rehearsal ordering. The package implements InP together with MEP, ACE, and CACE
+utilities under `rehearsal.measures`, with runnable demonstrations in
+`examples/inp/`.
 
 Historical code remains in `previous_works/` as read-only reference material.
 See `ExecPlan.md` for the staged porting plan.
