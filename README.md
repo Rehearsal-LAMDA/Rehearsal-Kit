@@ -1,8 +1,10 @@
 # Rehearsal
 
-Rehearsal learning is the task of learning from observational structural data
-and selecting feasible alterations for a given context so future outcomes land
-in a desired region instead of an undesired future.
+The FCS22 paper introduced rehearsal learning as an AUF decision task over
+observational structural data: learn influence relations from context, then
+select feasible alterations so future outcomes land in a desired region rather
+than an undesired future; see the reference PDF
+[here](https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf).
 
 The `rehearsal` package provides a unified interface for methods migrated from
 `previous_works/`: shared task contracts, structural-model interfaces, method
