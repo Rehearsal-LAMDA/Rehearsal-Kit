@@ -1,27 +1,19 @@
 # Rehearsal
 
-The FCS22 paper, proposed by Professor Zhi-Hua Zhou from Nanjing University,
-introduced rehearsal learning as an AUF decision task over observational
-structural data: learn influence relations from context, then select feasible
-alterations so future outcomes land in a desired region rather than an
-undesired future; see the reference PDF
-[here](https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf).
+*Rehearsal learning* and *influence relations* were proposed by Professor Zhi-Hua Zhou from Nanjing University to address the *AUF decision task* over observational structural data: learn influence relations from historical observations, then select feasible alterations to make future outcomes land in a desired region rather than an undesired future; see the [reference PDF
+here](https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf).
 
 The `rehearsal` package provides a unified interface for methods migrated from
-`previous_works/`: shared task contracts, structural-model interfaces, method
+recent prograss: shared task contracts, structural-model interfaces, method
 adapters, optimizers, metrics, influence measures, datasets, and seeded
 experiment runners for comparing rehearsal methods under one CLI shape.
-
-Historical code remains in `previous_works/` as read-only reference material.
-See `ExecPlan.md` for the staged porting plan.
 
 ## Implemented Method Provenance
 
 This table covers the currently registered `rehearsal-run --method` adapters
 and standalone measure demos. Values of the form `--method ...` are stable
 method-registry names; InP is a measure API with standalone example CLIs rather
-than a `RehearsalMethod` adapter. Unpublished methods are listed as `arXiv
-2026`.
+than a `RehearsalMethod` adapter. 
 
 | Registry / entry point | Implementation | Year / venue | Paper | Example config |
 | --- | --- | --- | --- | --- |
@@ -36,7 +28,7 @@ than a `RehearsalMethod` adapter. Unpublished methods are listed as `arXiv
 
 ## Bermuda Example
 
-Bermuda is a standardized continuous SEM for an AUF task: `Light`, `Temp`, and
+[Bermuda](http://lod.bco-dmo.org/id/dataset/720788) is a standardized continuous SEM for an AUF task: `Light`, `Temp`, and
 `Sal` are observed context variables; `DIC`, `TA`, `Omega`, `Chla`, and
 `Nutrients_PC1` are bounded alterable variables; `NEC` is the outcome; and
 success means placing `NEC` in the desired interval with high probability under
@@ -50,6 +42,9 @@ variables through `--params`; use `--seeds` to make sampled observations
 reproducible.
 
 ### Rehearsal Learning Results
+
+The CLI commands that produce these reference results are listed in
+`## Measure And Method CLI Examples` below.
 
 The tracked method outputs are single-seed Bermuda references with seed `3`.
 The table reports the true AUF probability measured by each example's true
