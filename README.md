@@ -39,12 +39,9 @@ from `n_data=2000` observational samples, selects bounded alterations, and
 evaluates the selected action with `eval_samples=1000`. The observed Bermuda
 context is sampled inside each seeded experiment config. Do not pass observed
 variables through `--params`; use `--seeds` to make sampled observations
-reproducible.
+reproducible. The CLI commands that produce these reference results are listed in `## Measure And Method CLI Examples` below.
 
 ### Rehearsal Learning Results
-
-The CLI commands that produce these reference results are listed in
-`## Measure And Method CLI Examples` below.
 
 The tracked method outputs are single-seed Bermuda references with seed `3`.
 The table reports the true AUF probability measured by each example's true
