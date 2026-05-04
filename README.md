@@ -1,30 +1,32 @@
 # Rehearsal
 
-*Rehearsal learning* and *influence relations* were proposed by Professor Zhi-Hua Zhou from Nanjing University to address the *AUF decision task* over observational structural data: learn influence relations from historical observations, then select feasible alterations to make future outcomes land in a desired region rather than an undesired future; see the [reference PDF
-here](https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf).
 
-The `rehearsal` package provides a unified interface for methods migrated from
-recent prograss: shared task contracts, structural-model interfaces, method
-adapters, optimizers, metrics, influence measures, datasets, and seeded
-experiment runners for comparing rehearsal methods under one CLI shape.
+**Rehearsal learning** was proposed by Professor Zhi-Hua Zhou from Nanjing University, aiming to discern **influence relations**, a type of relation tailored for decision-making. Rehearsal learning is introduced to address **AUF** tasks: given an observed context $\mathbf{X}$ and a predicted undesired outcome $\mathbf{Y}$ ($\mathbf{Y}$ falls outside a pre-specified desired region $\mathcal{S}$), the goal is to determine the decision to steer $\mathbf{Y}$ toward $\mathcal{S}$. See the [reference PDF here](https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf).
+
+The `rehearsal` package provides a unified interface for methods migrated from recent progress: shared task contracts, structural-model interfaces, method adapters, optimizers, metrics, influence measures, datasets, and seeded experiment runners for comparing rehearsal methods under one CLI shape.
 
 ## Implemented Method Provenance
 
 This table covers the currently registered `rehearsal-run --method` adapters
 and standalone measure demos. Values of the form `--method ...` are stable
 method-registry names; InP is a measure API with standalone example CLIs rather
-than a `RehearsalMethod` adapter. 
+than a `RehearsalMethod` adapter.
 
-| Registry / entry point | Implementation | Year / venue | Paper | Example config |
+| Registry | Venue | Paper | Example configs | Setting |
 | --- | --- | --- | --- | --- |
-| `qwz23` | `QWZ23Rehearsal` | 2023 NeurIPS | Rehearsal Learning for Avoiding Undesired Future | `examples/qwz23/bermuda_example.py` |
-| `micns` | `MICNSRehearsal` | 2024 NeurIPS | Avoiding Undesired Future with Minimal Cost in Non-Stationary Environments | `examples/micns/bermuda_example.py` |
-| `grad-rh` | `GradRhRehearsal` | 2025 AAAI | Gradient-Based Nonlinear Rehearsal Learning with Multivariate Alterations | `examples/grad_rh/bermuda_example.py` |
-| `care` | `ICML2025CARERehearsal` | 2025 ICML | Enabling Optimal Decisions in Rehearsal Learning under CARE Condition | `examples/care/care_bermuda_example.py` |
-| `msr` | `MSRRehearsal` | 2025 IJCAI | Avoiding Undesired Future with Sequential Decisions | `examples/msr/bermuda_example.py` |
-| `cme-rh` | `CMERehearsal` | arXiv 2026 | Non-Parametric Rehearsal Learning via Conditional Mean Embeddings | `examples/cme/cme_bermuda_example.py` |
-| `olem-rh` | `OLEMRhRehearsal` | arXiv 2026 | Order-Based Rehearsal Learning | `examples/olem_rh/bermuda_example.py` |
-| InP measure demos | `compute_inp`, `compute_inp_for_variables` | 2026 ICLR | On Measuring Influence in Avoiding Undesired Future | `examples/inp/bermuda_inp_example.py` |
+| `qwz23` | 2023 NeurIPS | Rehearsal Learning for Avoiding Undesired Future | `examples/qwz23/` | Interaction-based with Explicit Graphs |
+| `micns` | 2024 NeurIPS | Avoiding Undesired Future with Minimal Cost in Non-Stationary Environments | `examples/micns/` | Interaction-free with Explicit Graphs |
+| `grad-rh` | 2025 AAAI | Gradient-Based Nonlinear Rehearsal Learning with Multivariate Alterations | `examples/grad_rh/` | Interaction-free with Explicit Graphs |
+| `care` | 2025 ICML | Enabling Optimal Decisions in Rehearsal Learning under CARE Condition | `examples/care/` | Interaction-free with Explicit Graphs |
+| `msr` | 2025 IJCAI | Avoiding Undesired Future with Sequential Decisions | `examples/msr/` | Interaction-free with Explicit Graphs |
+| `cme-rh` | arXiv 2026 | Non-Parametric Rehearsal Learning via Conditional Mean Embeddings | `examples/cme/` | Interaction-free without Explicit Graphs |
+| `olem-rh` | arXiv 2026 | Order-Based Rehearsal Learning | `examples/olem_rh/` | Interaction-free without Explicit Graphs |
+| InP measure demos | 2026 ICLR | On Measuring Influence in Avoiding Undesired Future | `examples/inp/` | Influence measure |
+
+These methods do not share exactly the same original setting. The examples below
+place them in one Bermuda scenario for runnable side-by-side reference outputs,
+but the methods themselves were proposed to solve different variants of the
+AUF decision problem.
 
 ## Bermuda Example
 
@@ -39,7 +41,108 @@ from `n_data=2000` observational samples, selects bounded alterations, and
 evaluates the selected action with `eval_samples=1000`. The observed Bermuda
 context is sampled inside each seeded experiment config. Do not pass observed
 variables through `--params`; use `--seeds` to make sampled observations
-reproducible. The CLI commands that produce these reference results are listed in `## Measure And Method CLI Examples` below.
+reproducible.
+
+### Measure And Method CLI Examples
+
+Run these commands from the repository root. They generate the tracked Bermuda
+reference outputs under `outputs/`.
+
+InP / ICLR 2026 measure example:
+
+```bash
+env PYTHONPATH=src python examples/inp/bermuda_inp_example.py \
+  --n-data 2000 \
+  --num-samples 1500 \
+  --n-bins 3 \
+  --start-node TA \
+  --output outputs/inp_bermuda_measures.json \
+  --quiet
+```
+
+QWZ23 / NeurIPS 2023:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/qwz23/bermuda_example.py \
+  --method qwz23 \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/qwz23_bermuda_seed3.json \
+  --compact
+```
+
+MICNS / NeurIPS 2024:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/micns/bermuda_example.py \
+  --method micns \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/micns_bermuda_seed3.json \
+  --compact
+```
+
+Grad-Rh / AAAI 2025:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/grad_rh/bermuda_example.py \
+  --method grad-rh \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/grad_rh_bermuda_seed3.json \
+  --compact
+```
+
+CARE / ICML 2025:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/care/care_bermuda_example.py \
+  --method care \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/care_bermuda_seed3.json \
+  --compact
+```
+
+MSR / IJCAI 2025, registered as `msr`:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/msr/bermuda_example.py \
+  --method msr \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/msr_bermuda_seed3.json \
+  --compact
+```
+
+CME / arXiv 2026:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/cme/cme_bermuda_example.py \
+  --method cme-rh \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/cme_bermuda_seed3.json \
+  --compact
+```
+
+OLEM-Rh / arXiv 2026:
+
+```bash
+env PYTHONPATH=src python -m rehearsal.experiments.run examples/olem_rh/bermuda_example.py \
+  --method olem-rh \
+  --seeds 3 \
+  --params n_data=2000 \
+  --eval-samples 1000 \
+  --output outputs/olem_rh_bermuda_seed3.json \
+  --compact
+```
 
 ### Rehearsal Learning Results
 
@@ -234,107 +337,6 @@ the runner prints a short completion line such as
 
 The removed singular aliases `--param`, `--method-param`, and `--fit-param`
 are intentionally rejected.
-
-## Measure And Method CLI Examples
-
-Run these commands from the repository root. They generate the tracked Bermuda
-reference outputs under `outputs/`.
-
-InP / ICLR 2026 measure example:
-
-```bash
-env PYTHONPATH=src python examples/inp/bermuda_inp_example.py \
-  --n-data 2000 \
-  --num-samples 1500 \
-  --n-bins 3 \
-  --start-node TA \
-  --output outputs/inp_bermuda_measures.json \
-  --quiet
-```
-
-QWZ23 / NeurIPS 2023:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/qwz23/bermuda_example.py \
-  --method qwz23 \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/qwz23_bermuda_seed3.json \
-  --compact
-```
-
-MICNS / NeurIPS 2024:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/micns/bermuda_example.py \
-  --method micns \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/micns_bermuda_seed3.json \
-  --compact
-```
-
-Grad-Rh / AAAI 2025:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/grad_rh/bermuda_example.py \
-  --method grad-rh \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/grad_rh_bermuda_seed3.json \
-  --compact
-```
-
-CARE / ICML 2025:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/care/care_bermuda_example.py \
-  --method care \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/care_bermuda_seed3.json \
-  --compact
-```
-
-MSR / IJCAI 2025, registered as `msr`:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/msr/bermuda_example.py \
-  --method msr \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/msr_bermuda_seed3.json \
-  --compact
-```
-
-CME / arXiv 2026:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/cme/cme_bermuda_example.py \
-  --method cme-rh \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/cme_bermuda_seed3.json \
-  --compact
-```
-
-OLEM-Rh / arXiv 2026:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/olem_rh/bermuda_example.py \
-  --method olem-rh \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/olem_rh_bermuda_seed3.json \
-  --compact
-```
 
 ## Output Shape
 
