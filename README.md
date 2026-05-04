@@ -1,34 +1,27 @@
 # Rehearsal
 
-`rehearsal` implements influence order learning through the OLEM-Rh method and
-provides a unified interface for rehearsal-learning methods migrated from
-`previous_works/`: shared task contracts, structural-model interfaces, method
-adapters, optimizers, metrics, datasets, and seeded experiment runners for
-comparing rehearsal methods under one CLI shape.
+Rehearsal learning is the task of learning from observational structural data
+and selecting feasible alterations for a given context so future outcomes land
+in a desired region instead of an undesired future.
 
-The package also implements the Influence Power (InP) measure from the ICLR
-2026 paper "On Measuring Influence in Avoiding Undesired Future." InP
-quantifies how much an actionable variable can increase the maximum expected
-probability of avoiding an undesired future by comparing alteration-style
-`do(...)` reasoning against observation-style `ob(...)` reasoning along a
-rehearsal ordering. The package implements InP together with MEP, ACE, and CACE
-utilities under `rehearsal.measures`, with runnable demonstrations in
-`examples/inp/`.
+The `rehearsal` package provides a unified interface for methods migrated from
+`previous_works/`: shared task contracts, structural-model interfaces, method
+adapters, optimizers, metrics, influence measures, datasets, and seeded
+experiment runners for comparing rehearsal methods under one CLI shape.
 
 Historical code remains in `previous_works/` as read-only reference material.
 See `ExecPlan.md` for the staged porting plan.
 
 ## Implemented Method Provenance
 
-This table covers the implemented InP measure demos and the currently
-registered `rehearsal-run --method` adapters. Values of the form `--method ...`
-are stable method-registry names; InP is a measure API with standalone example
-CLIs rather than a `RehearsalMethod` adapter. Unpublished methods are listed as
-`arXiv 2026`.
+This table covers the currently registered `rehearsal-run --method` adapters
+and standalone measure demos. Values of the form `--method ...` are stable
+method-registry names; InP is a measure API with standalone example CLIs rather
+than a `RehearsalMethod` adapter. Unpublished methods are listed as `arXiv
+2026`.
 
 | Registry / entry point | Implementation | Year / venue | Paper | Example config |
 | --- | --- | --- | --- | --- |
-| InP measure demos | `compute_inp`, `compute_inp_for_variables` | 2026 ICLR | On Measuring Influence in Avoiding Undesired Future | `examples/inp/bermuda_inp_example.py` |
 | `qwz23` | `QWZ23Rehearsal` | 2023 NeurIPS | Rehearsal Learning for Avoiding Undesired Future | `examples/qwz23/bermuda_example.py` |
 | `micns` | `MICNSRehearsal` | 2024 NeurIPS | Avoiding Undesired Future with Minimal Cost in Non-Stationary Environments | `examples/micns/bermuda_example.py` |
 | `grad-rh` | `GradRhRehearsal` | 2025 AAAI | Gradient-Based Nonlinear Rehearsal Learning with Multivariate Alterations | `examples/grad_rh/bermuda_example.py` |
@@ -36,40 +29,61 @@ CLIs rather than a `RehearsalMethod` adapter. Unpublished methods are listed as
 | `msr` | `MSRRehearsal` | 2025 IJCAI | Avoiding Undesired Future with Sequential Decisions | `examples/msr/bermuda_example.py` |
 | `cme-rh` | `CMERehearsal` | arXiv 2026 | Non-Parametric Rehearsal Learning via Conditional Mean Embeddings | `examples/cme/cme_bermuda_example.py` |
 | `olem-rh` | `OLEMRhRehearsal` | arXiv 2026 | Order-Based Rehearsal Learning | `examples/olem_rh/bermuda_example.py` |
+| InP measure demos | `compute_inp`, `compute_inp_for_variables` | 2026 ICLR | On Measuring Influence in Avoiding Undesired Future | `examples/inp/bermuda_inp_example.py` |
 
-## Bermuda InP Example
+## Bermuda Example
 
-The Bermuda InP demo estimates influence in two separate phases:
+Bermuda is a standardized continuous SEM for an AUF task: `Light`, `Temp`, and
+`Sal` are observed context variables; `DIC`, `TA`, `Omega`, `Chla`, and
+`Nutrients_PC1` are bounded alterable variables; `NEC` is the outcome; and
+success means placing `NEC` in the desired interval with high probability under
+the true simulator.
 
-1. Learn a rehearsal order from the original continuous Bermuda variables.
-   The example fits `OrderBasedStructuralLearner(max_parents=4)` on the
-   continuous observational data and reads the learned order from
-   `fit.diagnostics["order"]`.
-2. Discretize every variable before computing InP. The **InP / MEP recursion
-   enumerates possible variable values, so every variable participating in the
-   calculation must have a discrete value set**.
-3. Compute InP on the discretized model using the learned order. The demo then
-   calls `compute_inp_for_variables(...)` for `DIC`, `TA`, and `Omega`, with
-   `TA` as the default recursion start node.
+Each seeded method example samples a Bermuda context, learns a structural model
+from `n_data=2000` observational samples, selects bounded alterations, and
+evaluates the selected action with `eval_samples=1000`. The observed Bermuda
+context is sampled inside each seeded experiment config. Do not pass observed
+variables through `--params`; use `--seeds` to make sampled observations
+reproducible.
 
-This type split is intentional. In this Bermuda example, OLEM / order learning
-must use fully continuous variables, because Bermuda is a standardized
-continuous SEM. InP calculation, however, must use fully discrete variable
-values. Therefore the demo first learns the order from continuous data, then
-uses `UniformBinDiscretizer` to map every Bermuda variable into `3` discrete
-bins before estimating InP.
+### Rehearsal Learning Results
 
-The corresponding command is:
+The tracked method outputs are single-seed Bermuda references with seed `3`.
+The table reports the true AUF probability measured by each example's true
+simulator.
 
-```bash
-env PYTHONPATH=src python examples/inp/bermuda_inp_example.py \
-  --n-data 2000 \
-  --num-samples 1500 \
-  --n-bins 3 \
-  --start-node TA \
-  --output outputs/inp_bermuda_measures.json \
-  --quiet
-```
+| Method | Venue | Output | True AUF probability |
+| --- | --- | --- | ---: |
+| `qwz23` | 2023 NeurIPS | `outputs/qwz23_bermuda_seed3.json` | 0.833 |
+| `micns` | 2024 NeurIPS | `outputs/micns_bermuda_seed3.json` | 0.837 |
+| `grad-rh` | 2025 AAAI | `outputs/grad_rh_bermuda_seed3.json` | 0.827 |
+| `care` | 2025 ICML | `outputs/care_bermuda_seed3.json` | 0.840 |
+| `msr` | 2025 IJCAI | `outputs/msr_bermuda_seed3.json` | 0.830 |
+| `cme-rh` | arXiv 2026 | `outputs/cme_bermuda_seed3.json` | 0.831 |
+| `olem-rh` | arXiv 2026 | `outputs/olem_rh_bermuda_seed3.json` | 0.808 |
+
+### Order Learning And Variable InP
+
+The Bermuda measure example learns a variable order from continuous
+observational data, discretizes every variable into `3` bins for the recursive
+MEP / InP calculation, and evaluates InP for every alterable variable that lies
+on the active path from the chosen `start_node` to `NEC`.
+
+The tracked `outputs/inp_bermuda_measures.json` run uses `n_data=2000`,
+`num_samples=1500`, `n_bins=3`, and `start_node=TA`. The learned order is
+`Temp -> pHsw -> TA -> DIC -> CO2 -> Sal -> Light -> Omega -> NEC ->
+Nutrients_PC1 -> Chla`; under that order, the evaluated variables have these
+values:
+
+| Variable | InP | MEP-alter | MEP-observe |
+| --- | ---: | ---: | ---: |
+| `DIC` | 0.469 | 0.650 | 0.181 |
+| `TA` | 0.322 | 0.982 | 0.659 |
+| `Omega` | 0.186 | 0.190 | 0.004 |
+
+The partial-order demo selects a compatible Bermuda order with best MEP `0.980`
+for start node `TA`; under that order, `DIC`, `TA`, and `Omega` have InP values
+`0.473`, `0.346`, and `0.174`, respectively.
 
 ## Project Structure
 
@@ -326,49 +340,6 @@ env PYTHONPATH=src python -m rehearsal.experiments.run examples/olem_rh/bermuda_
   --output outputs/olem_rh_bermuda_seed3.json \
   --compact
 ```
-
-## Bermuda Reference Results
-
-### InP Measure Results
-
-The INP / ACE examples under `examples/inp/` are measure demonstrations rather
-than `RehearsalMethod` adapters: they compute influence-power diagnostics and
-write JSON reports directly, so they intentionally use their own small CLI
-instead of the seeded `rehearsal-run` batch contract.
-
-The tracked `outputs/inp_bermuda_measures.json` run uses `n_data=2000`,
-`num_samples=1500`, `n_bins=3`, and `start_node=TA`. Demo A reports these
-total-order InP values under the learned Bermuda order:
-
-| Variable | InP | MEP-do | MEP-ob |
-| --- | ---: | ---: | ---: |
-| `DIC` | 0.469 | 0.650 | 0.181 |
-| `TA` | 0.322 | 0.982 | 0.659 |
-| `Omega` | 0.186 | 0.190 | 0.004 |
-
-Demo B selects a partial-order-compatible Bermuda order with best MEP `0.980`
-for start node `TA`; under that order, `DIC`, `TA`, and `Omega` have InP values
-`0.473`, `0.346`, and `0.174`, respectively.
-
-### Rehearsal Method Results
-
-The tracked rehearsal method outputs are single-seed Bermuda references. All
-rows use seed `3`, `n_data=2000`, and `eval_samples=1000`. The table reports
-the true AUF probability measured by each example's true simulator.
-
-| Method | Venue | Output | True AUF probability |
-| --- | --- | --- | ---: |
-| `qwz23` | 2023 NeurIPS | `outputs/qwz23_bermuda_seed3.json` | 0.833 |
-| `micns` | 2024 NeurIPS | `outputs/micns_bermuda_seed3.json` | 0.837 |
-| `grad-rh` | 2025 AAAI | `outputs/grad_rh_bermuda_seed3.json` | 0.827 |
-| `care` | 2025 ICML | `outputs/care_bermuda_seed3.json` | 0.840 |
-| `msr` | 2025 IJCAI | `outputs/msr_bermuda_seed3.json` | 0.830 |
-| `cme-rh` | arXiv 2026 | `outputs/cme_bermuda_seed3.json` | 0.831 |
-| `olem-rh` | arXiv 2026 | `outputs/olem_rh_bermuda_seed3.json` | 0.808 |
-
-The observed Bermuda context is sampled inside each seeded experiment config.
-Do not pass observed variables through `--params`; use `--seeds` to make the
-sampled observations reproducible.
 
 ## Output Shape
 
