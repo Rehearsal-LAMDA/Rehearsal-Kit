@@ -1,9 +1,10 @@
 # Rehearsal
 
-The FCS22 paper introduced rehearsal learning as an AUF decision task over
-observational structural data: learn influence relations from context, then
-select feasible alterations so future outcomes land in a desired region rather
-than an undesired future; see the reference PDF
+The FCS22 paper, proposed by Professor Zhi-Hua Zhou from Nanjing University,
+introduced rehearsal learning as an AUF decision task over observational
+structural data: learn influence relations from context, then select feasible
+alterations so future outcomes land in a desired region rather than an
+undesired future; see the reference PDF
 [here](https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf).
 
 The `rehearsal` package provides a unified interface for methods migrated from
