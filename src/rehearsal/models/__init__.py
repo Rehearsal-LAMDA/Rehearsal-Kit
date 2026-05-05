@@ -7,6 +7,11 @@ from rehearsal.models.linear_gaussian import (
     parents_from_theta,
     total_path_effects,
 )
+from rehearsal.models.time_series import (
+    LinearTimeSeriesSRM,
+    LinearTimeSeriesSRMLearner,
+    matrix_from_parent_child_theta,
+)
 
 from rehearsal.models.nonlinear import (
     ConditionalPredictor,
@@ -47,4 +52,7 @@ __all__ = [
     "order_parents_from_order",
     "LinearGaussianSRM",
     "LinearGaussianSRMLearner",
+    "LinearTimeSeriesSRM",
+    "LinearTimeSeriesSRMLearner",
+    "matrix_from_parent_child_theta",
 ]

@@ -7,6 +7,7 @@ from rehearsal.methods.micns import MICNSRehearsal, NeurIPS2024MICNSRehearsal
 from rehearsal.methods.qwz23 import NeurIPS2023QWZ23Rehearsal, QWZ23Rehearsal
 from rehearsal.methods.grad_rh import AAAI2025GradRhRehearsal, GradRhRehearsal
 from rehearsal.methods.msr import IJCAI2025MSRRehearsal, MSRRehearsal
+from rehearsal.methods.mur import MURRehearsal, NeurIPS2025MURRehearsal
 from rehearsal.methods.olem_rh import OLEMRhRehearsal, UnpublishedOLEMRhRehearsal
 
 __all__ = [
@@ -24,6 +25,8 @@ __all__ = [
     "GradRhRehearsal",
     "IJCAI2025MSRRehearsal",
     "MSRRehearsal",
+    "MURRehearsal",
+    "NeurIPS2025MURRehearsal",
     "OLEMRhRehearsal",
     "UnpublishedOLEMRhRehearsal",
 ]

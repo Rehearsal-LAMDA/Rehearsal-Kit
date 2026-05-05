@@ -1,7 +1,7 @@
 # Rehearsal
 
 
-**Rehearsal learning** was proposed by Professor Zhi-Hua Zhou from Nanjing University, aiming to discern **influence relations**, a type of relation tailored for decision-making. Rehearsal learning is introduced to address **AUF** tasks: given an observed context $\mathbf{X}$ and a predicted undesired outcome $\mathbf{Y}$ ($\mathbf{Y}$ falls outside a pre-specified desired region $\mathcal{S}$), the goal is to determine the decision to steer $\mathbf{Y}$ toward $\mathcal{S}$. See the [reference PDF here](https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf).
+**Rehearsal learning** was proposed by Professor Zhi-Hua Zhou from Nanjing University, aiming to discern **influence relations**, a type of relation tailored for decision-making. Rehearsal learning is introduced to address **AUF** tasks: given an observed context **X** and a predicted undesired outcome **Y** (**Y** falls outside a pre-specified desired region *S*), the goal is to determine the decision to steer **Y** toward *S*. See the [reference PDF here](https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf).
 
 The `rehearsal` package provides a unified interface for methods migrated from recent progress: shared task contracts, structural-model interfaces, method adapters, optimizers, metrics, influence measures, datasets, and seeded experiment runners for comparing rehearsal methods under one CLI shape.
 
@@ -14,19 +14,17 @@ than a `RehearsalMethod` adapter.
 
 | Registry | Venue | Paper | Example configs | Setting |
 | --- | --- | --- | --- | --- |
-| `qwz23` | 2023 NeurIPS | Rehearsal Learning for Avoiding Undesired Future | `examples/qwz23/` | Interaction-based with Explicit Graphs |
-| `micns` | 2024 NeurIPS | Avoiding Undesired Future with Minimal Cost in Non-Stationary Environments | `examples/micns/` | Interaction-free with Explicit Graphs |
-| `grad-rh` | 2025 AAAI | Gradient-Based Nonlinear Rehearsal Learning with Multivariate Alterations | `examples/grad_rh/` | Interaction-free with Explicit Graphs |
-| `care` | 2025 ICML | Enabling Optimal Decisions in Rehearsal Learning under CARE Condition | `examples/care/` | Interaction-free with Explicit Graphs |
-| `msr` | 2025 IJCAI | Avoiding Undesired Future with Sequential Decisions | `examples/msr/` | Interaction-free with Explicit Graphs |
-| `cme-rh` | arXiv 2026 | Non-Parametric Rehearsal Learning via Conditional Mean Embeddings | `examples/cme/` | Interaction-free without Explicit Graphs |
-| `olem-rh` | arXiv 2026 | Order-Based Rehearsal Learning | `examples/olem_rh/` | Interaction-free without Explicit Graphs |
+| `qwz23` | 2023 NeurIPS | Rehearsal Learning for Avoiding Undesired Future | `examples/qwz23/` | Interaction-based, Explicit Graphs - Linear |
+| `micns` | 2024 NeurIPS | Avoiding Undesired Future with Minimal Cost in Non-Stationary Environments | `examples/micns/` | Interaction-free, Explicit Graphs - Linear, Non-stationary |
+| `grad-rh` | 2025 AAAI | Gradient-Based Nonlinear Rehearsal Learning with Multivariate Alterations | `examples/grad_rh/` | Interaction-free, Explicit Graphs - Nonlinear |
+| `care` | 2025 ICML | Enabling Optimal Decisions in Rehearsal Learning under CARE Condition | `examples/care/` | Interaction-free, Explicit Graphs - Linear, Optimal under CARE condition |
+| `msr` | 2025 IJCAI | Avoiding Undesired Future with Sequential Decisions | `examples/msr/` | Interaction-free, Explicit Graphs - Multi Stage |
+| `mur` | 2025 NeurIPS | Variance-Reduced Long-Term Rehearsal Learning with Quadratic Programming Reformulation | `examples/mur/` | Interaction-free, Explicit Graphs - Linear, Long-term  |
+| `olem-rh` | arXiv 2026 | Order-Based Rehearsal Learning | `examples/olem_rh/` | Interaction-free, No Explicit Graphs - Order-based |
+| `cme-rh` | arXiv 2026 | Non-Parametric Rehearsal Learning via Conditional Mean Embeddings | `examples/cme/` | Interaction-free, No Explicit Graphs - Non-parametric |
 | InP measure demos | 2026 ICLR | On Measuring Influence in Avoiding Undesired Future | `examples/inp/` | Influence measure |
 
-These methods do not share exactly the same original setting. The examples below
-place them in one Bermuda scenario for runnable side-by-side reference outputs,
-but the methods themselves were proposed to solve different variants of the
-AUF decision problem.
+Note these methods **do not share exactly the same original setting**.
 
 ## Bermuda Example
 
@@ -72,30 +70,6 @@ env PYTHONPATH=src python -m rehearsal.experiments.run examples/qwz23/bermuda_ex
   --compact
 ```
 
-MICNS / NeurIPS 2024:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/micns/bermuda_example.py \
-  --method micns \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/micns_bermuda_seed3.json \
-  --compact
-```
-
-Grad-Rh / AAAI 2025:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/grad_rh/bermuda_example.py \
-  --method grad-rh \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/grad_rh_bermuda_seed3.json \
-  --compact
-```
-
 CARE / ICML 2025:
 
 ```bash
@@ -105,30 +79,6 @@ env PYTHONPATH=src python -m rehearsal.experiments.run examples/care/care_bermud
   --params n_data=2000 \
   --eval-samples 1000 \
   --output outputs/care_bermuda_seed3.json \
-  --compact
-```
-
-MSR / IJCAI 2025, registered as `msr`:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/msr/bermuda_example.py \
-  --method msr \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/msr_bermuda_seed3.json \
-  --compact
-```
-
-CME / arXiv 2026:
-
-```bash
-env PYTHONPATH=src python -m rehearsal.experiments.run examples/cme/cme_bermuda_example.py \
-  --method cme-rh \
-  --seeds 3 \
-  --params n_data=2000 \
-  --eval-samples 1000 \
-  --output outputs/cme_bermuda_seed3.json \
   --compact
 ```
 
@@ -156,9 +106,12 @@ simulator.
 | `micns` | 2024 NeurIPS | `outputs/micns_bermuda_seed3.json` | 0.837 |
 | `grad-rh` | 2025 AAAI | `outputs/grad_rh_bermuda_seed3.json` | 0.827 |
 | `care` | 2025 ICML | `outputs/care_bermuda_seed3.json` | 0.840 |
+| `mur` (GMuR/FarMuR, same when horizon 0) | 2025 NeurIPS | `outputs/mur_bermuda_seed3.json` | 0.840 |
 | `msr` | 2025 IJCAI | `outputs/msr_bermuda_seed3.json` | 0.830 |
 | `cme-rh` | arXiv 2026 | `outputs/cme_bermuda_seed3.json` | 0.831 |
 | `olem-rh` | arXiv 2026 | `outputs/olem_rh_bermuda_seed3.json` | 0.808 |
+
+Please note that these methods are evaluated under a unified Bermuda scenario primarily for providing runnable side-by-side implementation references. However, they do not share identical original settings or input requirements, as they were proposed to address different variants of the AUF decision problem. Therefore, these results are intended for functional demonstration rather than a direct performance comparison. For instance, olem-rh utilizes only observational data as input, whereas other methods may rely on additional structural information.
 
 ### Order Learning And Variable InP
 
@@ -323,7 +276,7 @@ Use these forms only:
 | Argument | Meaning |
 | --- | --- |
 | `--seeds 3,4,5` | Required. The exact run seeds. `--seeds 3` is a one-seed batch. |
-| `--method NAME` | Method registry name. Currently registered: `care`, `cme-rh`, `grad-rh`, `micns`, `msr`, `olem-rh`, `qwz23`. |
+| `--method NAME` | Method registry name. Currently registered: `care`, `cme-rh`, `grad-rh`, `micns`, `msr`, `mur`, `olem-rh`, `qwz23`. |
 | `--params KEY=VALUE` | Experiment config parameters passed to `build_experiment(params, seed)`. |
 | `--method-params KEY=VALUE` | Method constructor parameters. Do not put `seed` here. |
 | `--fit-params KEY=VALUE` | Extra options passed to `method.fit(...)`; rarely needed. |
@@ -426,6 +379,7 @@ config importing and constructing the adapter itself.
 "care": ICML2025CARERehearsal
 "micns": MICNSRehearsal
 "msr": MSRRehearsal
+"mur": MURRehearsal
 "olem-rh": OLEMRhRehearsal
 "qwz23": QWZ23Rehearsal
 "cme-rh": CMERehearsal

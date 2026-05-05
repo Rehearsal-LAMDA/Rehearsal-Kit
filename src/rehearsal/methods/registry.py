@@ -12,6 +12,7 @@ from rehearsal.methods.micns import MICNSRehearsal
 from rehearsal.methods.qwz23 import QWZ23Rehearsal
 from rehearsal.methods.grad_rh import GradRhRehearsal
 from rehearsal.methods.msr import MSRRehearsal
+from rehearsal.methods.mur import MURRehearsal
 from rehearsal.methods.olem_rh import OLEMRhRehearsal
 
 MethodFactory = Callable[..., RehearsalMethod]
@@ -23,6 +24,7 @@ _METHODS: dict[str, MethodFactory] = {
     "cme-rh": CMERehearsal,
     "grad-rh": GradRhRehearsal,
     "msr": MSRRehearsal,
+    "mur": MURRehearsal,
     "olem-rh": OLEMRhRehearsal,
 }
 
