@@ -35,6 +35,6 @@ Install directly from the source repository:
 
 .. code-block:: bash
 
-   git clone https://github.com/DWB1115/Rehearsal-Kit.git
+   git clone https://github.com/Rehearsal-LAMDA/Rehearsal-Kit.git
    cd Rehearsal-Kit
    python -m pip install .

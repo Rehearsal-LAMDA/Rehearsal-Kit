@@ -18,7 +18,7 @@ html_theme_options = {
 }
 html_context = {
     "display_github": True,
-    "github_user": "DWB1115",
+    "github_user": "Rehearsal-LAMDA",
     "github_repo": "Rehearsal-Kit",
     "github_version": "main",
     "conf_py_path": "/docs/",

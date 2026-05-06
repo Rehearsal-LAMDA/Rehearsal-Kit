@@ -7,7 +7,7 @@ structural-model interfaces, method adapters, optimizers, metrics, influence
 measures, datasets, and seeded experiment runners.
 
 Rehearsal learning was proposed by Professor Zhi-Hua Zhou to discern influence
-relations for decision-making. It addresses AUF tasks: given an observed context
+relations for decision-making. It is introduced to address AUF tasks: given an observed context
 ``X`` and a predicted undesired outcome ``Y`` outside a desired region ``S``,
 the goal is to determine a decision that steers ``Y`` toward ``S``.
 
@@ -43,7 +43,7 @@ Run the installed smoke demo:
 Resources
 ---------
 
-* Source code: https://github.com/DWB1115/Rehearsal-Kit
+* Source code: https://github.com/Rehearsal-LAMDA/Rehearsal-Kit
 * Foundational paper: https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf
 * LAMDA homepage: https://www.lamda.nju.edu.cn/
 

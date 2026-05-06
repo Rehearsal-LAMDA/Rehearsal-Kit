@@ -8,5 +8,5 @@ Links
 -----
 
 * LAMDA: https://www.lamda.nju.edu.cn/
-* Source code: https://github.com/DWB1115/Rehearsal-Kit
+* Source code: https://github.com/Rehearsal-LAMDA/Rehearsal-Kit
 * Foundational paper: https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf
