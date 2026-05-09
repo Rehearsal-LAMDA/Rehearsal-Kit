@@ -103,7 +103,7 @@ simulator.
      - 2025 ICML
      - ``outputs/care_bermuda_seed3.json``
      - 0.840
-   * - ``mur`` (GMuR/FarMuR, same when horizon 0)
+   * - ``mur``
      - 2025 NeurIPS
      - ``outputs/mur_bermuda_seed3.json``
      - 0.840
