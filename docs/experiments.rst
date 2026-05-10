@@ -129,6 +129,45 @@ rather than a direct performance comparison. For instance, ``olem-rh`` utilizes
 only observational data as input, whereas other methods may rely on additional
 structural information.
 
+Order Learning And Variable InP
+-------------------------------
+
+The Bermuda measure example learns a variable order from continuous
+observational data, discretizes every variable into ``3`` bins for the
+recursive MEP / InP calculation, and evaluates InP for every alterable variable
+that lies on the active path from the chosen ``start_node`` to ``NEC``.
+
+The tracked ``outputs/inp_bermuda_measures.json`` run uses ``n_data=2000``,
+``num_samples=1500``, ``n_bins=3``, and ``start_node=TA``. The learned order is
+``Temp -> pHsw -> TA -> DIC -> CO2 -> Sal -> Light -> Omega -> NEC ->
+Nutrients_PC1 -> Chla``; under that order, the evaluated variables have these
+values:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 25 25 25
+
+   * - Variable
+     - InP
+     - MEP-alter
+     - MEP-observe
+   * - ``DIC``
+     - 0.469
+     - 0.650
+     - 0.181
+   * - ``TA``
+     - 0.322
+     - 0.982
+     - 0.659
+   * - ``Omega``
+     - 0.186
+     - 0.190
+     - 0.004
+
+The partial-order demo selects a compatible Bermuda order with best MEP
+``0.980`` for start node ``TA``; under that order, ``DIC``, ``TA``, and
+``Omega`` have InP values ``0.473``, ``0.346``, and ``0.174``, respectively.
+
 Runner Contract
 ---------------
 
