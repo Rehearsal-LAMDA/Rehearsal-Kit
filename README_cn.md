@@ -17,7 +17,7 @@
 | `care` | 2025 ICML | CARE condition 下排演学习中的最优决策 | `examples/care/` | 无需交互，显式图 - 线性，在 CARE condition 下最优 |
 | `msr` | 2025 IJCAI | 通过序贯决策避免非期望未来 | `examples/msr/` | 无需交互，显式图 - 多阶段 |
 | `mur` | 2025 NeurIPS | 通过二次规划重构降低方差的长期排演学习 | `examples/mur/` | 无需交互，显式图 - 线性，长期 |
-| `olem-rh` | arXiv 2026 | 基于顺序的排演学习 | `examples/olem_rh/` | 无需交互，无显式图 - 基于顺序 |
+| `olem-rh` | arXiv 2026 | 基于序结构的排演学习 | `examples/olem_rh/` | 无需交互，无显式图 - 基于序结构 |
 | `cme-rh` | arXiv 2026 | 通过条件均值嵌入实现的非参数排演学习 | `examples/cme/` | 无需交互，无显式图 - 非参数 |
 | InP measure demos | 2026 ICLR | 关于 AUF 中影响关系度量 | `examples/inp/` | 影响关系度量 |
 
@@ -98,11 +98,11 @@ env PYTHONPATH=src python -m rehearsal.experiments.run examples/olem_rh/bermuda_
 
 请注意，这些方法主要是在统一的 Bermuda 场景下提供可运行的并列实现参考。然而，它们的原始设定和输入要求并不相同，因为这些方法面向 AUF 决策问题的不同变体。因此，这些结果用于功能演示，而不是直接的性能比较。例如，`olem-rh` 只使用观测数据作为输入，而其他方法可能依赖额外的结构信息。
 
-### 顺序学习与变量 InP
+### 序学习与变量 InP
 
-Bermuda 度量示例会从连续观测数据中学习变量顺序，将每个变量离散化为 `3` 个 bin 以执行递归 MEP / InP 计算，并对从所选 `start_node` 到 `NEC` 的有效路径上的每个可变更变量评估 InP。
+Bermuda 度量示例会从连续观测数据中学习变量序结构，将每个变量离散化为 `3` 个 bin 以执行递归 MEP / InP 计算，并对从所选 `start_node` 到 `NEC` 的有效路径上的每个可变更变量评估 InP。
 
-已跟踪的 `outputs/inp_bermuda_measures.json` 运行使用 `n_data=2000`、`num_samples=1500`、`n_bins=3` 和 `start_node=TA`。学习到的顺序为 `Temp -> pHsw -> TA -> DIC -> CO2 -> Sal -> Light -> Omega -> NEC -> Nutrients_PC1 -> Chla`；在该顺序下，被评估变量的取值如下：
+已跟踪的 `outputs/inp_bermuda_measures.json` 运行使用 `n_data=2000`、`num_samples=1500`、`n_bins=3` 和 `start_node=TA`。学习到的序结构为 `Temp -> pHsw -> TA -> DIC -> CO2 -> Sal -> Light -> Omega -> NEC -> Nutrients_PC1 -> Chla`；在该序结构下，被评估变量的取值如下：
 
 | Variable | InP | MEP-alter | MEP-observe |
 | --- | ---: | ---: | ---: |
@@ -110,7 +110,7 @@ Bermuda 度量示例会从连续观测数据中学习变量顺序，将每个变
 | `TA` | 0.322 | 0.982 | 0.659 |
 | `Omega` | 0.186 | 0.190 | 0.004 |
 
-偏序演示会选择一个兼容的 Bermuda 顺序，在起点 `TA` 下得到最佳 MEP `0.980`；在该顺序下，`DIC`、`TA` 和 `Omega` 的 InP 值分别为 `0.473`、`0.346` 和 `0.174`。
+偏序演示会选择一个兼容的 Bermuda 序结构，使得以 `TA` 为起点时 MEP 达到最大值 `0.980`；在该序结构下，`DIC`、`TA` 和 `Omega` 的 InP 值分别为 `0.473`、`0.346` 和 `0.174`。
 
 ## 项目结构
 
