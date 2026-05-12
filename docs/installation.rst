@@ -38,3 +38,5 @@ Install directly from the source repository:
    git clone https://github.com/Rehearsal-LAMDA/Rehearsal-Kit.git
    cd Rehearsal-Kit
    python -m pip install .
+
+Gitee 主页: https://gitee.com/Rehearsal-LAMDA/rehearsal-kit
