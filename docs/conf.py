@@ -21,6 +21,7 @@ html_context = {
     "github_user": "Rehearsal-LAMDA",
     "github_repo": "Rehearsal-Kit",
     "github_version": "main",
+    "github_url": "https://github.com/Rehearsal-LAMDA/Rehearsal-Kit",
     "conf_py_path": "/docs/",
     "gitee_url": "https://gitee.com/Rehearsal-LAMDA/rehearsal-kit",
 }

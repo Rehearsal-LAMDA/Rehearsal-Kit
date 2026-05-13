@@ -3,12 +3,17 @@
 {%- block breadcrumbs_aside %}
       <li class="wy-breadcrumbs-aside">
         {%- if hasdoc(pagename) and display_vcs_links %}
+          {%- if gitee_url %}
+            <a href="{{ gitee_url }}"><span class="fa fa-home" aria-hidden="true"></span> {{ _('Gitee 主页') }}</a>
+            {%- if display_github or display_bitbucket or display_gitlab or (show_source and (source_url_prefix or (has_source and sourcename))) %}
+              &nbsp;|&nbsp;
+            {%- endif %}
+          {%- endif %}
           {%- if display_github %}
-            {%- if check_meta and 'github_url' in meta %}
-              <!-- User defined GitHub URL -->
-              <a href="{{ meta['github_url'] }}" class="fa fa-github"> {{ _('Edit on GitHub') }}</a>
+            {%- if github_url %}
+              <a href="{{ github_url }}" class="fa fa-github"> {{ _('GitHub 主页') }}</a>
             {%- else %}
-              <a href="https://{{ github_host|default("github.com") }}/{{ github_user }}/{{ github_repo }}/{{ theme_vcs_pageview_mode or "blob" }}/{{ github_version }}{{ conf_py_path }}{{ pagename }}{{ page_source_suffix }}" class="fa fa-github"> {{ _('Edit on GitHub') }}</a>
+              <a href="https://{{ github_host|default("github.com") }}/{{ github_user }}/{{ github_repo }}" class="fa fa-github"> {{ _('GitHub 主页') }}</a>
             {%- endif %}
           {%- elif display_bitbucket %}
             {%- if check_meta and 'bitbucket_url' in meta %}
@@ -28,12 +33,6 @@
             <a href="{{ source_url_prefix }}{{ pagename }}{{ page_source_suffix }}">{{ _('View page source') }}</a>
           {%- elif show_source and has_source and sourcename %}
             <a href="{{ pathto('_sources/' + sourcename, true)|e }}" rel="nofollow"> {{ _('View page source') }}</a>
-          {%- endif %}
-          {%- if gitee_url %}
-            {%- if display_github or display_bitbucket or display_gitlab or (show_source and (source_url_prefix or (has_source and sourcename))) %}
-              &nbsp;|&nbsp;
-            {%- endif %}
-            <a href="{{ gitee_url }}"><span class="fa fa-home" aria-hidden="true"></span> {{ _('Gitee 主页') }}</a>
           {%- endif %}
         {%- endif %}
       </li>

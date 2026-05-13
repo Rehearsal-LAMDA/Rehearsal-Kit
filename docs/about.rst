@@ -8,5 +8,5 @@ Links
 -----
 
 * LAMDA: https://www.lamda.nju.edu.cn/
-* Source code: GitHub https://github.com/Rehearsal-LAMDA/Rehearsal-Kit | Gitee 主页 https://gitee.com/Rehearsal-LAMDA/rehearsal-kit
+* Source code: Gitee 主页 https://gitee.com/Rehearsal-LAMDA/rehearsal-kit | GitHub 主页 https://github.com/Rehearsal-LAMDA/Rehearsal-Kit
 * Foundational paper: https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf
