@@ -129,7 +129,7 @@ rather than a direct performance comparison. For instance, ``olem-rh`` utilizes
 only observational data as input, whereas other methods may rely on additional
 structural information.
 
-Order Learning And Variable InP
+Order Learning And InP Measure
 -------------------------------
 
 The Bermuda measure example learns a variable order from continuous

@@ -1,15 +1,17 @@
 Rehearsal Documentation
 =======================
 
-``rehearsal`` is a unified Python framework for rehearsal-learning research
-code from LAMDA, Nanjing University. It provides shared task contracts,
+``rehearsal`` is a unified Python framework for rehearsal-learning research,
+developed by the LAMDA Group at Nanjing University. It provides shared task contracts,
 structural-model interfaces, method adapters, optimizers, metrics, influence
 measures, datasets, and seeded experiment runners.
 
-Rehearsal learning was proposed by Professor Zhi-Hua Zhou to discern influence
-relations for decision-making. It is introduced to address AUF tasks: given an observed context
-``X`` and a predicted undesired outcome ``Y`` outside a desired region ``S``,
-the goal is to determine a decision that steers ``Y`` toward ``S``.
+Rehearsal learning was proposed by Professor Zhi-Hua Zhou from Nanjing University,
+aiming to discern influence relations, a type of relation tailored for decision-making.
+Rehearsal learning is introduced to address AUF tasks: given an observed context ``X``
+and a predicted undesired outcome ``Y`` falling outside a pre-specified desired region ``S``,
+the goal is to determine the decision to steer ``Y`` toward ``S``. See the
+`reference PDF <https://www.lamda.nju.edu.cn/publication/fcs22_rehearsal.pdf>`_.
 
 Guidepost
 ---------
